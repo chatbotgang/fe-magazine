@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>前端技術月刊 | Frontend Technology Digest</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=JetBrains+Mono:wght@400;500&family=Noto+Serif+TC:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-ink: #0a0a0a;
+      --color-paper: #f8f6f1;
+      --color-accent: #e63946;
+      --color-accent-dark: #9d0208;
+      --color-highlight: #ffd60a;
+      --color-muted: #6b705c;
+      --color-border: #d4d4d4;
+      --color-code-bg: #1a1a2e;
+      --color-code-text: #e0e0e0;
+      --font-display: 'Cormorant Garamond', 'Noto Serif TC', Georgia, serif;
+      --font-body: 'DM Sans', 'Noto Sans TC', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --spacing-xs: 0.25rem;
+      --spacing-sm: 0.5rem;
+      --spacing-md: 1rem;
+      --spacing-lg: 2rem;
+      --spacing-xl: 4rem;
+    }
+    @page { size: A4; margin: 15mm; }
+    @media print {
+      body { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+      .page-break { page-break-before: always; }
+      .no-break { page-break-inside: avoid; }
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: var(--font-body); background: var(--color-paper); color: var(--color-ink); line-height: 1.6; font-size: 10pt; }
+    .masthead { background: var(--color-ink); color: var(--color-paper); padding: var(--spacing-lg) var(--spacing-xl); text-align: center; position: relative; overflow: hidden; }
+    .masthead::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255,255,255,0.02) 2px, rgba(255,255,255,0.02) 4px); }
+    .masthead-content { position: relative; z-index: 1; }
+    .masthead-label { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--color-accent); margin-bottom: var(--spacing-sm); }
+    .masthead-title { font-family: var(--font-display); font-size: 3.5rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1; margin-bottom: var(--spacing-xs); }
+    .masthead-subtitle { font-family: var(--font-display); font-size: 1.2rem; font-style: italic; opacity: 0.8; margin-bottom: var(--spacing-md); }
+    .masthead-date { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.1em; padding: var(--spacing-xs) var(--spacing-md); background: var(--color-accent); display: inline-block; }
+    .masthead-badge { position: absolute; top: 50%; right: var(--spacing-xl); transform: translateY(-50%) rotate(3deg); background: var(--color-highlight); color: var(--color-ink); font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; padding: var(--spacing-sm) var(--spacing-md); box-shadow: 3px 3px 0 rgba(0,0,0,0.3); border: 2px solid var(--color-ink); }
+    .container { max-width: 210mm; margin: 0 auto; padding: var(--spacing-lg); }
+    .section-header { display: flex; align-items: center; gap: var(--spacing-md); margin: var(--spacing-xl) 0 var(--spacing-lg); border-bottom: 3px solid var(--color-ink); padding-bottom: var(--spacing-sm); }
+    .section-header::before { content: ''; width: 12px; height: 12px; background: var(--color-accent); flex-shrink: 0; }
+    .section-title { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+    .section-title-en { font-family: var(--font-mono); font-size: 0.7rem; color: var(--color-muted); letter-spacing: 0.2em; margin-left: auto; }
+    .headline-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: var(--spacing-lg); margin-bottom: var(--spacing-xl); }
+    .headline-main { border-right: 1px solid var(--color-border); padding-right: var(--spacing-lg); }
+    .headline-tag { font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--color-paper); background: var(--color-accent); padding: 2px 8px; display: inline-block; margin-bottom: var(--spacing-sm); }
+    .headline-title { font-family: var(--font-display); font-size: 2.2rem; font-weight: 700; line-height: 1.1; margin-bottom: var(--spacing-sm); letter-spacing: -0.02em; }
+    .headline-subtitle { font-family: var(--font-display); font-size: 1.1rem; font-style: italic; color: var(--color-muted); margin-bottom: var(--spacing-md); }
+    .headline-meta { font-family: var(--font-mono); font-size: 0.7rem; color: var(--color-muted); margin-bottom: var(--spacing-md); }
+    .headline-content { column-count: 2; column-gap: var(--spacing-lg); text-align: justify; hyphens: auto; }
+    .headline-content p { margin-bottom: var(--spacing-md); text-indent: 1.5em; }
+    .headline-content p:first-of-type { text-indent: 0; }
+    .headline-content p:first-of-type::first-letter { font-family: var(--font-display); font-size: 3.5em; float: left; line-height: 0.8; padding-right: 0.1em; color: var(--color-accent); font-weight: 700; }
+    .pull-quote { background: var(--color-ink); color: var(--color-paper); padding: var(--spacing-lg); margin: var(--spacing-md) 0; position: relative; }
+    .pull-quote::before { content: '"'; font-family: var(--font-display); font-size: 4rem; position: absolute; top: 0; left: var(--spacing-md); color: var(--color-accent); line-height: 1; }
+    .pull-quote-text { font-family: var(--font-display); font-size: 1.1rem; font-style: italic; padding-left: var(--spacing-xl); margin-bottom: var(--spacing-sm); }
+    .pull-quote-author { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.1em; padding-left: var(--spacing-xl); color: var(--color-accent); }
+    .sidebar { background: linear-gradient(135deg, #f0ebe3 0%, #e8e4db 100%); padding: var(--spacing-md); }
+    .sidebar-title { font-family: var(--font-display); font-size: 1rem; font-weight: 700; margin-bottom: var(--spacing-md); padding-bottom: var(--spacing-sm); border-bottom: 2px solid var(--color-ink); }
+    .sidebar-item { margin-bottom: var(--spacing-md); padding-bottom: var(--spacing-md); border-bottom: 1px dashed var(--color-border); }
+    .sidebar-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .sidebar-item-title { font-family: var(--font-display); font-size: 0.95rem; font-weight: 600; margin-bottom: var(--spacing-xs); }
+    .sidebar-item-text { font-size: 0.8rem; color: var(--color-muted); }
+    .article-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--spacing-lg); }
+    .article-grid-2 { grid-template-columns: repeat(2, 1fr); }
+    .article-card { border-top: 3px solid var(--color-ink); padding-top: var(--spacing-md); }
+    .article-card-accent { border-top-color: var(--color-accent); }
+    .article-card-highlight { background: var(--color-highlight); padding: var(--spacing-md); border-top: none; }
+    .article-tag { font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--color-muted); margin-bottom: var(--spacing-xs); }
+    .article-title { font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; line-height: 1.2; margin-bottom: var(--spacing-xs); }
+    .article-subtitle { font-family: var(--font-display); font-size: 0.85rem; font-style: italic; color: var(--color-muted); margin-bottom: var(--spacing-sm); }
+    .article-date { font-family: var(--font-mono); font-size: 0.65rem; color: var(--color-muted); margin-bottom: var(--spacing-sm); }
+    .article-text { font-size: 0.85rem; line-height: 1.5; }
+    .article-text p { margin-bottom: var(--spacing-sm); }
+    .feature-box { background: var(--color-ink); color: var(--color-paper); padding: var(--spacing-lg); margin: var(--spacing-lg) 0; }
+    .feature-box-title { font-family: var(--font-display); font-size: 1.3rem; font-weight: 700; margin-bottom: var(--spacing-md); color: var(--color-highlight); }
+    .feature-list { list-style: none; display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--spacing-sm) var(--spacing-lg); }
+    .feature-list li { font-size: 0.85rem; padding-left: var(--spacing-md); position: relative; }
+    .feature-list li::before { content: '>'; position: absolute; left: 0; color: var(--color-accent); }
+    .code-block { background: var(--color-code-bg); color: var(--color-code-text); padding: var(--spacing-md); font-family: var(--font-mono); font-size: 0.75rem; line-height: 1.5; overflow-x: auto; margin: var(--spacing-md) 0; border-left: 3px solid var(--color-accent); white-space: pre-wrap; }
+    .data-table { width: 100%; border-collapse: collapse; font-size: 0.8rem; margin: var(--spacing-md) 0; }
+    .data-table th { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; background: var(--color-ink); color: var(--color-paper); padding: var(--spacing-sm); text-align: left; }
+    .data-table td { padding: var(--spacing-sm); border-bottom: 1px solid var(--color-border); }
+    .data-table tr:nth-child(even) { background: rgba(0,0,0,0.03); }
+    .stats-banner { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--spacing-md); background: var(--color-accent); color: var(--color-paper); padding: var(--spacing-lg); margin: var(--spacing-xl) 0; }
+    .stat-item { text-align: center; }
+    .stat-number { font-family: var(--font-display); font-size: 2.5rem; font-weight: 700; line-height: 1; }
+    .stat-label { font-family: var(--font-mono); font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.9; }
+    .benchmark { margin: var(--spacing-md) 0; }
+    .benchmark-bar { display: flex; align-items: center; margin-bottom: var(--spacing-sm); }
+    .benchmark-label { font-family: var(--font-mono); font-size: 0.75rem; width: 80px; flex-shrink: 0; }
+    .benchmark-track { flex: 1; height: 24px; background: #eee; position: relative; }
+    .benchmark-fill { height: 100%; display: flex; align-items: center; justify-content: flex-end; padding-right: var(--spacing-sm); font-family: var(--font-mono); font-size: 0.7rem; color: white; }
+    .benchmark-fill.fast { background: linear-gradient(90deg, #2d6a4f, #40916c); width: 12%; }
+    .benchmark-fill.slow { background: linear-gradient(90deg, #9d0208, #e63946); width: 100%; }
+    .footer { background: var(--color-ink); color: var(--color-paper); padding: var(--spacing-lg) var(--spacing-xl); text-align: center; margin-top: var(--spacing-xl); }
+    .footer-title { font-family: var(--font-display); font-size: 1.5rem; margin-bottom: var(--spacing-sm); }
+    .footer-text { font-family: var(--font-mono); font-size: 0.7rem; opacity: 0.7; letter-spacing: 0.05em; }
+    .two-column { column-count: 2; column-gap: var(--spacing-lg); }
+    .highlight-text { background: var(--color-highlight); padding: 0 4px; }
+    .accent-text { color: var(--color-accent); font-weight: 600; }
+    .page-number { font-family: var(--font-mono); font-size: 0.7rem; text-align: center; padding: var(--spacing-md) 0; color: var(--color-muted); }
+  </style>
+</head>
+<body>
+  <header class="masthead">
+    <div class="masthead-content">
+      <div class="masthead-badge">創刊號</div>
+      <div class="masthead-label">Crescendo Lab 技術週報</div>
+      <h1 class="masthead-title">前端技術月刊</h1>
+      <p class="masthead-subtitle">Frontend Technology Digest</p>
+      <span class="masthead-date">2025年12月 - 2026年1月號</span>
+    </div>
+  </header>
+  <div class="container">
+    <section class="section-header">
+      <h2 class="section-title">頭條新聞</h2>
+      <span class="section-title-en">HEADLINES</span>
+    </section>
+    <div class="headline-grid no-break">
+      <article class="headline-main">
+        <span class="headline-tag">重大收購</span>
+        <h3 class="headline-title">Astro 正式加入 Cloudflare 家族</h3>
+        <p class="headline-subtitle">開源框架獲得企業級後盾，開啟全新篇章</p>
+        <p class="headline-meta">2026年1月16日 · Fred Schott 發布</p>
+        <div class="headline-content">
+          <p>這是前端界的重磅消息！Astro Technology Company 宣布被 Cloudflare 收購，所有全職員工現已成為 Cloudflare 團隊成員。對於使用 Astro 的開發者來說，這是個好消息——Cloudflare 的資源將確保框架的長期穩定發展。</p>
+          <p>Porsche、IKEA、OpenAI 等知名企業都在使用 Astro，這次收購為這些專案提供了更堅實的基礎。Astro 將持續保持開源、MIT 授權，並開放社群貢獻。</p>
+          <p>即將推出的 Astro 6 將帶來全新開發伺服器（由 Vite 驅動）、生產環境一致性（本地開發直接使用 workerd runtime），以及 Cloudflare 服務整合（Durable Objects、D1、KV 在本地開發環境即可使用）。</p>
+        </div>
+      </article>
+      <aside class="sidebar">
+        <h4 class="sidebar-title">本期焦點</h4>
+        <div class="sidebar-item">
+          <h5 class="sidebar-item-title">TypeScript 7.0</h5>
+          <p class="sidebar-item-text">Go 語言重寫，6.0 進入維護模式</p>
+        </div>
+        <div class="sidebar-item">
+          <h5 class="sidebar-item-title">Oxc 效能革命</h5>
+          <p class="sidebar-item-text">類型感知 Linting 比 ESLint 快 10 倍</p>
+        </div>
+        <div class="sidebar-item">
+          <h5 class="sidebar-item-title">jQuery 4.0</h5>
+          <p class="sidebar-item-text">經典框架現代化更新</p>
+        </div>
+        <div class="sidebar-item">
+          <h5 class="sidebar-item-title">URL Pattern API</h5>
+          <p class="sidebar-item-text">path-to-regexp 的原生替代方案</p>
+        </div>
+        <div class="pull-quote" style="margin-top: var(--spacing-lg);">
+          <p class="pull-quote-text">Astro 將持續保持開源、MIT 授權，並開放社群貢獻。</p>
+          <p class="pull-quote-author">— Fred Schott, Astro 創辦人</p>
+        </div>
+      </aside>
+    </div>
+    <article class="no-break" style="margin-bottom: var(--spacing-xl);">
+      <span class="headline-tag" style="background: var(--color-ink);">語言演進</span>
+      <h3 class="headline-title" style="font-size: 1.8rem;">TypeScript 進入 6.0 維護模式</h3>
+      <p class="headline-subtitle">Go 語言重寫的 TypeScript 7.0 即將登場</p>
+      <p class="headline-meta">2026年1月15日 · Microsoft TypeScript 團隊</p>
+      <div class="two-column" style="margin-top: var(--spacing-md);">
+        <p>Microsoft 宣布 TypeScript 6.0 將是最後一個基於 JavaScript 程式碼庫的版本，團隊正全力投入 Go 語言重寫的 TypeScript 7.0。由於「Go 語言重寫代表了開發的不可避免斷層」，大部分目前針對 JavaScript 程式碼庫開啟的 Pull Request 將不會被合併。</p>
+        <p>6.0 僅接受以下類型的變更：與 6.0 重大變更相關的必要工作、關鍵性的版本回歸修復、6.0 與 7.0 行為對齊的變更，以及可在兩個版本重現的崩潰修復。TypeScript 團隊表示：「感謝多年來對 TypeScript 的精彩貢獻。」</p>
+      </div>
+    </article>
+    <div class="stats-banner no-break">
+      <div class="stat-item">
+        <div class="stat-number">6</div>
+        <div class="stat-label">重大發布</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">4</div>
+        <div class="stat-label">框架更新</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">3</div>
+        <div class="stat-label">新工具</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number">10x</div>
+        <div class="stat-label">Oxc 效能提升</div>
+      </div>
+    </div>
+    <section class="section-header page-break">
+      <h2 class="section-title">工具與框架</h2>
+      <span class="section-title-en">TOOLS AND FRAMEWORKS</span>
+    </section>
+    <div class="article-grid no-break">
+      <article class="article-card article-card-accent">
+        <p class="article-tag">AI 工具</p>
+        <h4 class="article-title">TanStack AI Alpha 發布</h4>
+        <p class="article-subtitle">你的 AI，你做主</p>
+        <p class="article-date">2025年12月4日</p>
+        <div class="article-text">
+          <p>TanStack 團隊推出了框架無關的 AI 工具包 Alpha 版本。支援 JavaScript/TypeScript、PHP、Python，可連接 OpenAI、Anthropic、Gemini、Ollama。</p>
+          <p class="accent-text">「誠實的開源工具，無需擔心平台遷移或供應商鎖定。」</p>
+        </div>
+      </article>
+      <article class="article-card">
+        <p class="article-tag">效能革命</p>
+        <h4 class="article-title">Oxc Type-Aware Linting</h4>
+        <p class="article-subtitle">比 ESLint 快 10 倍的類型感知檢查</p>
+        <p class="article-date">2025年12月8日</p>
+        <div class="article-text">
+          <p>Oxc 發布了類型感知 Linting 的 Alpha 版本，支援 43 條類型感知規則，採用 Rust + Go 雙執行檔設計。</p>
+        </div>
+        <div class="benchmark">
+          <div class="benchmark-bar">
+            <span class="benchmark-label">oxlint</span>
+            <div class="benchmark-track">
+              <div class="benchmark-fill fast">2.5s</div>
+            </div>
+          </div>
+          <div class="benchmark-bar">
+            <span class="benchmark-label">ESLint</span>
+            <div class="benchmark-track">
+              <div class="benchmark-fill slow">20.8s</div>
+            </div>
+          </div>
+        </div>
+      </article>
+      <article class="article-card article-card-highlight">
+        <p class="article-tag">UI 元件庫</p>
+        <h4 class="article-title">Base UI 1.0 正式發布</h4>
+        <p class="article-subtitle">無樣式元件庫的新標竿</p>
+        <p class="article-date">2026年1月</p>
+        <div class="article-text">
+          <p>來自 Radix、Floating UI、Material UI 創作團隊的全新力作。</p>
+          <p><strong>核心優勢：</strong>樣式無關、無障礙優先、進階元件、7 人全職團隊維護。</p>
+        </div>
+      </article>
+    </div>
+    <div class="feature-box no-break">
+      <h4 class="feature-box-title">oxfmt 準備就緒！用 Rust 打造的下一代 Formatter</h4>
+      <p style="margin-bottom: var(--spacing-md); font-size: 0.9rem;">社群成員 VdustR 已在 template-aio 專案中成功將 Prettier 替換為 oxfmt，證明工具成熟度。</p>
+      <ul class="feature-list">
+        <li>更快的格式化速度</li>
+        <li>與 Prettier 相容的輸出</li>
+        <li>VSCode 擴充支援</li>
+        <li>即時可用於生產環境</li>
+      </ul>
+    </div>
+    <section class="section-header">
+      <h2 class="section-title">Web 標準</h2>
+      <span class="section-title-en">WEB STANDARDS</span>
+    </section>
+    <div class="article-grid article-grid-2 no-break">
+      <article class="article-card">
+        <p class="article-tag">瀏覽器 API</p>
+        <h4 class="article-title">URL Pattern API 正式可用</h4>
+        <p class="article-subtitle">path-to-regexp 即將成為時代的眼淚？</p>
+        <p class="article-date">2026年1月 · Baseline 2025</p>
+        <div class="article-text">
+          <p>MDN 宣布 URL Pattern API 已成為 Baseline 2025，可在所有主流瀏覽器中使用。支援命名群組、正則約束、可選項、萬用字元等模式類型。</p>
+        </div>
+        <div class="code-block">const pattern = new URLPattern({ pathname: "/books/:id" });
+pattern.test("https://example.com/books/123"); // true
+const result = pattern.exec("https://example.com/books/123");
+console.log(result.pathname.groups); // { id: '123' }</div>
+      </article>
+      <article class="article-card article-card-accent">
+        <p class="article-tag">效能深度分析</p>
+        <h4 class="article-title">但是，先別急！</h4>
+        <p class="article-subtitle">伺服器端路由應使用 Radix Tree</p>
+        <div class="article-text">
+          <p>社群分享重要觀點：「你不應該在伺服器端使用 URLPattern 來路由 HTTP 請求」</p>
+        </div>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>演算法</th>
+              <th>複雜度</th>
+              <th>說明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>URLPattern</td>
+              <td>O(N)</td>
+              <td>路由越多越慢</td>
+            </tr>
+            <tr>
+              <td>find-my-way</td>
+              <td>O(L)</td>
+              <td>與路由數無關</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="article-text" style="margin-top: var(--spacing-sm);">
+          <p><strong>Radix Tree 優勢：</strong>前綴壓縮、優先級匹配、避免 ReDoS</p>
+        </div>
+      </article>
+    </div>
+    <section class="section-header page-break">
+      <h2 class="section-title">學習資源</h2>
+      <span class="section-title-en">LEARNING RESOURCES</span>
+    </section>
+    <div class="article-grid article-grid-2 no-break">
+      <article class="article-card">
+        <p class="article-tag">AI 代理整合</p>
+        <h4 class="article-title">Vercel 發布 React Best Practices</h4>
+        <p class="article-subtitle">10 年經驗濃縮成 AI 可用的知識庫</p>
+        <p class="article-date">2026年1月</p>
+        <div class="article-text">
+          <p>Vercel 將超過十年的 React 和 Next.js 優化經驗，整理成結構化的儲存庫，專為 AI 代理和 LLM 優化。八大類別，40+ 規則。</p>
+        </div>
+        <div class="code-block"># 一鍵安裝 Agent Skills
+npx add-skill vercel-labs/agent-skills
+
+支援：Claude Code、Cursor、Codex、Opencode</div>
+      </article>
+      <article class="article-card article-card-highlight">
+        <p class="article-tag">開源社群</p>
+        <h4 class="article-title">Anthony Fu 的 Agent Skills</h4>
+        <p class="article-subtitle">開源社群大神的 AI 技能收藏</p>
+        <p class="article-date">2026年1月28日</p>
+        <div class="article-text">
+          <p>Vue、Vite 核心團隊成員 Anthony Fu 發布了他精心策劃的 Agent Skills 收藏。</p>
+          <p style="margin-top: var(--spacing-sm);"><strong>GitHub:</strong> github.com/antfu/skills</p>
+        </div>
+      </article>
+    </div>
+    <section class="section-header">
+      <h2 class="section-title">創意作品</h2>
+      <span class="section-title-en">CREATIVE WORKS</span>
+    </section>
+    <div class="article-grid article-grid-2 no-break">
+      <article class="article-card article-card-accent">
+        <p class="article-tag">CSS 藝術</p>
+        <h4 class="article-title">Pure CSS Super Mario</h4>
+        <p class="article-subtitle">100% CSS，0% JavaScript</p>
+        <p class="article-date">2026年1月 · T. Afif (@ChallengesCss)</p>
+        <div class="article-text">
+          <p>CSS 大神 T. Afif 打造了一個可以用鍵盤控制的迷你瑪利歐世界。支援移動和跳躍，使用現代 CSS 實驗性功能。</p>
+        </div>
+        <div class="pull-quote" style="margin-top: var(--spacing-md);">
+          <p class="pull-quote-text">準備好迎接今年第一個酷炫的 Demo 了嗎？</p>
+          <p class="pull-quote-author">— T. Afif</p>
+        </div>
+      </article>
+      <article class="article-card">
+        <p class="article-tag">設計工具</p>
+        <h4 class="article-title">Pencil — 設計直接落地成程式碼</h4>
+        <p class="article-subtitle">將設計工具帶入你的 IDE</p>
+        <p class="article-date">2026年1月</p>
+        <div class="article-text">
+          <p>Pencil 是一款將設計能力直接整合到程式碼編輯器的工具。「在畫布上設計，直接落地成程式碼。」</p>
+          <p><strong>核心價值：</strong>在 IDE 中直接進行設計、從根本上提升工程效率、消除設計與開發之間的交接摩擦。</p>
+        </div>
+      </article>
+    </div>
+    <section class="section-header">
+      <h2 class="section-title">開發者工具</h2>
+      <span class="section-title-en">DEVELOPER TOOLS</span>
+    </section>
+    <div class="article-grid no-break">
+      <article class="article-card">
+        <p class="article-tag">Chrome DevTools</p>
+        <h4 class="article-title">個別請求節流功能</h4>
+        <p class="article-subtitle">等了多年的功能終於來了！</p>
+        <p class="article-date">2026年1月</p>
+        <div class="article-text">
+          <p>Chrome DevTools 現在支援針對個別網路請求進行節流，而非整個頁面。可用於測試特定 API 回應緩慢時的應用行為、隔離效能問題。</p>
+          <p class="accent-text">「開發者們要求這個功能很多年了！」— Addy Osmani</p>
+        </div>
+      </article>
+      <article class="article-card article-card-accent">
+        <p class="article-tag">經典框架</p>
+        <h4 class="article-title">jQuery 4.0 正式發布</h4>
+        <p class="article-subtitle">經典不死，持續進化</p>
+        <p class="article-date">2026年1月17日</p>
+        <div class="article-text">
+          <p>移除 IE 10 及更早版本支援、從 AMD 轉換到 ES Modules、支援 Trusted Types 和 CSP。</p>
+          <p>新增 .even() 和 .odd() 方法，Slim Build 約 19.5KB gzipped。</p>
+        </div>
+      </article>
+      <article class="article-card">
+        <p class="article-tag">Vue 生態系</p>
+        <h4 class="article-title">TanStack Vue Start</h4>
+        <p class="article-subtitle">Vue 開發者的全端解決方案</p>
+        <p class="article-date">2025年12月</p>
+        <div class="article-text">
+          <p>TanStack Router 團隊正式為 Vue 生態系帶來 Start 框架。透過 $_TSR_DEFER 機制解決了 Hydration 警告問題。</p>
+          <p><strong>新增套件：</strong>@tanstack/vue-start、vue-start-client、vue-start-server</p>
+        </div>
+      </article>
+    </div>
+    <div class="page-number">— 本期完 —</div>
+  </div>
+  <footer class="footer">
+    <h3 class="footer-title">Frontend Technology Digest</h3>
+    <p class="footer-text">本期內容整理自 Crescendo Lab 內部 Slack 分享</p>
+    <p class="footer-text">2025年12月 — 2026年1月</p>
+  </footer>
+</body>
+</html>
