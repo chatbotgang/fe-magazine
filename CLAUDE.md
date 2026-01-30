@@ -13,7 +13,9 @@ fe-magazine/
 │   ├── {YY-MM}.pdf       # PDF (primary output)
 │   ├── index.html        # HTML source
 │   └── assets/           # Issue-specific assets (images, etc.)
-├── README.md             # Project documentation with issue list
+├── index.html            # GitHub Pages download page
+├── issues.json           # Issue list for GitHub Pages (update this!)
+├── README.md             # Project documentation
 ├── CLAUDE.md             # AI assistant guidelines (this file)
 └── robots.txt            # Crawler blocking rules
 ```
@@ -22,13 +24,14 @@ fe-magazine/
 
 ### When Creating a New Issue
 
-**ALWAYS update README.md when publishing a new issue:**
+**ALWAYS update these files when publishing a new issue:**
 
 1. Create the issue folder: `{YY-MM}/`
 2. Add `index.html` for the magazine content
 3. Add `{YY-MM}.pdf` for the PDF export
 4. Add `assets/` folder for issue-specific images
 5. Update `README.md` — add new issue to the Issues table (newer issues first)
+6. Update `issues.json` — add new issue to the array (newer issues first)
 
 ### Issue Naming Convention
 

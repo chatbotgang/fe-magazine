@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="description" content="Crescendo Lab's internal frontend engineering magazine. Download PDF issues.">
+  <title>Frontend Technology Digest</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #faf8f5;
+      --bg-subtle: #f0ede8;
+      --text: #1a1a1a;
+      --text-muted: #666;
+      --accent: #8b4513;
+      --border: #d4cfc7;
+      --hover-bg: #edeae4;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #1a1a1a;
+        --bg-subtle: #242424;
+        --text: #f0ede8;
+        --text-muted: #999;
+        --accent: #d4a574;
+        --border: #333;
+        --hover-bg: #2a2a2a;
+      }
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Source Sans 3', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 4rem 1.5rem;
+    }
+
+    /* Masthead */
+    header {
+      text-align: center;
+      padding-bottom: 2.5rem;
+      margin-bottom: 2.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(2rem, 6vw, 2.75rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    /* Issues List */
+    .issues {
+      list-style: none;
+    }
+
+    .issue {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .issue:first-child {
+      border-top: 1px solid var(--border);
+    }
+
+    .issue a {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 0.75rem;
+      text-decoration: none;
+      color: var(--text);
+      transition: background-color 0.15s ease;
+      margin: 0 -0.75rem;
+    }
+
+    .issue a:hover {
+      background: var(--hover-bg);
+    }
+
+    .issue-id {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
+    .download-hint {
+      font-size: 0.85rem;
+      color: var(--accent);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Frontend Technology Digest</h1>
+      <p class="subtitle">Crescendo Lab's internal tech magazine</p>
+    </header>
+
+    <main>
+      <ul class="issues" id="issues"></ul>
+    </main>
+
+    <footer>
+      <p>Internal use only</p>
+    </footer>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script>
+    $.getJSON('issues.json', function(issues) {
+      const $list = $('#issues');
+      issues.forEach(function(issue) {
+        $list.append(
+          '<li class="issue">' +
+            '<a href="' + issue.id + '/' + issue.id + '.pdf" download>' +
+              '<span class="issue-id">Issue ' + issue.id + '</span>' +
+              '<span class="download-hint">PDF ↓</span>' +
+            '</a>' +
+          '</li>'
+        );
+      });
+    });
+  </script>
+</body>
+</html>

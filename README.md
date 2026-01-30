@@ -4,9 +4,9 @@
 
 ## Issues
 
-| Issue | Date Range | Highlights | Link |
-|-------|------------|------------|------|
-| 26-01 | Dec 2025 - Jan 2026 | Astro joins Cloudflare, TypeScript 7.0 Go rewrite, Motif v6, Base UI 1.0 | [View](26-01/) |
+| Issue | PDF |
+|-------|-----|
+| 26-01 | [Download](26-01/26-01.pdf) |
 
 ## About
 
@@ -34,6 +34,8 @@ fe-magazine/
 │   ├── index.html        # Magazine HTML
 │   ├── {YY-MM}.pdf       # PDF export
 │   └── assets/           # Issue-specific assets (images, etc.)
+├── index.html            # GitHub Pages download page
+├── issues.json           # Issue list (add new issues here)
 ├── README.md             # This file
 ├── CLAUDE.md             # AI assistant guidelines
 └── robots.txt            # Crawler blocking rules
