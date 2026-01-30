@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Frontend Technology Digest | 26-01</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=JetBrains+Mono:wght@400;500&family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-ink: #0a0a0a;
+      --color-paper: #f8f6f1;
+      --color-accent: #e63946;
+      --color-accent-dark: #9d0208;
+      --color-highlight: #ffd60a;
+      --color-muted: #6b705c;
+      --color-border: #d4d0c8;
+      --font-serif: 'Cormorant Garamond', 'Noto Serif TC', Georgia, serif;
+      --font-sans: 'DM Sans', 'Noto Sans TC', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    @page { size: A4; margin: 0; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--color-paper);
+      color: var(--color-ink);
+      line-height: 1.6;
+      font-size: 10pt;
+    }
+
+    .page {
+      width: 210mm;
+      height: 297mm;
+      padding: 12mm 15mm;
+      margin: 0 auto;
+      background: var(--color-paper);
+      page-break-after: always;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page:last-child { page-break-after: auto; }
+
+    /* Cover Page */
+    .cover {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 0;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+      color: var(--color-paper);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .cover::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -30%;
+      width: 80%;
+      height: 150%;
+      background: radial-gradient(ellipse, rgba(230, 57, 70, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cover-header {
+      padding: 18mm 15mm 8mm;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cover-brand {
+      font-family: var(--font-serif);
+      font-size: 12pt;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      opacity: 0.7;
+      margin-bottom: 2mm;
+    }
+
+    .cover-title {
+      font-family: var(--font-serif);
+      font-size: 38pt;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 4mm;
+    }
+
+    .cover-subtitle {
+      font-size: 11pt;
+      opacity: 0.8;
+      font-style: italic;
+    }
+
+    .cover-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 8mm 15mm;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cover-issue {
+      font-family: var(--font-mono);
+      font-size: 64pt;
+      font-weight: 700;
+      color: var(--color-accent);
+      line-height: 1;
+      margin-bottom: 6mm;
+    }
+
+    .cover-issue-label {
+      font-size: 10pt;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      opacity: 0.6;
+      margin-bottom: 2mm;
+    }
+
+    .cover-date { font-size: 14pt; opacity: 0.9; }
+
+    .cover-highlights {
+      margin-top: 12mm;
+      padding-top: 8mm;
+      border-top: 1px solid rgba(255,255,255,0.2);
+    }
+
+    .cover-highlight-item {
+      display: flex;
+      align-items: baseline;
+      margin-bottom: 3mm;
+      font-size: 10pt;
+    }
+
+    .cover-highlight-bullet {
+      color: var(--color-accent);
+      margin-right: 3mm;
+      font-size: 12pt;
+    }
+
+    .cover-footer {
+      padding: 8mm 15mm 12mm;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cover-logo {
+      font-family: var(--font-serif);
+      font-size: 9pt;
+      letter-spacing: 0.15em;
+      opacity: 0.6;
+    }
+
+    .cover-badge {
+      background: var(--color-accent);
+      color: white;
+      padding: 2mm 4mm;
+      font-size: 7pt;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* Section Headers */
+    .section-header {
+      margin-bottom: 5mm;
+      padding-bottom: 2mm;
+      border-bottom: 2px solid var(--color-ink);
+    }
+
+    .section-number {
+      font-family: var(--font-mono);
+      font-size: 8pt;
+      color: var(--color-accent);
+      letter-spacing: 0.1em;
+      margin-bottom: 1mm;
+    }
+
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: 20pt;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    /* Celebration Section */
+    .celebration-box {
+      background: linear-gradient(135deg, #ffd60a 0%, #ffb703 100%);
+      padding: 5mm;
+      margin-bottom: 5mm;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .celebration-box::before {
+      content: '🎉';
+      position: absolute;
+      top: -3mm;
+      right: -3mm;
+      font-size: 40pt;
+      opacity: 0.2;
+    }
+
+    .celebration-title {
+      font-family: var(--font-serif);
+      font-size: 14pt;
+      font-weight: 700;
+      color: var(--color-ink);
+      margin-bottom: 2mm;
+    }
+
+    .celebration-content { font-size: 10pt; color: var(--color-ink); }
+    .celebration-shoutout { font-weight: 700; color: var(--color-accent-dark); }
+
+    /* Discussion Section */
+    .discussion-box {
+      background: #f0f0f0;
+      border-left: 3px solid var(--color-accent);
+      padding: 4mm;
+      margin-bottom: 5mm;
+    }
+
+    .discussion-title {
+      font-family: var(--font-serif);
+      font-size: 12pt;
+      font-weight: 600;
+      margin-bottom: 2mm;
+    }
+
+    .discussion-list { list-style: none; padding-left: 0; }
+
+    .discussion-list li {
+      position: relative;
+      padding-left: 4mm;
+      margin-bottom: 1.5mm;
+      font-size: 9pt;
+    }
+
+    .discussion-list li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--color-accent);
+      font-weight: bold;
+    }
+
+    /* Sharing Box */
+    .sharing-box {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 4mm;
+      margin-bottom: 5mm;
+    }
+
+    .sharing-title {
+      font-family: var(--font-serif);
+      font-size: 11pt;
+      font-weight: 600;
+      margin-bottom: 2mm;
+    }
+
+    .sharing-content { font-size: 9pt; line-height: 1.4; }
+    .sharing-content code {
+      background: rgba(255,255,255,0.2);
+      padding: 0.5mm 1.5mm;
+      font-family: var(--font-mono);
+      font-size: 8pt;
+    }
+
+    /* News Grid */
+    .news-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4mm;
+    }
+
+    .news-card {
+      background: white;
+      border: 1px solid var(--color-border);
+      padding: 4mm;
+      break-inside: avoid;
+    }
+
+    .news-card-featured {
+      grid-column: span 2;
+      background: var(--color-ink);
+      color: var(--color-paper);
+      border: none;
+    }
+
+    .news-category {
+      font-family: var(--font-mono);
+      font-size: 7pt;
+      color: var(--color-accent);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 1mm;
+    }
+
+    .news-card-featured .news-category { color: var(--color-highlight); }
+
+    .news-title {
+      font-family: var(--font-serif);
+      font-size: 11pt;
+      font-weight: 600;
+      line-height: 1.2;
+      margin-bottom: 1mm;
+    }
+
+    .news-card-featured .news-title { font-size: 13pt; }
+
+    .news-desc {
+      font-size: 9pt;
+      color: var(--color-muted);
+      line-height: 1.4;
+    }
+
+    .news-card-featured .news-desc { color: rgba(255,255,255,0.8); }
+
+    /* Trends List */
+    .trends-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3mm 5mm;
+    }
+
+    .trend-item {
+      padding: 3mm;
+      background: white;
+      border: 1px solid var(--color-border);
+    }
+
+    .trend-badge {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 6pt;
+      padding: 0.5mm 2mm;
+      background: var(--color-ink);
+      color: var(--color-paper);
+      margin-bottom: 1mm;
+      letter-spacing: 0.05em;
+    }
+
+    .trend-badge.release { background: #2d6a4f; }
+    .trend-badge.tool { background: #7b2cbf; }
+    .trend-badge.standard { background: #1d3557; }
+    .trend-badge.creative { background: #e63946; }
+    .trend-badge.news { background: #f77f00; }
+
+    .trend-title {
+      font-family: var(--font-serif);
+      font-size: 10pt;
+      font-weight: 600;
+      margin-bottom: 1mm;
+      line-height: 1.2;
+    }
+
+    .trend-desc {
+      font-size: 8pt;
+      color: var(--color-muted);
+      line-height: 1.3;
+    }
+
+    /* Project Insights */
+    .project-section { margin-bottom: 6mm; }
+
+    .project-header {
+      display: flex;
+      align-items: center;
+      gap: 3mm;
+      margin-bottom: 3mm;
+    }
+
+    .project-icon {
+      width: 8mm;
+      height: 8mm;
+      background: var(--color-accent);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: 9pt;
+      font-weight: 700;
+    }
+
+    .project-name {
+      font-family: var(--font-serif);
+      font-size: 14pt;
+      font-weight: 700;
+    }
+
+    .project-repo {
+      font-family: var(--font-mono);
+      font-size: 8pt;
+      color: var(--color-muted);
+    }
+
+    .project-stats {
+      display: flex;
+      gap: 5mm;
+      margin-bottom: 3mm;
+      padding: 2mm;
+      background: #f5f5f5;
+    }
+
+    .stat-item { text-align: center; }
+
+    .stat-value {
+      font-family: var(--font-mono);
+      font-size: 12pt;
+      font-weight: 700;
+      color: var(--color-accent);
+    }
+
+    .stat-label {
+      font-size: 7pt;
+      color: var(--color-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .project-highlights { list-style: none; }
+
+    .project-highlights li {
+      padding: 1.5mm 0;
+      border-bottom: 1px dotted var(--color-border);
+      font-size: 9pt;
+    }
+
+    .project-highlights li:last-child { border-bottom: none; }
+
+    .pr-number {
+      font-family: var(--font-mono);
+      font-size: 8pt;
+      color: var(--color-accent);
+      margin-right: 2mm;
+    }
+
+    .contributor {
+      font-size: 8pt;
+      color: var(--color-muted);
+      font-style: italic;
+    }
+
+    /* Two Column Layout */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5mm;
+    }
+
+    /* Pull Quote */
+    .pull-quote {
+      background: var(--color-ink);
+      color: var(--color-paper);
+      padding: 5mm;
+      margin: 4mm 0;
+      position: relative;
+    }
+
+    .pull-quote::before {
+      content: '"';
+      font-family: var(--font-serif);
+      font-size: 48pt;
+      position: absolute;
+      top: -2mm;
+      left: 3mm;
+      opacity: 0.2;
+      line-height: 1;
+    }
+
+    .pull-quote-text {
+      font-family: var(--font-serif);
+      font-size: 11pt;
+      font-style: italic;
+      line-height: 1.4;
+      position: relative;
+      z-index: 1;
+    }
+
+    .pull-quote-author {
+      margin-top: 2mm;
+      font-size: 9pt;
+      opacity: 0.8;
+    }
+
+    /* Tech Deep Dive */
+    .tech-deep-dive {
+      background: #1a1a2e;
+      color: var(--color-paper);
+      padding: 4mm;
+      margin: 4mm 0;
+    }
+
+    .tech-deep-dive-title {
+      font-family: var(--font-serif);
+      font-size: 11pt;
+      font-weight: 600;
+      margin-bottom: 2mm;
+      color: var(--color-highlight);
+    }
+
+    .tech-comparison {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3mm;
+      margin-top: 2mm;
+    }
+
+    .tech-comparison-item {
+      padding: 2mm;
+      background: rgba(255,255,255,0.05);
+    }
+
+    .tech-comparison-label {
+      font-family: var(--font-mono);
+      font-size: 7pt;
+      color: var(--color-accent);
+      margin-bottom: 1mm;
+    }
+
+    .tech-comparison-value {
+      font-family: var(--font-mono);
+      font-size: 9pt;
+    }
+
+    /* Contributors Section */
+    .contributors-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2mm;
+      margin-top: 3mm;
+    }
+
+    .contributor-tag {
+      background: var(--color-ink);
+      color: var(--color-paper);
+      padding: 1.5mm 3mm;
+      font-size: 8pt;
+      font-family: var(--font-mono);
+    }
+
+    /* Footer */
+    .page-footer {
+      position: absolute;
+      bottom: 8mm;
+      left: 15mm;
+      right: 15mm;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 8pt;
+      color: var(--color-muted);
+      border-top: 1px solid var(--color-border);
+      padding-top: 2mm;
+    }
+
+    .page-number { font-family: var(--font-mono); }
+
+    /* Info Box */
+    .info-box {
+      padding: 4mm;
+      background: #f5f5f5;
+      border-left: 3px solid var(--color-accent);
+      margin-top: 4mm;
+    }
+
+    .info-box h4 {
+      font-family: var(--font-serif);
+      font-size: 10pt;
+      margin-bottom: 2mm;
+    }
+
+    .info-box p {
+      font-size: 9pt;
+      color: var(--color-muted);
+    }
+
+    /* Print Styles */
+    @media print {
+      body {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      .page { margin: 0; box-shadow: none; }
+    }
+
+    @media screen {
+      body { background: #333; padding: 20px; }
+      .page { box-shadow: 0 10px 40px rgba(0,0,0,0.3); margin-bottom: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Cover Page -->
+  <div class="page cover">
+    <div class="cover-header">
+      <div class="cover-brand">Crescendo Lab Engineering</div>
+      <h1 class="cover-title">Frontend<br>Technology<br>Digest</h1>
+      <p class="cover-subtitle">Curated insights for the modern web developer</p>
+    </div>
+    <div class="cover-main">
+      <div class="cover-issue-label">Issue</div>
+      <div class="cover-issue">26-01</div>
+      <div class="cover-date">December 2025 — January 2026</div>
+      <div class="cover-highlights">
+        <div class="cover-highlight-item">
+          <span class="cover-highlight-bullet">▸</span>
+          <span>Motif v6 Released — Congratulations to Simon!</span>
+        </div>
+        <div class="cover-highlight-item">
+          <span class="cover-highlight-bullet">▸</span>
+          <span>TypeScript 7.0 in Go — The Future is Native</span>
+        </div>
+        <div class="cover-highlight-item">
+          <span class="cover-highlight-bullet">▸</span>
+          <span>Astro Joins Cloudflare — Major Acquisition</span>
+        </div>
+        <div class="cover-highlight-item">
+          <span class="cover-highlight-bullet">▸</span>
+          <span>Base UI 1.0 & jQuery 4.0 — Framework Milestones</span>
+        </div>
+        <div class="cover-highlight-item">
+          <span class="cover-highlight-bullet">▸</span>
+          <span>110+ PRs Analyzed Across MAAC, CAAC, WebSDK</span>
+        </div>
+      </div>
+    </div>
+    <div class="cover-footer">
+      <div class="cover-logo">CRESCENDO LAB</div>
+      <div class="cover-badge">Cross-Month Special</div>
+    </div>
+  </div>
+
+  <!-- Page 2: Celebration & Trends -->
+  <div class="page">
+    <div class="section-header">
+      <div class="section-number">01</div>
+      <h2 class="section-title">Team Updates</h2>
+    </div>
+
+    <div class="celebration-box">
+      <h3 class="celebration-title">Motif v6 is Here!</h3>
+      <p class="celebration-content">
+        We're thrilled to announce <strong>Motif v6</strong>! Huge shout out to
+        <span class="celebration-shoutout">Yun Chao Cai (SimonSimonnnn)</span> for leading this effort.
+        The new version brings refreshed icon keys and improved consistency across all products.
+      </p>
+    </div>
+
+    <div class="two-col">
+      <div class="discussion-box" style="margin-bottom: 0;">
+        <h3 class="discussion-title">CAAC H1 2026 Tech Plan</h3>
+        <ul class="discussion-list">
+          <li><strong>Replace EasyForm</strong> — Migrating to TanStack Form or React Hook Form</li>
+          <li><strong>Replace nanostore</strong> — Standardizing on Zustand for state management</li>
+        </ul>
+      </div>
+      <div class="sharing-box" style="margin-bottom: 0;">
+        <h3 class="sharing-title">Tooling: Prettier → oxfmt</h3>
+        <div class="sharing-content">
+          Prettier VS Code extension ID renamed back to <code>esbenp.prettier-vscode</code>.
+          Given the instability, consider <strong>oxfmt</strong> as an alternative — it's now production-ready!
+        </div>
+      </div>
+    </div>
+
+    <div class="section-header" style="margin-top: 6mm;">
+      <div class="section-number">02</div>
+      <h2 class="section-title">Ecosystem Trends</h2>
+    </div>
+
+    <div class="news-grid" style="margin-bottom: 4mm;">
+      <div class="news-card news-card-featured">
+        <div class="news-category">Major Acquisition</div>
+        <h3 class="news-title">Astro is Joining Cloudflare</h3>
+        <p class="news-desc">
+          The Astro Technology Company — creators of the popular Astro web framework — is joining Cloudflare.
+          They're doubling down on making Astro the best framework for content-driven websites.
+        </p>
+      </div>
+      <div class="news-card">
+        <div class="news-category">TypeScript</div>
+        <h3 class="news-title">TypeScript 6.0 → 7.0</h3>
+        <p class="news-desc">
+          TS 6.0 enters maintenance mode as the team focuses on the native Go rewrite (TypeScript 7.0).
+        </p>
+      </div>
+      <div class="news-card">
+        <div class="news-category">AI Tooling</div>
+        <h3 class="news-title">TanStack AI Alpha</h3>
+        <p class="news-desc">
+          Framework-agnostic AI toolkit for developers who want control over their stack.
+        </p>
+      </div>
+    </div>
+
+    <div class="trends-grid">
+      <div class="trend-item">
+        <span class="trend-badge release">Release</span>
+        <h4 class="trend-title">Base UI 1.0</h4>
+        <p class="trend-desc">MUI's unstyled UI components for accessible web apps and design systems.</p>
+      </div>
+      <div class="trend-item">
+        <span class="trend-badge release">Release</span>
+        <h4 class="trend-title">jQuery 4.0</h4>
+        <p class="trend-desc">The legendary library receives a major update, still powering the web.</p>
+      </div>
+      <div class="trend-item">
+        <span class="trend-badge tool">Tool</span>
+        <h4 class="trend-title">Oxc Type-Aware Linting</h4>
+        <p class="trend-desc">TypeScript-aware rules in the high-performance Rust-based linter.</p>
+      </div>
+      <div class="trend-item">
+        <span class="trend-badge tool">Tool</span>
+        <h4 class="trend-title">oxfmt Production Ready</h4>
+        <p class="trend-desc">Oxc formatter now supports VSCode and non-JS files. Migrate from Prettier!</p>
+      </div>
+      <div class="trend-item">
+        <span class="trend-badge tool">Tool</span>
+        <h4 class="trend-title">Pencil — Design in IDE</h4>
+        <p class="trend-desc">Design on canvas, land in code. Visual designing in your preferred IDE.</p>
+      </div>
+      <div class="trend-item">
+        <span class="trend-badge tool">Tool</span>
+        <h4 class="trend-title">antfu/skills</h4>
+        <p class="trend-desc">Anthony Fu's curated agent skills collection for AI-assisted development.</p>
+      </div>
+    </div>
+
+    <div class="page-footer">
+      <span>Frontend Technology Digest</span>
+      <span class="page-number">02</span>
+    </div>
+  </div>
+
+  <!-- Page 3: More Trends + Projects Start -->
+  <div class="page">
+    <div class="trends-grid" style="margin-bottom: 5mm;">
+      <div class="trend-item">
+        <span class="trend-badge standard">Standard</span>
+        <h4 class="trend-title">URL Pattern API</h4>
+        <p class="trend-desc">Match and extract URL parts natively — path-to-regexp might become obsolete.</p>
+      </div>
+      <div class="trend-item">
+        <span class="trend-badge release">Release</span>
+        <h4 class="trend-title">TanStack Vue Start</h4>
+        <p class="trend-desc">TanStack Router now supports Vue with full SSR via @tanstack/vue-start.</p>
+      </div>
+      <div class="trend-item">
+        <span class="trend-badge tool">DevTools</span>
+        <h4 class="trend-title">Per-Request Throttling</h4>
+        <p class="trend-desc">Chrome DevTools now supports throttling individual network requests!</p>
+      </div>
+      <div class="trend-item">
+        <span class="trend-badge news">Guide</span>
+        <h4 class="trend-title">Vercel React Best Practices</h4>
+        <p class="trend-desc">10+ years of React optimization knowledge, optimized for AI agents.</p>
+      </div>
+      <div class="trend-item" style="grid-column: span 2;">
+        <span class="trend-badge creative">Creative</span>
+        <h4 class="trend-title">Pure CSS Super Mario</h4>
+        <p class="trend-desc">A mini Mario world with keyboard control — 100% CSS, 0% JavaScript. Move and jump with pure CSS magic! Chrome-only experimentation using modern CSS.</p>
+      </div>
+    </div>
+
+    <div class="tech-deep-dive">
+      <h4 class="tech-deep-dive-title">Deep Dive: URL Pattern vs path-to-regexp</h4>
+      <p style="font-size: 9pt; margin-bottom: 2mm; opacity: 0.9;">
+        URL Pattern API is great for browsers, but server-side routing libraries like <code style="background: rgba(255,255,255,0.1); padding: 0.5mm 1.5mm;">find-my-way</code>
+        still outperform it using Radix Tree algorithms.
+      </p>
+      <div class="tech-comparison">
+        <div class="tech-comparison-item">
+          <div class="tech-comparison-label">Traditional (Express/URLPattern)</div>
+          <div class="tech-comparison-value">O(N) — scales with route count</div>
+        </div>
+        <div class="tech-comparison-item">
+          <div class="tech-comparison-label">Radix Tree (find-my-way)</div>
+          <div class="tech-comparison-value">O(L) — scales with URL length</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-header" style="margin-top: 5mm;">
+      <div class="section-number">03</div>
+      <h2 class="section-title">Project Insights</h2>
+    </div>
+
+    <div class="two-col">
+      <div class="project-section" style="margin-bottom: 0;">
+        <div class="project-header">
+          <div class="project-icon">M</div>
+          <div>
+            <h3 class="project-name">MAAC</h3>
+            <span class="project-repo">chatbotgang/Grazioso</span>
+          </div>
+        </div>
+        <h4 style="font-size: 9pt; margin: 3mm 0 2mm; color: var(--color-muted);">Technical Highlights</h4>
+        <ul class="project-highlights">
+          <li><span class="pr-number">#7650</span><strong>ESLint + oxlint Integration</strong> — Dual linter setup: oxlint for fast rules, ESLint for complex type-aware checks</li>
+          <li><span class="pr-number">#7634</span><strong>Webhook API → Zodios</strong> — End-to-end type-safe API client adoption</li>
+          <li><span class="pr-number">#7619</span><strong>checkApng Refactor</strong> — Async image detection logic optimization</li>
+        </ul>
+      </div>
+
+      <div class="project-section" style="margin-bottom: 0;">
+        <div class="project-header">
+          <div class="project-icon" style="background: #2d6a4f;">C</div>
+          <div>
+            <h3 class="project-name">CAAC</h3>
+            <span class="project-repo">chatbotgang/Zeffiroso</span>
+          </div>
+        </div>
+        <h4 style="font-size: 9pt; margin: 3mm 0 2mm; color: var(--color-muted);">Technical Highlights</h4>
+        <ul class="project-highlights">
+          <li><span class="pr-number">#3999</span><strong>Motif v5 → v6 Upgrade</strong> — Major design system migration with icon key renaming</li>
+          <li><span class="pr-number">#4019</span><strong>EasyForm Claude Skill</strong> — AI-assisted form generation skill development</li>
+          <li><span class="pr-number">#4007</span><strong>Slot Pattern Adoption</strong> — React compound components pattern implementation</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="page-footer">
+      <span>Frontend Technology Digest</span>
+      <span class="page-number">03</span>
+    </div>
+  </div>
+
+  <!-- Page 4: Contributors + Closing -->
+  <div class="page">
+    <div class="pull-quote">
+      <p class="pull-quote-text">
+        We're doubling down on making Astro the best framework for content-driven websites,
+        today and in the years to come.
+      </p>
+      <p class="pull-quote-author">— Fred Schott, Astro on joining Cloudflare</p>
+    </div>
+
+    <div class="section-header" style="margin-top: 6mm;">
+      <div class="section-number">04</div>
+      <h2 class="section-title">Contributors & Notes</h2>
+    </div>
+
+    <p style="font-size: 10pt; margin-bottom: 3mm;">
+      Thank you to everyone who contributed to our projects and shared knowledge:
+    </p>
+
+    <div class="contributors-grid" style="margin-bottom: 6mm;">
+      <span class="contributor-tag">Joseph Chang</span>
+      <span class="contributor-tag">Jack</span>
+      <span class="contributor-tag">Simon (YunChaoTsai)</span>
+      <span class="contributor-tag">ViPro</span>
+      <span class="contributor-tag">Gary Fan</span>
+      <span class="contributor-tag">Noel</span>
+    </div>
+
+    <div class="two-col">
+      <div class="info-box">
+        <h4>AI-Assisted Development</h4>
+        <p>Multiple PRs in CAAC carry the <code style="background: #d93f0b; color: white; padding: 1mm 2mm; font-size: 7pt;">claude-code</code> label,
+        showing AI-assisted development is becoming part of our regular workflow.</p>
+      </div>
+      <div class="info-box">
+        <h4>Looking Ahead</h4>
+        <p>H1 2026 brings major migrations: EasyForm → TanStack Form, nanostore → Zustand.
+        Stay tuned for deep-dive articles on these transitions.</p>
+      </div>
+    </div>
+
+    <div style="margin-top: 10mm; text-align: center;">
+      <img src="assets/tech-flow.png" alt="Tech Flow Illustration" style="max-width: 100%; height: auto; opacity: 0.9;">
+    </div>
+
+    <div class="page-footer">
+      <span>Frontend Technology Digest</span>
+      <span class="page-number">04</span>
+    </div>
+  </div>
+
+  <!-- Back Cover -->
+  <div class="page" style="display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: var(--color-ink); color: var(--color-paper);">
+    <div style="margin-bottom: 15mm;">
+      <div style="font-family: var(--font-serif); font-size: 32pt; font-weight: 700; margin-bottom: 4mm;">
+        Frontend Technology Digest
+      </div>
+      <div style="font-size: 11pt; opacity: 0.7; font-style: italic;">
+        Issue 26-01 | December 2025 — January 2026
+      </div>
+    </div>
+
+    <div style="width: 50%; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 8mm; margin-bottom: 8mm;">
+      <p style="font-size: 10pt; line-height: 1.6; opacity: 0.8;">
+        Curated by the Frontend Engineering Team<br>
+        at Crescendo Lab
+      </p>
+    </div>
+
+    <div style="font-family: var(--font-mono); font-size: 9pt; opacity: 0.5; margin-bottom: 15mm;">
+      #team-eng-frontend | #fe-tech-sharing
+    </div>
+
+    <div style="display: flex; gap: 6mm; flex-wrap: wrap; justify-content: center; max-width: 80%;">
+      <span style="background: rgba(255,255,255,0.1); padding: 2mm 4mm; font-size: 8pt;">Astro + Cloudflare</span>
+      <span style="background: rgba(255,255,255,0.1); padding: 2mm 4mm; font-size: 8pt;">TypeScript 7.0</span>
+      <span style="background: rgba(255,255,255,0.1); padding: 2mm 4mm; font-size: 8pt;">Motif v6</span>
+      <span style="background: rgba(255,255,255,0.1); padding: 2mm 4mm; font-size: 8pt;">Base UI 1.0</span>
+      <span style="background: rgba(255,255,255,0.1); padding: 2mm 4mm; font-size: 8pt;">jQuery 4.0</span>
+      <span style="background: rgba(255,255,255,0.1); padding: 2mm 4mm; font-size: 8pt;">oxfmt</span>
+      <span style="background: rgba(255,255,255,0.1); padding: 2mm 4mm; font-size: 8pt;">TanStack AI</span>
+      <span style="background: rgba(255,255,255,0.1); padding: 2mm 4mm; font-size: 8pt;">URL Pattern API</span>
+    </div>
+
+    <div style="position: absolute; bottom: 12mm; font-size: 8pt; opacity: 0.4;">
+      © 2026 Crescendo Lab. Internal distribution only.
+    </div>
+  </div>
+
+</body>
+</html>
