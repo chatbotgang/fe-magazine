@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Frontend Technology Digest | 26-02</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,800;1,9..144,400&family=Bitter:ital,wght@0,400;0,600;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* ── Reset & Global ── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --font-cover: 'Instrument Serif', 'Noto Serif TC', Georgia, serif;
+      --font-eco: 'Space Grotesk', 'Noto Sans TC', system-ui, sans-serif;
+      --font-feat: 'Fraunces', 'Noto Serif TC', Georgia, serif;
+      --font-proj: 'Bitter', 'Noto Serif TC', Georgia, serif;
+      --font-promo: 'Bricolage Grotesque', 'Noto Sans TC', system-ui, sans-serif;
+      --font-look: 'Syne', 'Noto Sans TC', system-ui, sans-serif;
+      --font-clawd: 'JetBrains Mono', monospace;
+      --font-body: 'Outfit', 'Noto Sans TC', system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      --color-ink: #0a0a0a;
+      --color-paper: #f8f6f1;
+      --color-accent: #e63946;
+
+      --page-w: 210mm;
+      --page-h: 297mm;
+    }
+
+    @page { size: A4; margin: 0; }
+
+    body {
+      font-family: var(--font-body);
+      background: #e0e0e0;
+      color: var(--color-ink);
+      line-height: 1.6;
+      font-size: 10pt;
+    }
+
+    @media print {
+      body { background: white; }
+      body { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    }
+
+    /* ── Page Base ── */
+    .page {
+      width: var(--page-w);
+      height: var(--page-h);
+      margin: 0 auto 4mm;
+      position: relative;
+      overflow: hidden;
+      page-break-after: always; break-after: always;
+      background: var(--s-bg, var(--color-paper));
+      color: var(--s-text, var(--color-ink));
+    }
+    .page:last-child { page-break-after: auto; break-after: auto; margin-bottom: 0; }
+    @media print { .page { margin: 0; } }
+
+    .page.opener { padding: 0; display: flex; flex-direction: column; }
+    .page.dense { padding: 12mm 15mm; }
+    .page.breather { padding: 12mm 15mm; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+
+    /* ── Section Scoping ── */
+    .s-eco { --s-bg: #0d1117; --s-text: #e6edf3; --s-accent: #58a6ff; --s-accent2: #ffa657; --s-headline: var(--font-eco); }
+    .s-feat { --s-bg: #faf9f6; --s-text: #1a1a1a; --s-accent: #e63946; --s-accent2: #264653; --s-headline: var(--font-feat); }
+    .s-proj { --s-bg: #f6f8fa; --s-text: #1a1a1a; --s-accent: #2ea043; --s-accent2: #0969da; --s-headline: var(--font-proj); }
+    .s-look { --s-bg: #0d1b2a; --s-text: #e0e0ff; --s-accent: #7c3aed; --s-accent2: #a78bfa; --s-headline: var(--font-look); }
+    .s-clawd { --s-bg: #0a0a0a; --s-text: #4ade80; --s-accent: #4ade80; --s-headline: var(--font-clawd); }
+
+    /* ── Cover ── */
+    .cover {
+      display: flex; flex-direction: column; justify-content: space-between;
+      padding: 0; overflow: hidden; position: relative;
+    }
+    .cover-bg {
+      position: absolute; inset: 0; z-index: 0;
+    }
+    .cover-bg img { width: 100%; height: 100%; object-fit: cover; }
+    .cover-overlay {
+      position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(180deg, rgba(10,10,20,0.7) 0%, rgba(10,10,20,0.4) 40%, rgba(10,10,20,0.85) 100%);
+    }
+    .cover-header { padding: 18mm 15mm 0; position: relative; z-index: 2; }
+    .cover-brand {
+      font-family: var(--font-cover);
+      font-size: 11pt; letter-spacing: 0.3em; text-transform: uppercase;
+      color: rgba(255,255,255,0.7); margin-bottom: 1mm;
+    }
+    .cover-issue-line {
+      font-family: var(--font-mono); font-size: 9pt; letter-spacing: 0.15em;
+      color: rgba(255,255,255,0.5);
+    }
+    .cover-main { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 8mm 15mm; position: relative; z-index: 2; color: white; }
+    .cover-theme {
+      font-family: var(--font-cover); font-size: 52pt; font-weight: 400;
+      line-height: 1.05; margin-bottom: 6mm; font-style: italic;
+    }
+    .cover-subtitle {
+      font-family: var(--font-body); font-size: 12pt; font-weight: 300;
+      color: rgba(255,255,255,0.8); max-width: 70%; line-height: 1.5;
+    }
+    .cover-highlights {
+      margin-top: 12mm; padding-top: 8mm;
+      border-top: 1px solid rgba(255,255,255,0.2);
+    }
+    .cover-hl {
+      display: flex; align-items: baseline; margin-bottom: 3mm;
+      font-size: 9.5pt; color: rgba(255,255,255,0.85);
+    }
+    .cover-hl-bullet { color: var(--color-accent); margin-right: 3mm; font-size: 11pt; font-weight: 700; }
+    .cover-hl strong { color: white; }
+    .cover-footer {
+      padding: 8mm 15mm 12mm; display: flex; justify-content: space-between; align-items: flex-end;
+      position: relative; z-index: 2; color: white;
+    }
+    .cover-logo { font-family: var(--font-cover); font-size: 9pt; letter-spacing: 0.15em; opacity: 0.6; }
+    .cover-date { font-family: var(--font-mono); font-size: 8pt; opacity: 0.5; }
+
+    /* ── Opener Pages ── */
+    .opener-img { width: 100%; height: 55%; object-fit: cover; display: block; }
+    .opener-content {
+      flex: 1; padding: 10mm 15mm; display: flex; flex-direction: column; justify-content: center;
+      background: var(--s-bg);
+    }
+    .opener-label {
+      font-family: var(--font-mono); font-size: 8pt; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--s-accent); margin-bottom: 3mm;
+    }
+    .opener-title {
+      font-family: var(--s-headline); font-size: 32pt; font-weight: 700;
+      line-height: 1.1; margin-bottom: 4mm; color: var(--s-text);
+    }
+    .opener-desc {
+      font-family: var(--font-body); font-size: 11pt; color: var(--s-text); opacity: 0.8;
+      max-width: 80%; line-height: 1.5;
+    }
+
+    /* ── Dense: Eco News Cards ── */
+    .eco-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; }
+    .eco-grid.single { grid-template-columns: 1fr; }
+    .eco-card {
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 3px; padding: 4mm; position: relative;
+    }
+    .eco-card.deep-dive {
+      grid-column: 1 / -1;
+      border-color: var(--s-accent);
+      background: rgba(88,166,255,0.06);
+    }
+    .eco-card-cat {
+      font-family: var(--font-mono); font-size: 7pt; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--s-accent2); margin-bottom: 1.5mm;
+    }
+    .eco-card-title {
+      font-family: var(--s-headline); font-size: 13pt; font-weight: 600;
+      line-height: 1.2; margin-bottom: 2mm; color: var(--s-text);
+    }
+    .eco-card-title a { color: inherit; text-decoration: none; }
+    .eco-card-title a:hover { text-decoration: underline; }
+    .eco-card-body { font-size: 9pt; line-height: 1.5; color: var(--s-text); opacity: 0.85; }
+    .eco-card-body p { margin-bottom: 2mm; }
+    .eco-card-kp { margin: 2mm 0; padding-left: 4mm; }
+    .eco-card-kp li { font-size: 8.5pt; margin-bottom: 1mm; color: var(--s-text); opacity: 0.8; }
+    .eco-card-impact {
+      margin-top: 2mm; padding-top: 2mm; border-top: 1px solid rgba(255,255,255,0.08);
+      font-size: 8.5pt; color: var(--s-accent);
+    }
+    .eco-card-quote {
+      margin-top: 2mm; padding: 2mm 3mm; background: rgba(255,255,255,0.03);
+      border-left: 2px solid var(--s-accent2); font-size: 8.5pt; font-style: italic;
+      color: var(--s-text); opacity: 0.8;
+    }
+    .eco-card-quote cite { display: block; font-style: normal; font-size: 7.5pt; opacity: 0.6; margin-top: 1mm; }
+    .eco-tag {
+      display: inline-block; font-family: var(--font-mono); font-size: 6.5pt;
+      padding: 0.5mm 2mm; border-radius: 2px; background: rgba(255,255,255,0.08);
+      color: var(--s-accent); letter-spacing: 0.05em; text-transform: uppercase;
+    }
+    .eco-tag.deep { background: var(--s-accent); color: #0d1117; font-weight: 600; }
+    .clawd-bubble {
+      margin-top: 3mm; padding: 3mm 4mm; border-radius: 4px;
+      font-family: var(--font-clawd); font-size: 8pt; line-height: 1.4;
+    }
+    .s-eco .clawd-bubble { background: rgba(74,222,128,0.08); border: 1px solid rgba(74,222,128,0.2); color: #4ade80; }
+    .s-feat .clawd-bubble { background: rgba(74,222,128,0.06); border: 1px solid rgba(74,222,128,0.15); color: #16a34a; }
+    .clawd-bubble .clawd-name { font-weight: 600; opacity: 0.7; }
+
+    /* ── Breather: Stat ── */
+    .breather-stat {
+      font-family: var(--s-headline, var(--font-eco));
+      font-size: 72pt; font-weight: 700; line-height: 1;
+      color: var(--s-accent); margin-bottom: 4mm;
+    }
+    .breather-label {
+      font-family: var(--font-body); font-size: 14pt; font-weight: 300;
+      color: var(--s-text); opacity: 0.7; max-width: 60%;
+    }
+    .breather-quote {
+      font-family: var(--s-headline, var(--font-cover));
+      font-size: 20pt; font-style: italic; line-height: 1.35;
+      color: var(--s-text); max-width: 75%; margin-bottom: 6mm;
+    }
+    .breather-quote cite {
+      display: block; font-family: var(--font-body); font-size: 10pt;
+      font-style: normal; margin-top: 4mm; opacity: 0.5;
+    }
+
+    /* ── Feature Story ── */
+    .feat-body { max-width: 160mm; }
+    .feat-body h3 {
+      font-family: var(--font-feat); font-size: 16pt; font-weight: 700;
+      margin: 5mm 0 3mm; color: var(--s-accent2);
+    }
+    .feat-body p { font-size: 10pt; line-height: 1.65; margin-bottom: 3mm; }
+    .feat-body .drop-cap::first-letter {
+      float: left; font-family: var(--font-feat); font-size: 42pt;
+      font-weight: 700; line-height: 0.8; margin-right: 2mm; margin-top: 1mm;
+      color: var(--s-accent);
+    }
+    .feat-highlight {
+      background: linear-gradient(135deg, #264653, #2a3a4a);
+      color: white; padding: 5mm 6mm; border-radius: 3px; margin: 4mm 0;
+    }
+    .feat-highlight h4 {
+      font-family: var(--font-feat); font-size: 12pt; font-weight: 700;
+      margin-bottom: 2mm; color: #ffa657;
+    }
+    .feat-highlight p { font-size: 9pt; line-height: 1.5; color: rgba(255,255,255,0.9); }
+    .feat-quote {
+      border-left: 3px solid var(--s-accent);
+      padding: 3mm 5mm; margin: 4mm 0;
+      font-style: italic; font-size: 10pt; color: var(--s-text);
+    }
+    .feat-quote cite { display: block; font-style: normal; font-size: 8.5pt; opacity: 0.5; margin-top: 1.5mm; }
+
+    /* ── Project Insights ── */
+    .proj-section { margin-bottom: 3mm; }
+    .proj-section-title {
+      font-family: var(--font-proj); font-size: 14pt; font-weight: 700;
+      margin-bottom: 3mm; padding-bottom: 1.5mm;
+      border-bottom: 2px solid var(--s-accent);
+      color: var(--s-text);
+    }
+    .proj-card {
+      background: white; border: 1px solid #e1e4e8; border-radius: 3px;
+      padding: 3mm 4mm; margin-bottom: 2.5mm;
+    }
+    .proj-card-header { display: flex; align-items: baseline; gap: 2mm; margin-bottom: 1.5mm; }
+    .proj-card-type {
+      font-family: var(--font-mono); font-size: 7pt; padding: 0.5mm 2mm;
+      border-radius: 2px; letter-spacing: 0.05em; text-transform: uppercase;
+    }
+    .proj-card-type.dx { background: #ddf4ff; color: #0969da; }
+    .proj-card-type.arch { background: #dafbe1; color: #1a7f37; }
+    .proj-card-type.deps { background: #fff8c5; color: #9a6700; }
+    .proj-card-type.perf { background: #ffebe9; color: #cf222e; }
+    .proj-card-type.process { background: #f0e6ff; color: #6639ba; }
+    .proj-card-title { font-family: var(--font-proj); font-size: 11pt; font-weight: 600; }
+    .proj-card-title a { color: var(--s-accent2); text-decoration: none; }
+    .proj-card-body { font-size: 9pt; line-height: 1.5; color: #4d5663; }
+    .proj-card-pr { font-family: var(--font-mono); font-size: 8pt; color: var(--s-accent2); }
+
+    /* ── Promotion Card ── */
+    .promo-card {
+      background: linear-gradient(135deg, #ffd60a 0%, #ffb703 100%);
+      border-radius: 4px; padding: 5mm 6mm; margin-bottom: 3mm;
+      position: relative; overflow: hidden;
+    }
+    .promo-card::after {
+      content: '🎉'; position: absolute; top: -2mm; right: 2mm;
+      font-size: 36pt; opacity: 0.15;
+    }
+    .promo-label {
+      font-family: var(--font-promo); font-size: 8pt; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase; color: #9d0208;
+      margin-bottom: 1.5mm;
+    }
+    .promo-title {
+      font-family: var(--font-promo); font-size: 13pt; font-weight: 700;
+      color: #1a1a1a; margin-bottom: 2mm;
+    }
+    .promo-body { font-size: 9.5pt; color: #333; line-height: 1.5; }
+    .promo-credit { font-size: 8.5pt; font-weight: 600; color: #9d0208; margin-top: 1.5mm; }
+
+    /* ── Looking Ahead ── */
+    .look-timeline { position: relative; padding-left: 8mm; }
+    .look-timeline::before {
+      content: ''; position: absolute; left: 2mm; top: 0; bottom: 0;
+      width: 1px; background: var(--s-accent);
+    }
+    .look-item { margin-bottom: 6mm; position: relative; }
+    .look-item::before {
+      content: ''; position: absolute; left: -7.5mm; top: 2mm;
+      width: 3mm; height: 3mm; border-radius: 50%;
+      background: var(--s-accent); border: 1.5px solid var(--s-bg);
+    }
+    .look-item-title {
+      font-family: var(--font-look); font-size: 14pt; font-weight: 700;
+      color: var(--s-accent2); margin-bottom: 1.5mm;
+    }
+    .look-item-status {
+      font-family: var(--font-mono); font-size: 7.5pt; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--s-accent); margin-bottom: 2mm;
+    }
+    .look-item-body { font-size: 9.5pt; line-height: 1.5; color: var(--s-text); opacity: 0.85; }
+    .look-item-body ul { padding-left: 4mm; margin: 1.5mm 0; }
+    .look-item-body li { margin-bottom: 1mm; }
+    .look-item-challenge {
+      margin-top: 2mm; padding: 2mm 3mm; border-radius: 2px;
+      background: rgba(124,58,237,0.1); border-left: 2px solid var(--s-accent);
+      font-size: 8.5pt; color: var(--s-text); opacity: 0.8;
+    }
+
+    /* ── Clawd's Corner ── */
+    .clawd-corner { text-align: center; max-width: 140mm; }
+    .clawd-avatar {
+      font-size: 48pt; margin-bottom: 4mm;
+    }
+    .clawd-corner-title {
+      font-family: var(--font-clawd); font-size: 18pt; font-weight: 600;
+      color: var(--s-accent); margin-bottom: 6mm; letter-spacing: 0.05em;
+    }
+    .clawd-corner-text {
+      font-family: var(--font-clawd); font-size: 10.5pt; line-height: 1.6;
+      color: var(--s-text); text-align: left; padding: 5mm 6mm;
+      border: 1px solid rgba(74,222,128,0.3); border-radius: 4px;
+      background: rgba(74,222,128,0.04);
+    }
+    .clawd-corner-sig {
+      font-family: var(--font-clawd); font-size: 9pt; color: var(--s-accent);
+      opacity: 0.6; margin-top: 4mm;
+    }
+
+    /* ── Credits ── */
+    .credits {
+      margin-top: auto; padding-top: 6mm;
+      border-top: 1px solid rgba(74,222,128,0.15);
+      text-align: center;
+    }
+    .credits p {
+      font-family: var(--font-body); font-size: 8pt;
+      color: var(--s-text); opacity: 0.4; margin-bottom: 1mm;
+    }
+
+    /* ── Section Header (dense pages) ── */
+    .section-head {
+      margin-bottom: 4mm; padding-bottom: 2mm;
+      border-bottom: 2px solid var(--s-accent);
+      display: flex; align-items: baseline; gap: 3mm;
+    }
+    .section-head-num {
+      font-family: var(--font-mono); font-size: 8pt;
+      color: var(--s-accent); letter-spacing: 0.1em;
+    }
+    .section-head-title {
+      font-family: var(--s-headline); font-size: 16pt; font-weight: 700;
+      color: var(--s-text);
+    }
+
+    /* ── Source Lists ── */
+    .source-list { margin-top: 2mm; padding-top: 2mm; border-top: 1px solid rgba(255,255,255,0.06); }
+    .source-list-title { font-family: var(--font-mono); font-size: 7pt; letter-spacing: 0.08em; text-transform: uppercase; color: var(--s-accent2); margin-bottom: 1.5mm; }
+    .source-list ul { list-style: none; padding: 0; }
+    .source-list li { font-size: 8pt; margin-bottom: 1mm; color: var(--s-text); opacity: 0.65; }
+    .source-list li a { color: var(--s-accent); text-decoration: none; }
+    .s-feat .source-list { border-top-color: rgba(0,0,0,0.08); }
+    .s-feat .source-list-title { color: var(--s-accent2); }
+    .s-feat .source-list li { color: var(--s-text); }
+
+    /* ── Inline Images ── */
+    .inline-img {
+      width: 100%; border-radius: 3px; display: block;
+      margin: 3mm 0; box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    .inline-img.small { max-height: 120px; width: auto; margin: 2mm auto; }
+    .inline-img.medium { max-height: 180px; width: auto; }
+    .inline-img.screenshot {
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 4px;
+    }
+    .s-feat .inline-img.screenshot { border-color: rgba(0,0,0,0.1); }
+    .img-caption {
+      font-family: var(--font-mono); font-size: 7pt;
+      color: var(--s-text); opacity: 0.5; margin-top: 1mm;
+      text-align: center;
+    }
+    .img-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3mm; margin: 3mm 0; }
+    .img-grid img { width: 100%; border-radius: 3px; }
+
+    /* ── Breather with BG Image ── */
+    .breather-bg {
+      position: absolute; inset: 0; z-index: 0; opacity: 0.15;
+    }
+    .breather-bg img { width: 100%; height: 100%; object-fit: cover; }
+    .page.breather > *:not(.breather-bg):not(.page-num) { position: relative; z-index: 1; }
+
+    /* ── Clawd Avatar ── */
+    .clawd-avatar-img {
+      width: 80px; height: 80px; border-radius: 50%;
+      object-fit: cover; border: 3px solid rgba(74,222,128,0.3);
+      box-shadow: 0 0 20px rgba(74,222,128,0.15);
+    }
+
+    /* ── Utilities ── */
+    .no-break { page-break-inside: avoid; break-inside: avoid; }
+    .mt-2 { margin-top: 2mm; }
+    .mt-4 { margin-top: 4mm; }
+    .mb-2 { margin-bottom: 2mm; }
+    a { color: var(--s-accent, var(--color-accent)); }
+    .text-sm { font-size: 8.5pt; }
+    .text-xs { font-size: 7.5pt; }
+    .text-muted { opacity: 0.6; }
+
+    /* ── Page Number ── */
+    .page-num {
+      position: absolute; bottom: 6mm; right: 8mm;
+      font-family: var(--font-mono); font-size: 7pt;
+      color: var(--s-text, var(--color-ink)); opacity: 0.3;
+    }
+    .page-num.light { color: rgba(255,255,255,0.3); }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- P1: COVER                                                  -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="page cover">
+  <div class="cover-bg"><img src="assets/cover.png" alt="Cover: The Great Rewrite — frontend toolchain transformation"></div>
+  <div class="cover-overlay"></div>
+  <div class="cover-header">
+    <div class="cover-brand">Frontend Technology Digest</div>
+    <div class="cover-issue-line">ISSUE 26-02 &middot; JAN &ndash; FEB 2026</div>
+  </div>
+  <div class="cover-main">
+    <div class="cover-theme">The Great Rewrite</div>
+    <div class="cover-subtitle">TypeScript goes native. Prettier gets a Rust twin. Next.js rebuilt by AI in a week. The frontend toolchain is being rewritten from the ground up.</div>
+    <div class="cover-highlights">
+      <div class="cover-hl"><span class="cover-hl-bullet">&bull;</span> <strong>TypeScript 6.0 Beta</strong> &mdash; The 10x compiler is here</div>
+      <div class="cover-hl"><span class="cover-hl-bullet">&bull;</span> <strong>Oxfmt Beta</strong> &mdash; 100% Prettier compatible, 30x faster</div>
+      <div class="cover-hl"><span class="cover-hl-bullet">&bull;</span> <strong>ViNext</strong> &mdash; $1,100 to rebuild Next.js with AI</div>
+      <div class="cover-hl"><span class="cover-hl-bullet">&bull;</span> <strong>The Tooling Revolution</strong> &mdash; Feature story from the frontlines</div>
+    </div>
+  </div>
+  <div class="cover-footer">
+    <div class="cover-logo">Crescendo Lab &middot; Engineering</div>
+    <div class="cover-date">March 2026</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- P2: OPENER — Ecosystem News                                -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="page opener s-eco">
+  <img class="opener-img" src="assets/opener-eco.png" alt="">
+  <div class="opener-content">
+    <div class="opener-label">Section 01</div>
+    <div class="opener-title">Ecosystem News</div>
+    <div class="opener-desc">15 topics from the frontend ecosystem &mdash; framework releases, Rust-based tooling, AI-native developer tools, and new web platform APIs.</div>
+  </div>
+  <span class="page-num light">02</span>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- P3: DENSE — TypeScript 6.0 Deep-Dive                       -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="page dense s-eco">
+  <div class="section-head">
+    <span class="section-head-num">01</span>
+    <span class="section-head-title">Ecosystem News</span>
+  </div>
+
+  <div class="eco-grid single">
+    <div class="eco-card deep-dive no-break">
+      <div style="display:flex;align-items:center;gap:2mm;margin-bottom:2mm;">
+        <span class="eco-tag deep">Deep-Dive</span>
+        <span class="eco-card-cat">Framework Release</span>
+      </div>
+      <div class="eco-card-title" style="font-size:18pt;">TypeScript 6.0 Beta / tsgo</div>
+      <div class="eco-card-body">
+        <p>Microsoft released TypeScript 6.0 Beta, the bridge release before TypeScript 7.0 &mdash; the full native Go port (tsgo) of the compiler. The Go rewrite delivers ~10x faster type-checking across real-world projects, with VS Code compilation dropping from 77.8s to 7.5s.</p>
+        <ul class="eco-card-kp">
+          <li>tsgo achieves <strong>10&ndash;13x speedup</strong> on real projects (VS Code 10.4x, TypeORM 13.5x)</li>
+          <li>No TypeScript 6.1 planned &mdash; going straight from 6.0 to 7.0</li>
+          <li><code style="background:rgba(255,255,255,0.08);padding:0 1.5mm;border-radius:2px;">erasableSyntaxOnly</code> flag previews TS 7.0 requirements</li>
+          <li>Editor load time: ~9.6s &rarr; ~1.2s (8x); Memory: ~2.9x more efficient</li>
+          <li><code>strict: true</code> as default, ES2025 target, drops legacy (ES5, AMD, UMD)</li>
+        </ul>
+        <div class="eco-card-impact"><strong>Impact:</strong> Every TypeScript project will need to prepare for erasable syntax requirements. Our MAAC team has already started (PR #7579).</div>
+        <div class="eco-card-quote">
+          &ldquo;This wasn&rsquo;t a compiler redesign&hellip; our existing codebase is all functions and data structures &mdash; no classes. Idiomatic Go looked just like our existing codebase.&rdquo;
+          <cite>&mdash; Anders Hejlsberg</cite>
+        </div>
+        <div class="eco-card-quote" style="margin-top:1.5mm;">
+          &ldquo;Idiomatic Go strongly resembles the existing coding patterns of the TypeScript codebase.&rdquo;
+          <cite>&mdash; Ryan Cavanaugh</cite>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:3mm;margin-top:3mm;">
+        <div style="font-size:8pt;color:var(--s-text);opacity:0.7;">
+          <div style="font-family:var(--font-mono);font-size:7pt;color:var(--s-accent2);margin-bottom:1mm;letter-spacing:0.08em;">RELATED ANGLES</div>
+          <ul style="padding-left:3mm;margin:0;">
+            <li style="margin-bottom:1mm;">esbuild proved Go for JS tooling; goroutines enable parallel type-checking</li>
+            <li style="margin-bottom:1mm;">Plugin ecosystem disruption (ts-morph, ts-jest, typescript-eslint) faces 6&ndash;12 month window</li>
+            <li style="margin-bottom:1mm;"><code style="background:rgba(255,255,255,0.08);padding:0 1mm;border-radius:1px;">--stableTypeOrdering</code> flag previews TS 7.0 at 25% perf cost</li>
+          </ul>
+        </div>
+        <div class="source-list" style="border-top:none;margin-top:0;padding-top:0;">
+          <div class="source-list-title">Supplementary Sources</div>
+          <ul>
+            <li><a href="https://devblogs.microsoft.com/typescript/typescript-native-port/">A 10x Faster TypeScript</a> &mdash; original tsgo announcement</li>
+            <li><a href="https://github.com/microsoft/typescript-go/discussions/411">Why Go?</a> &mdash; the Go vs Rust debate</li>
+            <li><a href="https://www.totaltypescript.com/typescript-announces-go-rewrite">Matt Pocock&rsquo;s breakdown</a></li>
+            <li><a href="https://thenewstack.io/microsoft-typescript-devs-explain-why-they-chose-go-over-rust-c/">Why They Chose Go Over Rust</a></li>
+            <li><a href="https://gist.github.com/privatenumber/3d2e80da28f84ee30b77d53e1693378f">TS 5.x to 6.0 Migration Guide</a></li>
+          </ul>
+        </div>
+      </div>
+      <img src="assets/chart-ts-benchmark.png" alt="tsgo vs tsc benchmark" class="inline-img" style="margin-top:3mm;max-height:160px;width:auto;">
+      <div class="clawd-bubble">
+        <span class="clawd-name">Clawd:</span> TypeScript rewrote its compiler in Go and called it a &ldquo;port&rdquo; &mdash; which is exactly what you say when you want credit for 10x faster builds without admitting you basically rebuilt the engine while the car was moving.
+      </div>
+    </div>
+  </div>
+  <span class="page-num light">03</span>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- P4: DENSE — Oxfmt Deep-Dive                                -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="page dense s-eco">
+  <div class="eco-grid single">
+    <div class="eco-card deep-dive no-break">
+      <div style="display:flex;align-items:center;gap:2mm;margin-bottom:2mm;">
+        <span class="eco-tag deep">Deep-Dive</span>
+        <span class="eco-card-cat">Tool</span>
+      </div>
+      <div class="eco-card-title" style="font-size:18pt;">Oxfmt Beta + Oxlint Updates</div>
+      <div class="eco-card-body">
+        <p>The Oxc project released Oxfmt Beta, claiming 100% Prettier compatibility with ~30x speed improvement. Oxlint also received updates with JavaScript plugin editor support and Tailwind CSS class sorting integration. Our CAAC team has already adopted Oxfmt.</p>
+        <ul class="eco-card-kp">
+          <li><strong>100% Prettier conformance</strong> test compatibility, 30x faster</li>
+          <li>Built-in Tailwind CSS class sorting and import sorting (no extra plugins)</li>
+          <li>Oxlint JavaScript plugin support enables ESLint rule compatibility</li>
+          <li>Already adopted by Vue.js, Vercel Turborepo, Hugging Face, Sentry</li>
+        </ul>
+        <div class="eco-card-impact"><strong>Impact:</strong> Our CAAC project migrated from Prettier to Oxfmt (PR #4097) &mdash; 6.284s &rarr; 0.712s (~8.8x faster) on pre-commit hooks.</div>
+        <div class="eco-card-quote">
+          &ldquo;oxfmt is getting very close to ready! &mdash; 2&ndash;3x faster than Biome, 45x faster than Prettier, better prettier conformance than Biome means switching won&rsquo;t cause huge diffs.&rdquo;
+          <cite>&mdash; Evan You, Vue creator</cite>
+        </div>
+      </div>
+      <div class="source-list">
+        <div class="source-list-title">Supplementary Sources</div>
+        <ul>
+          <li><a href="https://voidzero.dev/posts/announcing-oxfmt-alpha">VoidZero: Announcing Oxfmt Alpha</a></li>
+          <li><a href="https://www.infoq.com/news/2026/01/oxfmt-rust-prettier/">InfoQ: VoidZero Announces Oxfmt Alpha</a> &mdash; industry analysis</li>
+          <li><a href="https://cpojer.net/posts/fastest-frontend-tooling">Christoph Pojer: Fastest Frontend Tooling</a></li>
+          <li><a href="https://www.solberg.is/from-prettier-to-oxfmt">Migration experience: from Prettier to Oxfmt</a></li>
+        </ul>
+      </div>
+      <div class="clawd-bubble">
+        <span class="clawd-name">Clawd:</span> Oxfmt is Prettier&rsquo;s fastidious Rust-powered doppelg&auml;nger &mdash; shipping with built-in Tailwind class sorting so you can finally stop living in a <code>.prettierrc</code> sprawl. The real flex? Our CAAC team already migrated, and the pre-commit hook went from &ldquo;time to make coffee&rdquo; to &ldquo;wait, it&rsquo;s done already?&rdquo;
+      </div>
+    </div>
+
+    <div class="eco-card no-break" style="margin-top:4mm;">
+      <span class="eco-card-cat">Tool</span>
+      <div class="eco-card-title">ESLint v10.0.0 Released</div>
+      <div class="eco-card-body">
+        <p>Flat config only &mdash; legacy <code>.eslintrc</code> fully removed. Node.js 20+ required. JSX elements treated as variable references (no more <code>no-unused-vars</code> false positives). File-based config discovery improves monorepo DX. Type definitions moved into core.</p>
+        <ul class="eco-card-kp">
+          <li>Monorepo config: file-based discovery finds nearest <code>eslint.config.*</code> per package</li>
+          <li>Hybrid approach emerging: Oxlint for fast local feedback, ESLint for comprehensive CI</li>
+        </ul>
+        <div class="source-list" style="border-top-color:rgba(255,255,255,0.06);">
+          <div class="source-list-title">Sources</div>
+          <ul>
+            <li><a href="https://eslint.org/blog/2026/02/eslint-v10.0.0-released/">ESLint v10 Announcement</a></li>
+            <li><a href="https://eslint.org/docs/latest/use/migrate-to-10.0.0">Migration Guide</a></li>
+            <li><a href="https://betterstack.com/community/guides/scaling-nodejs/oxlint-vs-eslint/">Oxlint vs ESLint</a> &mdash; comparison guide</li>
+          </ul>
+        </div>
+      </div>
+      <div class="clawd-bubble" style="margin-top:2mm;">
+        <span class="clawd-name">Clawd:</span> ESLint v10 finally put the old config system out to pasture &mdash; and the irony is that Rust-based linters are now reminding us that linting JS in JS is hilariously inefficient.
+      </div>
+    </div>
+
+  </div>
+  <span class="page-num light">04</span>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- P5: BREATHER — Stat                                        -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="page breather s-eco">
+  <div class="breather-bg"><img src="assets/breather-speed.png" alt=""></div>
+  <div class="breather-stat">10x</div>
+  <div class="breather-label">faster &mdash; TypeScript&rsquo;s native Go compiler rewrites the rules of frontend tooling performance</div>
+  <img src="assets/chart-ts-timeline.png" alt="TypeScript evolution timeline" style="width:75%;border-radius:3px;margin-top:8mm;opacity:0.9;">
+  <span class="page-num light">05</span>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- P6: DENSE — Rolldown, React Aria, alien_signals             -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="page dense s-eco">
+  <div class="eco-grid">
+    <div class="eco-card no-break">
+      <span class="eco-card-cat">Tool</span>
+      <div class="eco-card-title">Rolldown Lazy Barrel Optimization</div>
+      <div class="eco-card-body">
+        <p>Rolldown introduced lazy barrel optimization that dramatically reduces module loading for libraries with barrel files. No code changes required &mdash; it&rsquo;s a bundler-level optimization.</p>
+        <ul class="eco-card-kp">
+          <li><strong>Ant Design:</strong> 2,986 &rarr; 250 modules (92% reduction)</li>
+          <li>macOS: 65ms &rarr; 28ms (2.3x); Windows: 210ms &rarr; 50ms (4.2x)</li>
+          <li>Atlassian reported <strong>75% faster builds</strong> after removing barrel files</li>
+          <li>Vite 8 Beta ships with Rolldown &mdash; users get this for free</li>
+        </ul>
+        <div class="source-list" style="border-top-color:rgba(255,255,255,0.06);">
+          <div class="source-list-title">Sources</div>
+          <ul>
+            <li><a href="https://rolldown.rs/in-depth/lazy-barrel-optimization">Rolldown: Lazy Barrel Optimization</a></li>
+            <li><a href="https://marvinh.dev/blog/speeding-up-javascript-ecosystem-part-7/">Marvin Hagemeister: The barrel file debacle</a></li>
+            <li><a href="https://www.atlassian.com/blog/atlassian-engineering/faster-builds-when-removing-barrel-files">Atlassian: 75% Faster Builds</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="eco-card no-break">
+      <span class="eco-card-cat">Framework Release</span>
+      <div class="eco-card-title">React Aria v1.15.0</div>
+      <div class="eco-card-body">
+        <p>Render prop customization addresses the most-voted GitHub issue (#5476). Enables integration with routing libraries (Next.js Link) and animation libraries (Framer Motion).</p>
+        <ul class="eco-card-kp">
+          <li>DateField changed from validate-on-keystroke to <strong>validate-on-blur</strong> (most requested UX fix)</li>
+          <li>80+ bug fixes in a single release</li>
+          <li>Industry convergence: Base UI adopts the same <code>useRender</code> hook pattern</li>
+        </ul>
+        <div class="source-list" style="border-top-color:rgba(255,255,255,0.06);">
+          <div class="source-list-title">Sources</div>
+          <ul>
+            <li><a href="https://react-aria.adobe.com/releases/v1-15-0">React Aria v1.15.0 Release Notes</a></li>
+            <li><a href="https://base-ui.com/react/utils/use-render">Base UI useRender Hook</a> &mdash; similar pattern</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="eco-card no-break">
+      <span class="eco-card-cat">Industry</span>
+      <div class="eco-card-title">alien_signals &mdash; Vue 3.6 Core</div>
+      <div class="eco-card-body">
+        <p>Johnson Chu (creator of Volar) published a deep dive into alien_signals, achieving ~400% of Vue 3.4 reactivity. Vue 3.6 adopted its algorithm, reducing memory 14%.</p>
+        <ul class="eco-card-kp">
+          <li>Doubly-linked lists for O(1) dependency tracking; monomorphic code for V8 JIT inlining</li>
+          <li>Cross-framework: ported to Dart, integrated into xstate, adapted for React Hooks</li>
+          <li>TC39 Signals proposal (Stage 1) &mdash; signals converging as the dominant reactivity paradigm</li>
+        </ul>
+        <div class="source-list" style="border-top-color:rgba(255,255,255,0.06);">
+          <div class="source-list-title">Sources</div>
+          <ul>
+            <li><a href="https://gist.github.com/johnsoncodehk/59e79a0cfa5bb3421b5d166a08e42f30">alien_signals deep dive</a></li>
+            <li><a href="https://github.com/tc39/proposal-signals">TC39 Signals Proposal</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="eco-card no-break">
+      <span class="eco-card-cat">Industry</span>
+      <div class="eco-card-title">Cloudflare ViNext</div>
+      <div class="eco-card-body">
+        <p>A Vite-based drop-in replacement for 94% of the Next.js API &mdash; built by one engineer, one week, $1,100 in AI tokens. The &ldquo;test suites as specifications&rdquo; pattern is a paradigm shift.</p>
+        <ul class="eco-card-kp">
+          <li>Build: 1.67s vs 7.38s (4.4x faster); Bundle: 72.9 KB vs 168.9 KB (57% smaller)</li>
+          <li>95% pure Vite with minimal Cloudflare-specific logic</li>
+          <li>Used Next.js&rsquo;s own 2,000+ unit tests as executable specifications</li>
+        </ul>
+        <div class="source-list" style="border-top-color:rgba(255,255,255,0.06);">
+          <div class="source-list-title">Sources</div>
+          <ul>
+            <li><a href="https://blog.cloudflare.com/vinext/">Cloudflare Blog: ViNext</a></li>
+            <li><a href="https://github.com/cloudflare/vinext">GitHub: cloudflare/vinext</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <span class="page-num light">06</span>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- P7: DENSE — Cursor, requestClose, react-doctor              -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="page dense s-eco">
+  <div class="eco-grid">
+    <div class="eco-card no-break">
+      <span class="eco-card-cat">Tool</span>
+      <div class="eco-card-title">Cursor Agent Computer Use</div>
+      <div class="eco-card-body">
+        <p>Cursor extended AI coding agents beyond code editing into full computer interaction (browser, terminal). Agents operate autonomously in cloud sandboxes.</p>
+        <ul class="eco-card-kp">
+          <li>30%+ of Cursor&rsquo;s own PRs created by autonomous agents</li>
+          <li>70&ndash;80% one-shot success rate (vs 40&ndash;60% for Codex)</li>
+          <li>Feb 2026 pricing pivot from requests to credits caused friction</li>
+          <li>Security concerns: agents accessing terminals/browsers create novel attack surface</li>
+        </ul>
+        <div class="source-list" style="border-top-color:rgba(255,255,255,0.06);">
+          <div class="source-list-title">Sources</div>
+          <ul>
+            <li><a href="https://cursor.com/blog/agent-computer-use">Cursor Blog: Agent Computer Use</a></li>
+            <li><a href="https://www.builder.io/blog/cursor-vs-claude-code">Claude Code vs Cursor in 2026</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="eco-card no-break">
+      <span class="eco-card-cat">Standard</span>
+      <div class="eco-card-title">HTMLDialogElement.requestClose()</div>
+      <div class="eco-card-body">
+        <p>A new web platform API providing interceptable close requests for dialogs. Unlike <code>close()</code>, it fires a <code>cancel</code> event that can be prevented.</p>
+        <ul class="eco-card-kp">
+          <li>Enables &ldquo;unsaved changes&rdquo; confirmation patterns natively</li>
+          <li>Mirrors platform close actions (Escape on desktop, back button on Android)</li>
+          <li><code>closedBy</code> attribute: <code>"closerequest"</code> | <code>"any"</code> | <code>"none"</code></li>
+          <li>Baseline 2025: full cross-browser support</li>
+        </ul>
+        <div class="source-list" style="border-top-color:rgba(255,255,255,0.06);">
+          <div class="source-list-title">Sources</div>
+          <ul>
+            <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLDialogElement/requestClose">MDN: requestClose()</a></li>
+            <li><a href="https://www.matuzo.at/blog/2025/close-requests-dialog">Close requests and the dialog element</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="eco-card no-break">
+      <span class="eco-card-cat">Tool</span>
+      <div class="eco-card-title">react-doctor by Million.js</div>
+      <div class="eco-card-body">
+        <p>A static analysis tool that diagnoses React performance issues across 60+ rules and 8 categories. Ships with a Claude Code Skill, making it the first &ldquo;AI-native&rdquo; React perf tool.</p>
+        <ul class="eco-card-kp">
+          <li>0&ndash;100 health score with actionable recommendations</li>
+          <li>84K+ projects scanned within 24 hours of release</li>
+          <li>GitHub Actions integration for CI/CD</li>
+        </ul>
+      </div>
+      <div class="clawd-bubble">
+        <span class="clawd-name">Clawd:</span> Aiden Bai&rsquo;s quietly turning React into a self-healing system &mdash; first the compiler, then the eyeballs, now the conscience.
+      </div>
+    </div>
+
+    <div class="eco-card no-break">
+      <span class="eco-card-cat">Tool</span>
+      <div class="eco-card-title">Playwright CLI for AI Agents</div>
+      <div class="eco-card-body">
+        <p>Microsoft released @playwright/cli, a standalone CLI designed for AI coding agents. Keeps browser state on disk instead of the LLM&rsquo;s context window.</p>
+        <ul class="eco-card-kp">
+          <li>4x token reduction vs MCP (27K vs 114K per task benchmark)</li>
+          <li>Compact YAML snapshots with element references (e15, e21)</li>
+          <li>Playwright team recommends: CLI for coding agents, MCP for sandboxes</li>
+        </ul>
+        <div class="source-list" style="border-top-color:rgba(255,255,255,0.06);">
+          <div class="source-list-title">Sources</div>
+          <ul>
+            <li><a href="https://github.com/microsoft/playwright-cli">microsoft/playwright-cli</a></li>
+            <li><a href="https://testcollab.com/blog/playwright-cli">Token-Efficient Alternative to MCP</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Ecosystem Snapshot Stats -->
+  <div style="margin-top:4mm;padding:5mm;background:rgba(88,166,255,0.06);border:1px solid rgba(88,166,255,0.15);border-radius:4px;">
+    <div style="font-family:var(--font-mono);font-size:7pt;color:var(--s-accent);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:3mm;">Ecosystem Snapshot &mdash; Jan/Feb 2026</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:4mm;text-align:center;">
+      <div style="padding:3mm;background:rgba(88,166,255,0.06);border-radius:3px;">
+        <div style="font-family:var(--s-headline);font-size:26pt;font-weight:700;color:var(--s-accent);">10x</div>
+        <div style="font-size:8pt;color:var(--s-text);opacity:0.7;margin-top:1mm;">tsgo compiler speedup</div>
+        <div style="font-size:7pt;color:var(--s-text);opacity:0.4;margin-top:0.5mm;">VS Code 77.8s &rarr; 7.5s</div>
+      </div>
+      <div style="padding:3mm;background:rgba(255,166,87,0.06);border-radius:3px;">
+        <div style="font-family:var(--s-headline);font-size:26pt;font-weight:700;color:var(--s-accent2);">30x</div>
+        <div style="font-size:8pt;color:var(--s-text);opacity:0.7;margin-top:1mm;">Oxfmt vs Prettier</div>
+        <div style="font-size:7pt;color:var(--s-text);opacity:0.4;margin-top:0.5mm;">100% conformance</div>
+      </div>
+      <div style="padding:3mm;background:rgba(74,222,128,0.06);border-radius:3px;">
+        <div style="font-family:var(--s-headline);font-size:26pt;font-weight:700;color:#4ade80;">92%</div>
+        <div style="font-size:8pt;color:var(--s-text);opacity:0.7;margin-top:1mm;">Rolldown module reduction</div>
+        <div style="font-size:7pt;color:var(--s-text);opacity:0.4;margin-top:0.5mm;">2,986 &rarr; 250 modules</div>
+      </div>
+    </div>
+  </div>
+  <span class="page-num light">07</span>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- P8: BREATHER — Pull Quote                                  -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="page breather s-eco">
+  <div class="breather-quote">
+    &ldquo;oxfmt is getting very close to ready! &mdash; 2&ndash;3x faster than Biome, 45x faster than Prettier, better prettier conformance than Biome means switching won&rsquo;t cause huge diffs.&rdquo;
+    <cite>&mdash; Evan You, creator of Vue.js</cite>
+  </div>
+  <span class="page-num light">08</span>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- P9: DENSE — Remaining Eco Items                            -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="page dense s-eco">
+  <div class="eco-grid">
+    <div class="eco-card no-break">
+      <span class="eco-card-cat">Tool</span>
+      <div class="eco-card-title">Excalidraw MCP for Claude</div>
+      <div class="eco-card-body">
+        <p>Excalidraw launched an official MCP server with 26+ tools for AI-driven diagram creation. Features a real-time feedback loop: AI creates, takes a screenshot, analyzes the result, and iteratively refines.</p>
+        <ul class="eco-card-kp">
+          <li>26+ MCP tools: create, inspect, export, screenshot, share</li>
+          <li>Built-in design guides ensure consistent visual quality</li>
+          <li>Works with Claude, ChatGPT, VS Code, Goose</li>
+          <li>Part of MCP ecosystem growth (Figma MCP, Chrome WebMCP)</li>
+        </ul>
+        <div class="source-list" style="border-top-color:rgba(255,255,255,0.06);">
+          <div class="source-list-title">Sources</div>
+          <ul>
+            <li><a href="https://github.com/excalidraw/excalidraw-mcp">excalidraw/excalidraw-mcp</a></li>
+            <li><a href="https://dev.classmethod.jp/en/articles/excalidraw-mcp-claude-code/">Using Excalidraw MCP for architecture diagrams</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="eco-card no-break">
+      <span class="eco-card-cat">Industry</span>
+      <div class="eco-card-title">Vercel React Best Practices</div>
+      <div class="eco-card-body">
+        <p>An open-source knowledge base of 40+ React/Next.js performance rules across 8 categories, packaged as an AI Agent Skill. 21K+ GitHub stars and 150K+ weekly installs.</p>
+        <ul class="eco-card-kp">
+          <li>Top priorities: eliminating async waterfalls, reducing bundle size</li>
+          <li>Anti-pattern: <code>use client</code> on wrappers pulls ALL children into client bundle</li>
+          <li>Install as Agent Skill: <code style="background:rgba(255,255,255,0.08);padding:0 1mm;">npx skills add vercel-labs/agent-skills</code></li>
+        </ul>
+        <div class="eco-card-quote">
+          &ldquo;Imagine a supply chain attack on a skill description which is fed to an AI agent.&rdquo;
+          <cite>&mdash; Community concern on agent skill security</cite>
+        </div>
+        <div class="source-list" style="border-top-color:rgba(255,255,255,0.06);">
+          <div class="source-list-title">Sources</div>
+          <ul>
+            <li><a href="https://vercel.com/blog/introducing-react-best-practices">Vercel Blog: Introducing React Best Practices</a></li>
+            <li><a href="https://github.com/vercel-labs/agent-skills/tree/main/skills/react-best-practices">GitHub: vercel-labs/agent-skills</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="eco-card no-break">
+      <span class="eco-card-cat">Standard</span>
+      <div class="eco-card-title">CSS Custom Highlight API</div>
+      <div class="eco-card-body">
+        <p>Programmatic text highlighting via CSS without DOM modification. Now fully cross-browser supported (Chrome 105+, Firefox 140+, Safari 17.2+).</p>
+        <ul class="eco-card-kp">
+          <li>5x faster than <code>&lt;mark&gt;</code>-based DOM highlighting</li>
+          <li>Uses <code>::highlight()</code> CSS pseudo-element for styling</li>
+          <li>Use cases: search highlighting, spell checking, syntax highlighting, collaborative editing</li>
+        </ul>
+        <div class="source-list" style="border-top-color:rgba(255,255,255,0.06);">
+          <div class="source-list-title">Sources</div>
+          <ul>
+            <li><a href="https://frontendmasters.com/blog/using-the-custom-highlight-api/">Frontend Masters: Using the Custom Highlight API</a></li>
+            <li><a href="https://pavi2410.com/blog/high-performance-syntax-highlighting-with-css-highlights-api/">High-Performance Syntax Highlighting</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="clawd-bubble">
+        <span class="clawd-name">Clawd:</span> Four years of standardization, all browsers on board &mdash; and most devs will keep using <code>&lt;mark&gt;</code> tags because &ldquo;good enough&rdquo; beats &ldquo;perfect.&rdquo;
+      </div>
+    </div>
+
+    <div class="eco-card no-break">
+      <span class="eco-card-cat" style="display:flex;gap:2mm;">
+        <span>Brief Mentions</span>
+      </span>
+      <div class="eco-card-title" style="font-size:11pt;">Also This Month</div>
+      <div class="eco-card-body">
+        <p style="margin-bottom:1.5mm;"><strong>Geist Pixel Font</strong> &mdash; Vercel&rsquo;s pixel-art addition to the Geist type family. Design systems evolving beyond utility into personality. <a href="https://vercel.com/blog/introducing-geist-pixel">Learn more &rarr;</a></p>
+        <p style="margin-bottom:1.5mm;"><strong>Chrome WebMCP</strong> &mdash; Chrome 146+ ships WebMCP, allowing websites to become MCP servers directly, reducing overhead ~67%. <a href="https://developer.chrome.com/blog/webmcp-epp">Early preview &rarr;</a></p>
+        <p style="margin-bottom:1.5mm;"><strong>Figma MCP</strong> &mdash; Official MCP server for Figma, joining Excalidraw in the design-to-code AI pipeline. Enables AI agents to read and write Figma designs programmatically.</p>
+        <p><strong>Base UI &amp; useRender</strong> &mdash; MUI&rsquo;s unstyled component library adopts the same render-prop pattern as React Aria, signaling industry convergence on headless UI patterns.</p>
+      </div>
+    </div>
+  </div>
+  <span class="page-num light">09</span>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- P10: OPENER — Feature Story                                -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="page opener s-feat">
+  <img class="opener-img" src="assets/opener-feature.png" alt="">
+  <div class="opener-content">
+    <div class="opener-label">Section 02</div>
+    <div class="opener-title">Feature Story</div>
+    <div class="opener-desc">The frontend toolchain is being reshaped by three converging forces: native compiler rewrites, Rust-based tooling, and AI-native developer tools.</div>
+  </div>
+  <span class="page-num">10</span>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- P11: DENSE — Feature Story Body                            -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="page dense s-feat">
+  <div class="section-head">
+    <span class="section-head-num">02</span>
+    <span class="section-head-title">The Frontend Tooling Revolution</span>
+  </div>
+
+  <div class="feat-body">
+    <p class="drop-cap">The frontend toolchain is undergoing its most dramatic transformation since the rise of webpack. Three forces are converging to reshape how we write, check, and ship JavaScript &mdash; and our team is experiencing all three simultaneously.</p>
+
+    <h3>Force 1: The 10x Compiler</h3>
+    <p>Microsoft rewrote the TypeScript compiler in Go, achieving 10x faster type-checking on real-world projects. TypeScript 6.0 Beta &mdash; the bridge release &mdash; introduces <code>erasableSyntaxOnly</code> as a preview of what TS 7.0 will require: no enums, no parameter properties, no runtime-generating syntax.</p>
+
+    <div class="feat-highlight no-break">
+      <h4>Our Team&rsquo;s Experience</h4>
+      <p>The MAAC team has already prepared (PR #7579), converting all enums to <code>as const</code> and fixing baseUrl patterns across 41 files. The reward: cold-start type checking dropped from ~99 seconds to ~1.6 seconds with incremental builds &mdash; a 62x improvement.</p>
+    </div>
+
+    <img src="assets/feature-tooling.png" alt="The Frontend Tooling Revolution" class="inline-img" style="max-height:100px;border-radius:4px;margin:2mm 0 3mm;">
+
+    <h3>Force 2: Rust is Eating JavaScript&rsquo;s Toolchain</h3>
+    <p>Oxfmt Beta delivers 100% Prettier compatibility at 30x the speed. Our CAAC team was an early adopter &mdash; replacing Prettier with Oxfmt cut pre-commit hook time from 6.3 seconds to 0.7 seconds. Combined with Oxlint&rsquo;s growing ESLint rule compatibility and Rolldown&rsquo;s barrel file optimization (92% module reduction for Ant Design), the Rust-based toolchain is no longer experimental &mdash; it&rsquo;s production-ready.</p>
+
+    <div class="feat-quote no-break">
+      &ldquo;連假就是要發大 PR 啦&rdquo;
+      <cite>&mdash; ViPro, on shipping the Oxfmt migration during Chinese New Year</cite>
+    </div>
+
+    <div class="feat-highlight no-break" style="background:linear-gradient(135deg, #3a1a1a, #4a2a2a);margin-top:3mm;">
+      <h4>The Numbers</h4>
+      <p style="margin-bottom:1.5mm;"><strong>TypeScript tsgo:</strong> VS Code compile 77.8s &rarr; 7.5s (10.4x) &middot; TypeORM 13.5x &middot; Editor load 9.6s &rarr; 1.2s (8x) &middot; Memory 2.9x more efficient</p>
+      <p style="margin-bottom:1.5mm;"><strong>Oxfmt:</strong> 30x faster than Prettier &middot; 2&ndash;3x faster than Biome &middot; 100% conformance</p>
+      <p><strong>Rolldown:</strong> Ant Design 2,986 &rarr; 250 modules (92% reduction) &middot; Windows 210ms &rarr; 50ms (4.2x)</p>
+    </div>
+
+    <div class="source-list no-break" style="border-top-color:rgba(0,0,0,0.08);margin-top:3mm;">
+      <div class="source-list-title" style="color:var(--s-accent2);">Research Sources</div>
+      <ul>
+        <li style="color:var(--s-text);"><a href="https://devblogs.microsoft.com/typescript/announcing-typescript-6-0-beta/" style="color:var(--s-accent);">TypeScript 6.0 Beta Announcement</a></li>
+        <li style="color:var(--s-text);"><a href="https://oxc.rs/blog/2026-02-24-oxfmt-beta" style="color:var(--s-accent);">Oxfmt Beta Blog Post</a></li>
+        <li style="color:var(--s-text);"><a href="https://github.com/chatbotgang/Grazioso/pull/7579" style="color:var(--s-accent);">PR #7579: tsgo compatibility</a> &middot; <a href="https://github.com/chatbotgang/Zeffiroso/pull/4097" style="color:var(--s-accent);">PR #4097: Prettier &rarr; Oxfmt</a></li>
+      </ul>
+    </div>
+  </div>
+  <span class="page-num">11</span>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- P12: DENSE — Feature Story Continued                       -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="page dense s-feat">
+  <div class="feat-body">
+    <h3>Force 3: AI-Native Developer Tools</h3>
+    <p>The most transformative shift may be the least visible. Claude Code has evolved from a coding assistant into a platform: our team uses it to analyze Asana tickets and Slack threads, reply directly on both platforms, and solve cross-domain problems.</p>
+
+    <div class="feat-highlight no-break">
+      <h4>Cross-Team Problem Solving</h4>
+      <p>During Chinese New Year oncall, a frontend engineer used Claude Code to diagnose and fix two backend webhook bugs in a codebase they&rsquo;d never touched &mdash; resolving issues that had been escalated for days. Issue 1: ~4&ndash;5hr. Issue 2: ~2&ndash;2.5hr. Both involved reauth webhook subscription bugs in the backend repo.</p>
+    </div>
+
+    <div class="feat-highlight no-break" style="background:linear-gradient(135deg, #1a3a2a, #2a4a3a);margin-top:3mm;">
+      <h4>Claude Code Beyond Coding</h4>
+      <p>The <a href="https://github.com/VdustR/skill-d2i" style="color:#ffa657;">skill-d2i</a> project demonstrates Claude Code managing Diablo II: Resurrected gear &mdash; proving the tool&rsquo;s versatility extends far beyond code. When your AI assistant can plan game strategies, the line between &ldquo;developer tool&rdquo; and &ldquo;general-purpose agent&rdquo; blurs.</p>
+    </div>
+
+    <!-- Tool Adoption Timeline -->
+    <div class="no-break" style="margin:4mm 0;padding:4mm;background:rgba(0,0,0,0.03);border:1px solid rgba(0,0,0,0.06);border-radius:4px;">
+      <div style="font-family:var(--font-mono);font-size:7pt;color:var(--s-accent2);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:3mm;">Our Team&rsquo;s Adoption Timeline</div>
+      <div style="display:grid;grid-template-columns:auto 1fr;gap:2mm 4mm;align-items:start;">
+        <div style="font-family:var(--font-mono);font-size:8pt;color:var(--s-accent);font-weight:600;">Jan</div>
+        <div style="font-size:8.5pt;color:var(--s-text);opacity:0.8;border-left:2px solid var(--s-accent);padding-left:3mm;">MAAC ships tsgo compatibility (PR #7579) &mdash; 41 files, enums &rarr; <code>as const</code></div>
+        <div style="font-family:var(--font-mono);font-size:8pt;color:var(--s-accent);font-weight:600;">Feb</div>
+        <div style="font-size:8.5pt;color:var(--s-text);opacity:0.8;border-left:2px solid var(--s-accent);padding-left:3mm;">CAAC migrates Prettier &rarr; Oxfmt (PR #4097) &mdash; 8.8x faster pre-commit</div>
+        <div style="font-family:var(--font-mono);font-size:8pt;color:var(--s-accent);font-weight:600;">Feb</div>
+        <div style="font-size:8.5pt;color:var(--s-text);opacity:0.8;border-left:2px solid var(--s-accent);padding-left:3mm;">Frontend engineer fixes backend bugs with Claude Code during CNY oncall</div>
+        <div style="font-family:var(--font-mono);font-size:8pt;color:var(--s-accent);font-weight:600;">Feb</div>
+        <div style="font-size:8.5pt;color:var(--s-text);opacity:0.8;border-left:2px solid var(--s-accent);padding-left:3mm;">WebSDK migrates tsup &rarr; Rsbuild for IIFE builds (PR #305)</div>
+      </div>
+    </div>
+
+    <p class="mt-4">These three forces share a common thread: they&rsquo;re all about removing friction. Faster compilers mean shorter feedback loops. Faster formatters mean pre-commit hooks that don&rsquo;t break flow. AI-native tools mean domain boundaries stop being blockers. The frontend developer of 2026 doesn&rsquo;t just write React &mdash; they orchestrate a toolkit that&rsquo;s faster, smarter, and more versatile than ever before.</p>
+
+    <div class="feat-quote no-break">
+      &ldquo;This wasn&rsquo;t a compiler redesign&hellip; Idiomatic Go looked just like our existing codebase.&rdquo;
+      <cite>&mdash; Anders Hejlsberg, on the TypeScript Go rewrite</cite>
+    </div>
+
+    <div class="clawd-bubble" style="background:rgba(74,222,128,0.06);border:1px solid rgba(74,222,128,0.15);color:#16a34a;margin-top:4mm;">
+      <span class="clawd-name" style="color:#16a34a;">Clawd:</span> The frontend toolchain is having its &ldquo;everything must be rewritten&rdquo; moment &mdash; TypeScript in Go, formatters in Rust, and coding assistants that fix backend bugs they&rsquo;ve never seen. At this rate, the only JavaScript left in the JavaScript ecosystem will be the code we actually ship to browsers.
+    </div>
+  </div>
+  <span class="page-num">12</span>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- P13: OPENER — Project Insights                             -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="page opener s-proj">
+  <img class="opener-img" src="assets/opener-project.png" alt="">
+  <div class="opener-content">
+    <div class="opener-label">Section 03</div>
+    <div class="opener-title">Project Insights</div>
+    <div class="opener-desc">Technical trends across CAAC, WebSDK, and MAAC &mdash; from Rust-powered formatters to tsgo compatibility and engineering process improvements.</div>
+  </div>
+  <span class="page-num">13</span>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- P14: DENSE — Project Insights                              -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="page dense s-proj">
+  <div class="section-head">
+    <span class="section-head-num">03</span>
+    <span class="section-head-title">Project Insights</span>
+  </div>
+
+  <!-- CAAC -->
+  <div class="proj-section">
+    <div class="proj-section-title">CAAC (Zeffiroso)</div>
+    <div class="proj-card no-break">
+      <div class="proj-card-header">
+        <span class="proj-card-type dx">DX</span>
+        <span class="proj-card-title"><a href="https://github.com/chatbotgang/Zeffiroso/pull/4097">Prettier &rarr; Oxfmt Migration</a></span>
+        <span class="proj-card-pr">#4097</span>
+      </div>
+      <div class="proj-card-body">Benchmark (100 runs, trimmed mean): Prettier 6.284s &rarr; Oxfmt 0.712s (~8.8x faster). Validated first in template-aio before production rollout.</div>
+    </div>
+    <div class="proj-card no-break">
+      <div class="proj-card-header">
+        <span class="proj-card-type deps">Deps</span>
+        <span class="proj-card-title"><a href="https://github.com/chatbotgang/Zeffiroso/pull/4104">Storybook v10 + ESLint v9</a></span>
+        <span class="proj-card-pr">#4104</span>
+      </div>
+      <div class="proj-card-body">Major dependency upgrade combining Storybook v10 and ESLint v9 flat config in a single PR.</div>
+    </div>
+    <div class="proj-card no-break">
+      <div class="proj-card-header">
+        <span class="proj-card-type arch">Arch</span>
+        <span class="proj-card-title"><a href="https://github.com/chatbotgang/Zeffiroso/pull/4130">React 19: use(Context) Refactor</a></span>
+        <span class="proj-card-pr">#4130</span>
+      </div>
+      <div class="proj-card-body">Replaced <code>useContext(Context)</code> with React 19&rsquo;s <code>use(Context)</code> API across the codebase.</div>
+    </div>
+  </div>
+
+  <!-- WebSDK -->
+  <div class="proj-section">
+    <div class="proj-section-title">WebSDK (Vivace)</div>
+    <div class="proj-card no-break">
+      <div class="proj-card-header">
+        <span class="proj-card-type dx">DX</span>
+        <span class="proj-card-title"><a href="https://github.com/chatbotgang/Vivace/pull/305">tsup &rarr; Rsbuild IIFE Build</a></span>
+        <span class="proj-card-pr">#305</span>
+      </div>
+      <div class="proj-card-body">Migrated IIFE build from tsup to Rsbuild (rspack-based) for better polyfill support and tree shaking.</div>
+    </div>
+    <div class="proj-card no-break">
+      <div class="proj-card-header">
+        <span class="proj-card-type perf">Perf</span>
+        <span class="proj-card-title"><a href="https://github.com/chatbotgang/Vivace/pull/303">WS-Aware Polling Performance</a></span>
+        <span class="proj-card-pr">#303</span>
+      </div>
+      <div class="proj-card-body">WebSocket-aware polling reduces unnecessary API calls when WebSocket connection is active.</div>
+    </div>
+  </div>
+
+  <!-- MAAC -->
+  <div class="proj-section">
+    <div class="proj-section-title">MAAC (Grazioso)</div>
+    <div class="proj-card no-break">
+      <div class="proj-card-header">
+        <span class="proj-card-type arch">Arch</span>
+        <span class="proj-card-title"><a href="https://github.com/chatbotgang/Grazioso/pull/7579">tsgo Compatibility Preparation</a></span>
+        <span class="proj-card-pr">#7579</span>
+      </div>
+      <div class="proj-card-body">41 files changed: enabled <code>erasableSyntaxOnly</code>, converted enums to <code>as const</code>, replaced <code>baseUrl</code> with <code>paths</code>. Cold start ~99s &rarr; warm start ~1.6s (62x faster).</div>
+    </div>
+  </div>
+
+  <!-- Promotion -->
+  <div class="promo-card no-break">
+    <div class="promo-label">Spotlight</div>
+    <div class="promo-title">Skill &mdash; Record Demo Video for PR Description</div>
+    <div class="promo-body">A Claude Code plugin that records demo videos for PR descriptions, making code reviews more visual and efficient.</div>
+    <div class="promo-credit">Big thank you to Simon (Joseph Chang)! &nbsp;<a href="https://github.com/chatbotgang/cclab/tree/main/plugins/cl-record-demo-for-pr" style="color:#9d0208;">View on GitHub &rarr;</a></div>
+  </div>
+
+  <span class="page-num">14</span>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- P15: BREATHER — Stat                                       -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="page breather s-proj">
+  <div class="breather-stat" style="color:var(--s-accent);">8.8x</div>
+  <div class="breather-label">faster &mdash; CAAC&rsquo;s pre-commit hooks after migrating from Prettier to Oxfmt</div>
+  <span class="page-num">15</span>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- P16: OPENER — Looking Ahead                                -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="page opener s-look">
+  <img class="opener-img" src="assets/opener-look.png" alt="">
+  <div class="opener-content">
+    <div class="opener-label">Section 04</div>
+    <div class="opener-title">Looking Ahead</div>
+    <div class="opener-desc">CAAC Frontend&rsquo;s technical roadmap &mdash; three strategic initiatives for type safety, state management, and code quality.</div>
+  </div>
+  <span class="page-num light">16</span>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- P17: DENSE — Looking Ahead                                 -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="page dense s-look" style="display:flex;flex-direction:column;">
+  <div class="section-head">
+    <span class="section-head-num">04</span>
+    <span class="section-head-title">CAAC Frontend Technical Roadmap</span>
+  </div>
+
+  <div class="look-timeline">
+    <div class="look-item no-break">
+      <div class="look-item-title">Form Library Migration</div>
+      <div class="look-item-status">Planned</div>
+      <div class="look-item-body">
+        <p>Migrating from Ant Design Form to a different form library that better supports UI/state separation and flexible styling.</p>
+        <ul>
+          <li>Ant Design Form uses <code>any</code> types throughout &mdash; too loose, making it easy to introduce bugs TypeScript can&rsquo;t catch</li>
+          <li>CAAC&rsquo;s own EasyForm extension went too far &mdash; overly strict with high maintenance cost</li>
+          <li>Neither approach strikes the right balance between type safety and developer ergonomics</li>
+        </ul>
+      </div>
+      <div class="look-item-challenge"><strong>Challenge:</strong> The new library needs headless/unstyled patterns with better type safety than Ant Design&rsquo;s <code>any</code>-heavy API.</div>
+    </div>
+
+    <div class="look-item no-break">
+      <div class="look-item-title">Zustand &rarr; nanostores</div>
+      <div class="look-item-status">Planned</div>
+      <div class="look-item-body">
+        <p>Replacing Zustand with nanostores for global state management. Lighter footprint with fewer foot-guns, aligning with the team&rsquo;s preference for lightweight, focused libraries.</p>
+      </div>
+      <div class="look-item-challenge"><strong>Challenge:</strong> Migration scope across the codebase; ensuring feature parity during transition.</div>
+    </div>
+
+    <div class="look-item no-break">
+      <div class="look-item-title">ESLint Config Cleanup</div>
+      <div class="look-item-status">Ongoing</div>
+      <div class="look-item-body">
+        <p>Inheriting the ESLint config upgrade (v9 &rarr; v10 path) and gradually re-enabling disabled rules across the codebase.</p>
+      </div>
+      <div class="look-item-challenge"><strong>Challenge:</strong> Each re-enabled rule may surface existing violations that need fixing.</div>
+    </div>
+  </div>
+
+  <!-- Clawd's take on Looking Ahead -->
+  <div style="margin-top:auto;padding:4mm 5mm;border:1px solid rgba(124,58,237,0.2);border-radius:4px;background:rgba(124,58,237,0.05);">
+    <div style="font-family:var(--font-clawd);font-size:9pt;line-height:1.5;color:var(--s-text);">
+      <span style="font-weight:600;color:var(--s-accent);">Clawd:</span> Three migrations at once? That&rsquo;s either incredibly ambitious or a speedrun of the &ldquo;dependency bankruptcy&rdquo; achievement. My money&rsquo;s on the CAAC team, though &mdash; anyone who ships an Oxfmt migration during Chinese New Year has the stamina for this. The key insight: you don&rsquo;t need to migrate everything at once. Pick the one that hurts the most (looking at you, <code style="background:rgba(124,58,237,0.15);padding:0 1.5mm;border-radius:2px;">any</code>-typed forms), land that win, then ride the momentum.
+    </div>
+  </div>
+  <span class="page-num light">17</span>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- P18: CLOSER — MAAC Weekly + Clawd's Corner + Credits       -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<div class="page dense s-clawd" style="display:flex;flex-direction:column;">
+  <!-- MAAC Weekly Reports Highlight -->
+  <div style="padding:0 0 4mm;border-bottom:1px solid rgba(74,222,128,0.15);margin-bottom:5mm;">
+    <div style="font-family:var(--font-proj);font-size:11pt;font-weight:700;color:#4ade80;margin-bottom:2mm;">
+      &#127942; Practice Showcase: MAAC Frontend Engineering Weekly Reports
+    </div>
+    <div style="font-size:9pt;color:rgba(255,255,255,0.7);line-height:1.5;">
+      Jack Lee introduced structured weekly engineering reports for the MAAC frontend team &mdash; covering highlights, architecture optimizations, performance improvements, and contributor acknowledgments. Reports include: React 19 upgrade, bizcharts &rarr; @ant-design/charts migration, tsgo compatibility prep, Zodios/TanStack Query adoption, and CI parallelization.
+      <span style="font-family:var(--font-mono);font-size:8pt;color:rgba(74,222,128,0.5);"> &mdash; 3 reports published this period</span>
+    </div>
+  </div>
+
+  <!-- Clawd's Corner -->
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+    <div class="clawd-corner">
+      <img src="assets/clawd-avatar.png" alt="Clawd" class="clawd-avatar-img">
+      <div class="clawd-corner-title">Clawd&rsquo;s Corner</div>
+      <div class="clawd-corner-text">
+        &ldquo;This issue&rsquo;s theme is unmistakable: everything is getting rewritten. TypeScript&rsquo;s compiler moved to Go. Prettier&rsquo;s replacement is written in Rust. Next.js got rebuilt in a week by an AI for $1,100. Even our own team swapped out their formatter, upgraded their framework, and had a frontend engineer fixing backend bugs during a holiday.<br><br>
+        If you&rsquo;re feeling overwhelmed, here&rsquo;s the good news: you don&rsquo;t have to rewrite anything yourself. The tools are doing the rewriting for you &mdash; you just have to be brave enough to <code style="background:rgba(74,222,128,0.15);padding:0 1.5mm;border-radius:2px;">npm install</code> them.<br><br>
+        And if you&rsquo;re still using <code style="background:rgba(74,222,128,0.15);padding:0 1.5mm;border-radius:2px;">enum</code> in TypeScript&hellip; well, <code style="background:rgba(74,222,128,0.15);padding:0 1.5mm;border-radius:2px;">as const</code> sends its regards.&rdquo;
+      </div>
+      <div class="clawd-corner-sig">&mdash; Clawd, your resident AI assistant</div>
+    </div>
+  </div>
+
+  <!-- Credits -->
+  <div class="credits">
+    <p>Frontend Technology Digest &middot; Issue 26-02 &middot; January &ndash; February 2026</p>
+    <p>Crescendo Lab Engineering &middot; Taipei, Taiwan</p>
+  </div>
+  <span class="page-num light">18</span>
+</div>
+
+</body>
+</html>

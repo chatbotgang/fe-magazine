@@ -8,10 +8,13 @@ A technical magazine for Crescendo Lab's frontend engineering team.
 fe-magazine/
 ├── .claude/
 │   └── commands/
-│       └── magazine.md   # Magazine editor command
+│       ├── magazine.md           # Full workflow (orchestrator)
+│       ├── magazine-collect.md   # Content collection (journalist)
+│       └── magazine-edit.md      # Editorial design (art director)
 ├── {YY-MM}/              # Issue folder
 │   ├── {YY-MM}.pdf       # PDF (primary output)
 │   ├── index.html        # HTML source
+│   ├── content.md        # Collected content (handoff between commands)
 │   └── assets/           # Issue-specific assets (images, etc.)
 ├── index.html            # GitHub Pages download page
 ├── issues.json           # Issue list for GitHub Pages (update this!)
@@ -27,11 +30,12 @@ fe-magazine/
 **ALWAYS update these files when publishing a new issue:**
 
 1. Create the issue folder: `{YY-MM}/`
-2. Add `index.html` for the magazine content
-3. Add `{YY-MM}.pdf` for the PDF export
-4. Add `assets/` folder for issue-specific images
-5. Update `README.md` — add new issue to the Issues table (newer issues first)
-6. Update `issues.json` — add new issue to the array (newer issues first)
+2. Verify `content.md` exists (created by `/magazine-collect`)
+3. Add `index.html` for the magazine content
+4. Add `{YY-MM}.pdf` for the PDF export
+5. Add `assets/` folder for issue-specific images
+6. Update `README.md` — add new issue to the Issues table (newer issues first)
+7. Update `issues.json` — add new issue to the array (newer issues first)
 
 ### Issue Naming Convention
 
@@ -39,16 +43,31 @@ fe-magazine/
 - The issue ID reflects the END month of the coverage period
 - Example: "Dec 2025 - Jan 2026" → `26-01/`
 
-### Magazine Command
+### Magazine Commands
 
-Use `/magazine` to create new issues interactively. The command will:
+The magazine workflow is split into two commands:
+
+| Command | Role | Output |
+|---------|------|--------|
+| `/magazine` | Full workflow (orchestrator) | Runs collect then edit |
+| `/magazine-collect` | Content collection (journalist) | `{YY-MM}/content.md` |
+| `/magazine-edit` | Editorial design (art director) | `{YY-MM}/index.html` + PDF |
+
+**`/magazine-collect`** handles:
 1. Collect ecosystem news from Slack and web sources
 2. Analyze project insights from GitHub (focus on technical changes, not product features)
-3. Conduct interviews for feature stories
-4. Generate cover images with `/nano-banana` (use Python SDK, not gemini CLI)
-5. Create production-grade HTML with `/frontend-design`
-6. Review quality with `/web-design-guidelines` and `/pr-review-toolkit`
-7. Verify layout with `/agent-browser` (check for blank pages!)
+3. Research topics in depth with parallel subagents
+4. Conduct interviews for feature stories
+5. Save structured content to `content.md`
+
+**`/magazine-edit`** handles:
+1. Explore design trends and assign per-section visual themes
+2. Create pacing plan (opener → dense → breather rhythm)
+3. Generate visual assets: AI images (`/cl-nanobanana`), screenshots, custom HTML visuals
+4. Produce HTML with `/frontend-design` (each section has distinct visual identity)
+5. Review quality with `/web-design-guidelines`, `/pr-review-toolkit`, and `/agent-browser`
+
+Use `/magazine` to run both in sequence within one session.
 
 ### Content Guidelines
 
