@@ -852,4 +852,4 @@ If `/pr-review-toolkit:review-pr` flags issues:
 ### Closing
 - Summarize what was created
 - Highlight key content and design choices
-- Remind user to distribute the PDF
+- **Always ask**: "Want to announce this issue to #team-eng? Run `/magazine-announce`"
