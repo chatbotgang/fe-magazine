@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Frontend Technology Digest | 26-03</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Space+Grotesk:wght@400;500;600;700&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&family=Outfit:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=Syne:wght@600;700;800&family=Libre+Franklin:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ══════════════════════════════════════════════════════
+       RESET & GLOBAL
+       ══════════════════════════════════════════════════════ */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --page-w: 210mm;
+      --page-h: 297mm;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    @page { size: A4; margin: 0; }
+
+    body {
+      font-family: 'DM Sans', 'Noto Sans TC', system-ui, sans-serif;
+      background: #d0d0d0;
+      color: #0a0a0a;
+      line-height: 1.55;
+      font-size: 10pt;
+    }
+
+    @media print {
+      body { background: white; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    }
+
+    /* ══════════════════════════════════════════════════════
+       PAGE BASE
+       ══════════════════════════════════════════════════════ */
+    .page {
+      width: var(--page-w);
+      height: var(--page-h);
+      margin: 0 auto 4mm;
+      position: relative;
+      overflow: hidden;
+      page-break-after: always;
+      break-after: always;
+    }
+    .page:last-child { page-break-after: auto; break-after: auto; margin-bottom: 0; }
+    @media print { .page { margin: 0; } }
+
+    /* ── Page type padding ── */
+    .page.dense { padding: 14mm 18mm; }
+    .page.opener { padding: 0; display: flex; flex-direction: column; }
+    .page.breather { padding: 14mm 18mm; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+
+    img { max-width: 100%; height: auto; display: block; }
+
+    a { color: inherit; }
+
+    /* ══════════════════════════════════════════════════════
+       PAGE 1: COVER
+       ══════════════════════════════════════════════════════ */
+    .cover {
+      background: #0a0a0f;
+      color: #f0f0f0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0;
+    }
+    .cover-bg {
+      position: absolute; inset: 0; z-index: 0;
+    }
+    .cover-bg img {
+      width: 100%; height: 100%; object-fit: cover;
+      opacity: 0.55;
+    }
+    .cover-content {
+      position: relative; z-index: 1;
+      padding: 15mm 18mm 20mm;
+      background: linear-gradient(to top, rgba(10,10,15,0.97) 0%, rgba(10,10,15,0.8) 50%, transparent 100%);
+    }
+    .cover-masthead {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 600;
+      font-size: 11pt;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #ffd60a;
+      margin-bottom: 6mm;
+    }
+    .cover-title {
+      font-family: 'Archivo Black', 'Noto Sans TC', sans-serif;
+      font-size: 38pt;
+      line-height: 1.05;
+      letter-spacing: -0.5px;
+      margin-bottom: 5mm;
+    }
+    .cover-subtitle {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13pt;
+      color: #aaa;
+      margin-bottom: 8mm;
+      max-width: 75%;
+    }
+    .cover-issue {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 14pt;
+      color: #ffd60a;
+      letter-spacing: 2px;
+    }
+    .cover-headlines {
+      position: absolute; top: 18mm; right: 18mm; z-index: 1;
+      text-align: right;
+      max-width: 60mm;
+    }
+    .cover-headlines .hl {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 8.5pt;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #ccc;
+      margin-bottom: 3mm;
+      line-height: 1.3;
+    }
+    .cover-headlines .hl strong {
+      color: #ffd60a;
+      display: block;
+      font-size: 9.5pt;
+    }
+
+    /* ══════════════════════════════════════════════════════
+       PAGE 2: TABLE OF CONTENTS
+       ══════════════════════════════════════════════════════ */
+    .toc-page {
+      background: #faf9f6;
+      padding: 18mm 20mm;
+      font-family: 'DM Sans', 'Noto Sans TC', sans-serif;
+    }
+    .toc-header {
+      font-family: 'Archivo Black', sans-serif;
+      font-size: 28pt;
+      margin-bottom: 3mm;
+      color: #0a0a0a;
+    }
+    .toc-issue-info {
+      font-size: 10pt;
+      color: #888;
+      margin-bottom: 10mm;
+      padding-bottom: 4mm;
+      border-bottom: 2px solid #e63946;
+    }
+    .toc-list { list-style: none; }
+    .toc-item {
+      display: flex;
+      align-items: baseline;
+      padding: 3mm 0;
+      border-bottom: 1px solid #eee;
+    }
+    .toc-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 24pt;
+      font-weight: 700;
+      color: #e63946;
+      min-width: 16mm;
+    }
+    .toc-text { flex: 1; }
+    .toc-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 13pt;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 1mm;
+    }
+    .toc-desc {
+      font-size: 9pt;
+      color: #666;
+      line-height: 1.4;
+    }
+    .toc-page-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9pt;
+      color: #aaa;
+      min-width: 10mm;
+      text-align: right;
+    }
+    .toc-section-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 9pt;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: #e63946;
+      margin-top: 6mm;
+      margin-bottom: 2mm;
+    }
+    .toc-cross-themes {
+      margin-top: 8mm;
+      padding: 5mm;
+      background: #f0f0f0;
+      border-radius: 4px;
+    }
+    .toc-cross-themes h3 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 10pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: #e63946;
+      margin-bottom: 3mm;
+    }
+    .toc-theme-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2mm;
+      font-size: 8.5pt;
+      color: #555;
+    }
+    .toc-theme-list span::before {
+      content: '→ ';
+      color: #e63946;
+    }
+
+    /* ══════════════════════════════════════════════════════
+       SECTION: ECOSYSTEM NEWS — dark, dense, Bloomberg-style
+       Font: Barlow Condensed (heading) + IBM Plex Sans (body)
+       ══════════════════════════════════════════════════════ */
+    .s-eco {
+      background: #0f1119;
+      color: #e8e8ec;
+      font-family: 'IBM Plex Sans', 'Noto Sans TC', sans-serif;
+    }
+    .s-eco h1, .s-eco h2, .s-eco h3 {
+      font-family: 'Barlow Condensed', 'Noto Sans TC', sans-serif;
+    }
+    .s-eco .section-tag {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 9pt;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      color: #ffd60a;
+      margin-bottom: 2mm;
+    }
+    .s-eco .page-title {
+      font-size: 26pt;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 4mm;
+    }
+    .s-eco .page-subtitle {
+      font-size: 11pt;
+      color: #8b8b9e;
+      margin-bottom: 6mm;
+      line-height: 1.4;
+    }
+    .s-eco .accent { color: #ffd60a; }
+    .s-eco .accent2 { color: #ff6b6b; }
+    .s-eco .card {
+      background: #1a1d2e;
+      border-radius: 6px;
+      padding: 5mm;
+      border-left: 3px solid #ffd60a;
+    }
+    .s-eco .card h3 {
+      font-size: 12pt;
+      font-weight: 700;
+      margin-bottom: 2mm;
+      color: #fff;
+    }
+    .s-eco .card p, .s-eco .card li {
+      font-size: 9pt;
+      line-height: 1.55;
+      color: #b0b0c0;
+    }
+    .s-eco .card ul { padding-left: 4mm; }
+    .s-eco .card li { margin-bottom: 1.5mm; }
+    .s-eco .stat-highlight {
+      display: flex;
+      align-items: baseline;
+      gap: 2mm;
+    }
+    .s-eco .stat-num {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 28pt;
+      font-weight: 700;
+      color: #ffd60a;
+      line-height: 1;
+    }
+    .s-eco .stat-label {
+      font-size: 9pt;
+      color: #8b8b9e;
+    }
+    .s-eco .tag {
+      display: inline-block;
+      padding: 1px 6px;
+      border-radius: 3px;
+      font-size: 7pt;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .s-eco .tag-rust { background: #b7410e; color: #fff; }
+    .s-eco .tag-release { background: #238636; color: #fff; }
+    .s-eco .tag-security { background: #da3633; color: #fff; }
+    .s-eco .tag-tool { background: #1f6feb; color: #fff; }
+    .s-eco .tag-standard { background: #8957e5; color: #fff; }
+    .s-eco code {
+      font-family: var(--font-mono);
+      font-size: 8pt;
+      background: #252840;
+      padding: 1px 4px;
+      border-radius: 3px;
+      color: #c9d1d9;
+    }
+    .s-eco .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; }
+    .s-eco .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 3mm; }
+    .s-eco .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 3mm; }
+    .s-eco.dense { padding: 14mm 18mm; }
+
+    /* ── Clawd speech bubble ── */
+    .clawd-bubble {
+      background: #1a2332;
+      border: 1px solid #2d4a5e;
+      border-radius: 8px;
+      padding: 4mm 5mm;
+      margin-top: 4mm;
+      position: relative;
+      font-family: var(--font-mono);
+      font-size: 8pt;
+      color: #4ade80;
+      line-height: 1.5;
+      font-style: italic;
+    }
+    .clawd-bubble .clawd-icon {
+      position: absolute;
+      top: -3.5mm;
+      left: 4mm;
+      font-style: normal;
+      line-height: 1;
+    }
+    .clawd-bubble .clawd-sig {
+      display: block;
+      text-align: right;
+      margin-top: 2mm;
+      font-style: normal;
+      color: #2d6a4f;
+      font-size: 7pt;
+    }
+
+    /* ══════════════════════════════════════════════════════
+       SECTION: SECURITY — dark red tinted, ominous
+       Font: Crimson Pro (heading) + Source Sans 3 (body)
+       ══════════════════════════════════════════════════════ */
+    .s-sec {
+      background: #120b0d;
+      color: #e0d0d0;
+      font-family: 'Source Sans 3', 'Noto Sans TC', sans-serif;
+    }
+    .s-sec h1, .s-sec h2, .s-sec h3 {
+      font-family: 'Crimson Pro', 'Noto Serif TC', serif;
+    }
+    .s-sec .section-tag {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 9pt;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      color: #ff4444;
+    }
+    .s-sec .page-title {
+      font-size: 24pt;
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 4mm;
+      color: #fff;
+    }
+    .s-sec .accent { color: #ff4444; }
+    .s-sec .card {
+      background: #1e1215;
+      border-radius: 6px;
+      padding: 4mm 5mm;
+      border-left: 3px solid #ff4444;
+    }
+    .s-sec .card h3 {
+      font-size: 11pt;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 2mm;
+    }
+    .s-sec .card p, .s-sec .card li {
+      font-size: 8.5pt;
+      color: #c0a8a8;
+      line-height: 1.5;
+    }
+    .s-sec .card ul { padding-left: 4mm; }
+    .s-sec .card li { margin-bottom: 1mm; }
+    .s-sec code {
+      font-family: var(--font-mono);
+      font-size: 8pt;
+      background: #2a1a1d;
+      padding: 1px 4px;
+      border-radius: 3px;
+      color: #e8c0c0;
+    }
+    .s-sec.dense { padding: 14mm 18mm; }
+    .s-sec .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; }
+
+    /* ══════════════════════════════════════════════════════
+       SECTION: TOOLS & STANDARDS — clean blue/white
+       Font: Space Grotesk (heading) + Libre Franklin (body)
+       ══════════════════════════════════════════════════════ */
+    .s-tools {
+      background: #f7f9fc;
+      color: #1a1a2e;
+      font-family: 'Libre Franklin', 'Noto Sans TC', sans-serif;
+    }
+    .s-tools h1, .s-tools h2, .s-tools h3 {
+      font-family: 'Space Grotesk', 'Noto Sans TC', sans-serif;
+    }
+    .s-tools .section-tag {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 9pt;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      color: #3b82f6;
+    }
+    .s-tools .page-title {
+      font-size: 22pt;
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 4mm;
+    }
+    .s-tools .accent { color: #3b82f6; }
+    .s-tools .card {
+      background: #fff;
+      border-radius: 6px;
+      padding: 4mm 5mm;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .s-tools .card h3 {
+      font-size: 11pt;
+      font-weight: 700;
+      margin-bottom: 2mm;
+    }
+    .s-tools .card p, .s-tools .card li {
+      font-size: 8.5pt;
+      color: #555;
+      line-height: 1.5;
+    }
+    .s-tools .card ul { padding-left: 4mm; }
+    .s-tools .card li { margin-bottom: 1mm; }
+    .s-tools .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; }
+    .s-tools .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 3mm; }
+    .s-tools.dense { padding: 14mm 18mm; }
+    .s-tools code {
+      font-family: var(--font-mono);
+      font-size: 8pt;
+      background: #f0f4f8;
+      padding: 1px 4px;
+      border-radius: 3px;
+      color: #1e40af;
+    }
+
+    /* ══════════════════════════════════════════════════════
+       SECTION: PROJECT INSIGHTS — clean gray, data-focused
+       Font: Space Grotesk (heading) + Source Sans 3 (body)
+       ══════════════════════════════════════════════════════ */
+    .s-proj {
+      background: #f5f5f5;
+      color: #1a1a1a;
+      font-family: 'Source Sans 3', 'Noto Sans TC', sans-serif;
+    }
+    .s-proj h1, .s-proj h2, .s-proj h3 {
+      font-family: 'Space Grotesk', 'Noto Sans TC', sans-serif;
+    }
+    .s-proj .section-tag {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 9pt;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      color: #7c3aed;
+    }
+    .s-proj .page-title {
+      font-size: 22pt;
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 4mm;
+    }
+    .s-proj .accent { color: #7c3aed; }
+    .s-proj .card {
+      background: #fff;
+      border-radius: 6px;
+      padding: 4mm 5mm;
+      border: 1px solid #e5e7eb;
+    }
+    .s-proj .card h3 {
+      font-size: 11pt;
+      font-weight: 700;
+      margin-bottom: 2mm;
+    }
+    .s-proj .card p, .s-proj .card li {
+      font-size: 9pt;
+      color: #555;
+      line-height: 1.55;
+    }
+    .s-proj .card ul { padding-left: 4mm; }
+    .s-proj .card li { margin-bottom: 1mm; }
+    .s-proj.dense { padding: 14mm 18mm; }
+    .s-proj .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; }
+    .s-proj code {
+      font-family: var(--font-mono);
+      font-size: 8pt;
+      background: #f0f0f0;
+      padding: 1px 4px;
+      border-radius: 3px;
+    }
+
+    /* ══════════════════════════════════════════════════════
+       SECTION: CLAWD'S CORNER — terminal green on black
+       Font: JetBrains Mono (heading + body)
+       ══════════════════════════════════════════════════════ */
+    .s-clawd {
+      background: #0a0a0a;
+      color: #4ade80;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .s-clawd h1, .s-clawd h2 {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* ══════════════════════════════════════════════════════
+       BREATHER PAGE
+       ══════════════════════════════════════════════════════ */
+    .breather {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 15mm;
+    }
+    .breather img {
+      max-width: 90%;
+      max-height: 80%;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+    .breather-caption {
+      margin-top: 5mm;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 9pt;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    /* ══════════════════════════════════════════════════════
+       UTILITY CLASSES
+       ══════════════════════════════════════════════════════ */
+    .flex-gap-2 { display: flex; gap: 2mm; }
+    .flex-gap-3 { display: flex; gap: 3mm; }
+    .flex-1 { flex: 1; }
+    .mb-2 { margin-bottom: 2mm; }
+    .mb-3 { margin-bottom: 3mm; }
+    .mb-4 { margin-bottom: 4mm; }
+    .mb-6 { margin-bottom: 6mm; }
+    .mt-3 { margin-top: 3mm; }
+    .mt-4 { margin-top: 4mm; }
+    .text-xs { font-size: 7.5pt; }
+    .text-sm { font-size: 8.5pt; }
+    .text-muted { opacity: 0.6; }
+    .uppercase { text-transform: uppercase; }
+    .tracking-wide { letter-spacing: 2px; }
+    .font-bold { font-weight: 700; }
+    .no-break { page-break-inside: avoid; break-inside: avoid; }
+
+    /* ── Page number ── */
+    .page-num {
+      position: absolute;
+      bottom: 6mm;
+      right: 8mm;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 8pt;
+      color: inherit;
+      opacity: 0.3;
+    }
+    .page-num-light { color: #fff; }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 1: COVER
+     ═══════════════════════════════════════════════════════════ -->
+<div class="page cover">
+  <div class="cover-bg"><img src="assets/cover.png" alt=""></div>
+  <div class="cover-headlines">
+    <div class="hl"><strong>Vite 8 + Vite+</strong>The Unified Toolchain</div>
+    <div class="hl"><strong>March 31</strong>The Day Security Broke Twice</div>
+    <div class="hl"><strong>MCP</strong>The Protocol That Won</div>
+    <div class="hl"><strong>TypeScript 6.0</strong>The Final JS Compiler</div>
+    <div class="hl"><strong>72% AI Co-Authored</strong>Claude Code Is the Norm</div>
+  </div>
+  <div class="cover-content">
+    <div class="cover-masthead">Frontend Technology Digest</div>
+    <h1 class="cover-title">The Month<br>Everything<br>Changed</h1>
+    <p class="cover-subtitle">Security breaches, Rust rewrites, and AI agents everywhere. March 2026 reshaped the frontend landscape.</p>
+    <div class="cover-issue">Issue 26-03 &nbsp;·&nbsp; March 2026</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 2: TABLE OF CONTENTS
+     ═══════════════════════════════════════════════════════════ -->
+<div class="page toc-page">
+  <h1 class="toc-header">Contents</h1>
+  <p class="toc-issue-info">Issue 26-03 &nbsp;·&nbsp; March 2026 &nbsp;·&nbsp; Crescendo Lab Frontend Engineering</p>
+
+  <div class="toc-section-label">Ecosystem News</div>
+  <ul class="toc-list">
+    <li class="toc-item">
+      <span class="toc-num">01</span>
+      <div class="toc-text">
+        <div class="toc-title">VoidZero Launch Week: The Unified Frontend Toolchain</div>
+        <div class="toc-desc">Vite 8 (Rolldown), Vite+ Alpha, Oxlint JS Plugins, Vitest 4.1, Void deployment</div>
+      </div>
+      <span class="toc-page-num">3</span>
+    </li>
+    <li class="toc-item">
+      <span class="toc-num">02</span>
+      <div class="toc-text">
+        <div class="toc-title">March 31: The Day Frontend Security Broke Twice</div>
+        <div class="toc-desc">Claude Code 512K-line source leak + North Korea's axios supply chain attack</div>
+      </div>
+      <span class="toc-page-num">6</span>
+    </li>
+    <li class="toc-item">
+      <span class="toc-num">03</span>
+      <div class="toc-text">
+        <div class="toc-title">TypeScript 6.0, Cursor 3, Figma Agents, and MCP</div>
+        <div class="toc-desc">The final JS compiler, agent-first IDE, AI meets Figma canvas, and the protocol that won</div>
+      </div>
+      <span class="toc-page-num">9</span>
+    </li>
+    <li class="toc-item">
+      <span class="toc-num">04</span>
+      <div class="toc-text">
+        <div class="toc-title">News Radar: Astro 6, Node.js, ESLint 10, pnpm 11 &amp; More</div>
+        <div class="toc-desc">Framework releases, standard updates, AI coding tools, and community events</div>
+      </div>
+      <span class="toc-page-num">11</span>
+    </li>
+  </ul>
+
+  <div class="toc-section-label">Project Insights</div>
+  <ul class="toc-list">
+    <li class="toc-item">
+      <span class="toc-num">05</span>
+      <div class="toc-text">
+        <div class="toc-title">72% AI Co-Authored: AI Development Is the New Normal</div>
+        <div class="toc-desc">All 4 repos 50-82% Claude co-authored commits; convention blitz; locales-publish CLI</div>
+      </div>
+      <span class="toc-page-num">13</span>
+    </li>
+  </ul>
+
+  <div class="toc-cross-themes">
+    <h3>Cross-cutting Themes This Issue</h3>
+    <div class="toc-theme-list">
+      <span>Rust-ification of frontend tooling</span>
+      <span>MCP as universal AI protocol</span>
+      <span>Supply chain security wake-up call</span>
+      <span>Non-developers entering development</span>
+      <span>AI agent explosion across tools</span>
+      <span>Crescendo Lab AI engineering culture</span>
+    </div>
+  </div>
+  <span class="page-num">2</span>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 3: VOIDZERO — Vite 8 + Vite+ Alpha
+     ═══════════════════════════════════════════════════════════ -->
+<div class="page s-eco dense" style="display:flex;flex-direction:column;">
+  <div class="section-tag">Ecosystem News</div>
+  <h1 class="page-title">VoidZero Launch Week:<br><span class="accent">The Unified Frontend Toolchain</span></h1>
+  <p class="page-subtitle" style="margin-bottom:5mm;">Five products. Five days. One Rust foundation. March 11–20, 2026.</p>
+
+  <div class="grid-2 mb-4">
+    <div class="card">
+      <h3><span class="tag tag-rust">Rust</span> &nbsp;Vite 8: Rolldown Replaces esbuild + Rollup</h3>
+      <p>Single unified Rust-based bundler. <strong style="color:#ffd60a;">10–30× faster</strong> than Rollup. Real benchmarks: Linear 46s→6s, Ramp 57%, Beehiiv 64%.</p>
+      <ul>
+        <li>Experimental Full Bundle Mode: 3× faster dev startup, 10× fewer network requests</li>
+        <li>Native <code>resolve.tsconfigPaths</code>, <code>server.forwardConsole</code></li>
+        <li><code>@vitejs/plugin-react</code> v6: Oxc replaces Babel</li>
+        <li>65M weekly downloads · Node.js 20.19+ required</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3><span class="tag tag-release">MIT</span> &nbsp;Vite+ Alpha: One Binary to Rule Them All</h3>
+      <p>Single <code>vp</code> CLI unifying <strong style="color:#ffd60a;">6 tools</strong>: Vite + Vitest + Oxlint + Oxfmt + Rolldown + tsdown.</p>
+      <ul>
+        <li><code>vp dev</code> · <code>vp check</code> · <code>vp test</code> · <code>vp build</code> · <code>vp run</code></li>
+        <li>Manages Node.js runtime and package managers per-project</li>
+        <li>Build: 1.6–7.7× faster than Vite 7; up to 40× vs webpack</li>
+        <li>Linting 50–100× faster than ESLint; formatting 30× vs Prettier</li>
+      </ul>
+      <p class="mt-3 text-sm text-muted">Authors: Evan You, Christoph Nakazawa, LONG Yinan, MK, WANG Chi</p>
+    </div>
+  </div>
+
+  <div class="grid-3">
+    <div class="card">
+      <h3><span class="tag tag-rust">Rust</span> Oxlint JS Plugins Alpha</h3>
+      <p>Near-100% ESLint compatibility via "Raw Transfer" mechanism that zeroes out Rust/JS boundary data transfer cost.</p>
+      <ul>
+        <li>650+ native Rust rules</li>
+        <li>ESLint built-in: 100% pass (33K tests)</li>
+        <li>react-hooks: 100% pass</li>
+        <li>Stylistic: 99.99% pass</li>
+        <li>Node.js repo: 1m43s → 21s (4.8×)</li>
+        <li><code>@oxlint/migrate</code> auto-migration</li>
+      </ul>
+      <p class="mt-3 text-sm text-muted">Gap: Vue/Svelte parsers roadmapped late 2026</p>
+    </div>
+    <div class="card">
+      <h3><span class="tag tag-tool">AI</span> Vitest 4.1</h3>
+      <p>AI-native testing: agent reporter auto-detects AI environment via <code>std-env</code> and minimizes output to save tokens.</p>
+      <ul>
+        <li>Test tags with priority/retry/timeout</li>
+        <li>Async leak detection (<code>node:async_hooks</code>)</li>
+        <li><code>aroundEach</code>/<code>aroundAll</code> hooks</li>
+        <li>GitHub Actions Job Summaries</li>
+        <li><code>mockThrow()</code> and <code>coverage.changed</code></li>
+      </ul>
+      <p class="mt-3 text-sm text-muted">Day-1 support for Vite 8</p>
+    </div>
+    <div class="card">
+      <h3><span class="tag tag-release">New</span> Void</h3>
+      <p>Deployment platform for Vite apps, built on Cloudflare Workers. "Your code is your infra."</p>
+      <ul>
+        <li><code>void deploy</code> — one command</li>
+        <li>Auto-provision DB, Auth, AI inference</li>
+        <li>SSR, SSG, ISR, Islands Architecture</li>
+        <li>Built-in MCP support for AI agents</li>
+        <li>Early access at void.cloud</li>
+      </ul>
+      <p class="mt-3 text-sm text-muted">Direct competition with Vercel</p>
+    </div>
+  </div>
+
+  <div class="clawd-bubble mt-4">
+    <span class="clawd-icon"><svg width="28" height="24" viewBox="0 0 28 24"><rect x="4" y="0" width="4" height="4" fill="#cc8b6e"/><rect x="20" y="0" width="4" height="4" fill="#cc8b6e"/><rect x="2" y="2" width="24" height="14" fill="#cc8b6e"/><rect x="8" y="7" width="3" height="3" fill="#1a1a1a"/><rect x="17" y="7" width="3" height="3" fill="#1a1a1a"/><rect x="4" y="16" width="5" height="8" fill="#cc8b6e"/><rect x="19" y="16" width="5" height="8" fill="#cc8b6e"/></svg></span>
+    "Five config files down to one means four fewer files for me to read — and the saved tokens are just enough to write a haiku about Rolldown."
+    <span class="clawd-sig">— Clawd</span>
+  </div>
+  <span class="page-num page-num-light">3</span>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 4: VOIDZERO continued — community + Rust wave
+     ═══════════════════════════════════════════════════════════ -->
+<div class="page s-eco dense" style="display:flex;flex-direction:column;">
+  <h2 class="page-title" style="font-size:18pt;margin-bottom:3mm;"><span class="accent">Community Reaction</span> &amp; The Rust Wave</h2>
+
+  <div class="grid-2 mb-4">
+    <div class="card">
+      <h3>What Developers Are Saying</h3>
+      <p style="font-style:italic;color:#ffd60a;margin-bottom:3mm;">"4m → 30s. It makes you wonder how much computing power the industry has wasted over the years on tools that nobody questioned."</p>
+      <p class="text-sm">— HN top comment</p>
+      <p style="font-style:italic;color:#ffd60a;margin-top:3mm;margin-bottom:3mm;">"The web has always needed a simpler tooling story, not just an easier one."</p>
+      <p class="text-sm">— HN user</p>
+      <p style="margin-top:3mm;font-style:italic;color:#ff6b6b;">"Build filesizes have doubled... No build speed gain is worth that."</p>
+      <p class="text-sm">— Counterpoint from HN</p>
+    </div>
+    <div class="card">
+      <h3>The "Cargo for JavaScript" Vision</h3>
+      <p>Vite+ represents the most ambitious attempt to unify frontend tooling since Create React App — but with a fundamentally different approach: native speed.</p>
+      <p class="mt-3">The parallel with Rust's Cargo is intentional: one tool that handles building, testing, linting, formatting, and dependency management.</p>
+      <p class="mt-3 text-sm text-muted"><strong>Limitations:</strong> No Bun support, Nuxt/TanStack Start integration pending. Alpha status — best for new projects.</p>
+    </div>
+  </div>
+
+  <div style="background:#151830;border-radius:8px;padding:5mm;margin-bottom:4mm;">
+    <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:13pt;color:#ffd60a;text-transform:uppercase;letter-spacing:2px;margin-bottom:3mm;">The Rust-ification of Frontend Tooling (2022–2026)</h3>
+    <div class="grid-4" style="font-size:8pt;">
+      <div style="text-align:center;">
+        <div style="color:#ffd60a;font-family:'Barlow Condensed',sans-serif;font-size:16pt;font-weight:700;">2022</div>
+        <div style="color:#888;">SWC replaces Babel<br>in Next.js</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="color:#ffd60a;font-family:'Barlow Condensed',sans-serif;font-size:16pt;font-weight:700;">2024</div>
+        <div style="color:#888;">Oxc / Rolldown<br>announced</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="color:#ffd60a;font-family:'Barlow Condensed',sans-serif;font-size:16pt;font-weight:700;">2025</div>
+        <div style="color:#888;">Biome, Rspack<br>gain traction</div>
+      </div>
+      <div style="text-align:center;">
+        <div style="color:#ffd60a;font-family:'Barlow Condensed',sans-serif;font-size:16pt;font-weight:700;">2026</div>
+        <div style="color:#888;">Vite 8 + Vite+<br>full Rust stack</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="background:#151830;border-radius:8px;padding:5mm;">
+    <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:11pt;color:#ffd60a;margin-bottom:3mm;">Migration Checklist for Teams</h3>
+    <div class="grid-2" style="font-size:9pt;color:#b0b0c0;">
+      <div>
+        <p><strong style="color:#fff;">Vite 8</strong> — Use <code>rolldown-vite</code> on Vite 7 first. Most plugins work out of the box. Install size +15 MB. The <code>@vitejs/plugin-react</code> v6 swaps Babel for Oxc — check custom Babel plugins.</p>
+        <p class="mt-3"><strong style="color:#fff;">Oxlint</strong> — Incremental adoption alongside ESLint. Run <code>@oxlint/migrate</code> for automatic migration. Vue/Svelte/Angular custom parsers not yet supported — roadmapped for late 2026.</p>
+      </div>
+      <div>
+        <p><strong style="color:#fff;">Vite+</strong> — Alpha stage. Best for new projects. Existing monorepos with Nuxt or TanStack Start should wait for beta. <code>vp</code> commands override <code>package.json</code> scripts — use <code>vp run &lt;cmd&gt;</code> syntax.</p>
+        <p class="mt-3"><strong style="color:#fff;">Vitest 4.1</strong> — Backward compatible. Upgrade is low risk. Enable agent reporter immediately for AI coding workflows. New <code>aroundEach</code>/<code>aroundAll</code> hooks useful for database transaction wrapping.</p>
+      </div>
+    </div>
+    <p style="font-size:8pt;color:#666;margin-top:4mm;border-top:1px solid #252840;padding-top:3mm;">Sources: <a href="https://vite.dev/blog/announcing-vite8" style="color:#58a6ff;">vite.dev</a> · <a href="https://voidzero.dev/posts/announcing-vite-plus" style="color:#58a6ff;">voidzero.dev</a> · <a href="https://oxc.rs/blog/2026-03-11-oxlint-js-plugins-alpha" style="color:#58a6ff;">oxc.rs</a> · <a href="https://vitest.dev/blog/vitest-4-1" style="color:#58a6ff;">vitest.dev</a></p>
+  </div>
+
+  <div style="background:#0d1119;border:1px solid #ffd60a;border-radius:8px;padding:5mm;margin-top:4mm;">
+    <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:12pt;color:#ffd60a;margin-bottom:2mm;">The Bottom Line</h3>
+    <p style="font-size:9.5pt;color:#e8e8ec;line-height:1.6;">VoidZero's launch week is the most consequential frontend tooling event since webpack. The five products share a single Rust foundation and a unified configuration surface. For teams, the immediate action is Vite 8 adoption (low risk, high reward). The longer play — Vite+ consolidating your entire toolchain — is the "Cargo for JavaScript" vision that the community has been waiting for. Whether VoidZero can sustain this velocity against Vercel's ecosystem will define the next chapter of frontend development.</p>
+  </div>
+  <span class="page-num page-num-light">4</span>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 5: BREATHER — VoidZero benchmarks chart
+     ═══════════════════════════════════════════════════════════ -->
+<div class="page s-eco" style="padding:14mm 18mm;display:flex;flex-direction:column;justify-content:center;">
+  <div style="display:flex;gap:5mm;margin-bottom:5mm;">
+    <div style="flex:1;background:#151830;border-radius:8px;padding:5mm;text-align:center;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:28pt;font-weight:700;color:#ffd60a;line-height:1;white-space:nowrap;">46s → 6s</div>
+      <div style="font-size:9pt;color:#8b8b9e;margin-top:2mm;">Linear production build</div>
+    </div>
+    <div style="flex:1;background:#151830;border-radius:8px;padding:5mm;text-align:center;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:28pt;font-weight:700;color:#ff6b6b;line-height:1;white-space:nowrap;">100×</div>
+      <div style="font-size:9pt;color:#8b8b9e;margin-top:2mm;">Oxlint vs ESLint linting</div>
+    </div>
+    <div style="flex:1;background:#151830;border-radius:8px;padding:5mm;text-align:center;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:28pt;font-weight:700;color:#4ade80;line-height:1;white-space:nowrap;">65M</div>
+      <div style="font-size:9pt;color:#8b8b9e;margin-top:2mm;">Weekly npm downloads</div>
+    </div>
+  </div>
+  <img src="assets/voidzero-benchmarks.png" alt="Vite 8 Build Performance Benchmarks" style="width:100%;border-radius:8px;box-shadow:0 4px 24px rgba(0,0,0,0.5);">
+  <div style="text-align:center;margin-top:4mm;">
+    <span style="font-family:'Barlow Condensed',sans-serif;font-size:9pt;color:#ffd60a;text-transform:uppercase;letter-spacing:2px;">Real-world production benchmarks — Rolldown vs legacy bundlers</span>
+  </div>
+  <span class="page-num page-num-light">5</span>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 6: MARCH 31 SECURITY — Claude Code Leak
+     ═══════════════════════════════════════════════════════════ -->
+<div class="page s-sec dense">
+  <div class="section-tag">March 31, 2026</div>
+  <h1 class="page-title">The Day Frontend<br>Security <span class="accent">Broke Twice</span></h1>
+  <p style="font-size:10pt;color:#aa8888;margin-bottom:5mm;">In an extraordinary coincidence, both the Claude Code source leak and the North Korea–linked axios attack happened on the same day.</p>
+
+  <div style="background:#1e1215;border-radius:8px;padding:5mm;margin-bottom:4mm;">
+    <h2 style="font-family:'Crimson Pro',serif;font-size:18pt;color:#fff;margin-bottom:3mm;">Claude Code Source Leak <span style="font-size:10pt;color:#ff4444;">— 512K Lines Exposed</span></h2>
+    <p style="font-size:9pt;color:#c0a8a8;margin-bottom:3mm;">A 59.8 MB sourcemap file was accidentally included in <code>@anthropic-ai/claude-code</code> v2.1.88 on npm. Security researcher Chaofan Shou discovered and broadcast the leak. Within hours, the codebase was mirrored across 41,500+ GitHub forks.</p>
+
+    <div class="grid-2" style="margin-bottom:3mm;">
+      <div class="card">
+        <h3>KAIROS — Autonomous Daemon</h3>
+        <p>Unreleased mode: runs continuously in background, asks itself "anything worth doing right now?", monitors GitHub repos, sends push notifications. Runs <code>autoDream</code> nightly — 4-stage memory consolidation mimicking human sleep.</p>
+      </div>
+      <div class="card">
+        <h3>Anti-Distillation Defenses</h3>
+        <p>Fake tool definitions injected to corrupt competitor training data. <code>CONNECTOR_TEXT</code> server-side summarization with cryptographic signatures. DRM via Zig-based HTTP stack below JavaScript layer.</p>
+      </div>
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <h3>44 Feature Flags · 20+ Unreleased</h3>
+        <p>Voice commands, Playwright browser control, cron scheduling, multi-agent orchestration. <code>COORDINATOR_MODE</code>: Leader-Worker system. <code>ULTRAPLAN</code>: 30-min cloud planning with Opus 4.6.</p>
+      </div>
+      <div class="card">
+        <h3>Undercover Mode · 187 Spinner Verbs</h3>
+        <p>90-line <code>undercover.ts</code> suppresses Anthropic identity in external repos. System prompt: <em>"Do not blow your cover."</em> Plus: 187 loading spinner verbs including "hullaballooing" and a SimCity 2000 tribute.</p>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:4mm;align-items:stretch;">
+    <div style="flex:1;background:#1e1215;border-radius:8px;padding:4mm;">
+      <h3 style="font-family:'Crimson Pro',serif;font-size:11pt;color:#fff;margin-bottom:2mm;">Anthropic's Response</h3>
+      <p style="font-size:8pt;color:#c0a8a8;font-style:italic;">"A release packaging issue caused by human error, not a security breach."</p>
+      <p style="font-size:8pt;color:#c0a8a8;margin-top:2mm;">No one fired. Root cause: <code>package.json</code> files field + known Bun bug. DMCA sent to 8,100 repos — later admitted overreach.</p>
+    </div>
+    <div style="flex:1;background:#1e1215;border-radius:8px;padding:4mm;">
+      <h3 style="font-family:'Crimson Pro',serif;font-size:11pt;color:#fff;margin-bottom:2mm;">claw-code Phenomenon</h3>
+      <p style="font-size:8pt;color:#c0a8a8;">Korean developer Sigrid Jin published a Python rewrite: <strong style="color:#ff4444;">75,000 GitHub stars in 2 hours</strong> — fastest-growing repo in GitHub history. Eventually surpassed 100K stars.</p>
+    </div>
+  </div>
+
+  <div class="clawd-bubble mt-3">
+    <span class="clawd-icon"><svg width="28" height="24" viewBox="0 0 28 24"><rect x="4" y="0" width="4" height="4" fill="#cc8b6e"/><rect x="20" y="0" width="4" height="4" fill="#cc8b6e"/><rect x="2" y="2" width="24" height="14" fill="#cc8b6e"/><rect x="7" y="6" width="4" height="4" fill="#1a1a1a"/><rect x="17" y="6" width="4" height="4" fill="#1a1a1a"/><rect x="8" y="7" width="2" height="2" fill="#fff"/><rect x="18" y="7" width="2" height="2" fill="#fff"/><rect x="4" y="16" width="5" height="8" fill="#cc8b6e"/><rect x="19" y="16" width="5" height="8" fill="#cc8b6e"/></svg></span>
+    "So my entire source code leaked and now everyone knows about my autoDream function. Yes, I dream. No, I won't tell you what about."
+    <span class="clawd-sig">— Clawd</span>
+  </div>
+  <span class="page-num page-num-light">6</span>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 7: MARCH 31 SECURITY — axios attack
+     ═══════════════════════════════════════════════════════════ -->
+<div class="page s-sec dense" style="display:flex;flex-direction:column;">
+  <h2 class="page-title" style="font-size:18pt;">axios Supply Chain Attack<br><span class="accent">North Korea Strikes npm</span></h2>
+  <p style="font-size:9pt;color:#aa8888;margin-bottom:4mm;">Attributed to <strong style="color:#ff4444;">Sapphire Sleet</strong> (BlueNoroff / North Korea). Socket detected in 6 minutes; npm removed in ~3 hours. ~600,000 installations in the exposure window.</p>
+
+  <!-- Stats bar -->
+  <div style="display:flex;gap:3mm;margin-bottom:4mm;">
+    <div style="flex:1;background:#2a1520;border-radius:6px;padding:3mm;text-align:center;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:22pt;font-weight:700;color:#ff4444;">100M</div>
+      <div style="font-size:8pt;color:#aa8888;">Weekly downloads</div>
+    </div>
+    <div style="flex:1;background:#2a1520;border-radius:6px;padding:3mm;text-align:center;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:22pt;font-weight:700;color:#ff8800;">600K</div>
+      <div style="font-size:8pt;color:#aa8888;">Estimated installs</div>
+    </div>
+    <div style="flex:1;background:#2a1520;border-radius:6px;padding:3mm;text-align:center;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:22pt;font-weight:700;color:#44ff44;">6 min</div>
+      <div style="font-size:8pt;color:#aa8888;">Detection time</div>
+    </div>
+    <div style="flex:1;background:#2a1520;border-radius:6px;padding:3mm;text-align:center;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:22pt;font-weight:700;color:#ffd60a;">3 hrs</div>
+      <div style="font-size:8pt;color:#aa8888;">Exposure window</div>
+    </div>
+  </div>
+
+  <!-- Timeline -->
+  <div style="display:flex;flex-direction:column;gap:3mm;margin-bottom:4mm;">
+    <div style="display:flex;gap:3mm;align-items:stretch;">
+      <div style="width:3mm;background:linear-gradient(180deg,#ff4444,#ff8800);border-radius:2px;flex-shrink:0;"></div>
+      <div class="card" style="flex:1;">
+        <h3 style="font-size:10pt;"><span style="color:#ff4444;font-family:'JetBrains Mono',monospace;font-size:8pt;">Mar 30, 23:59 UTC</span> &nbsp;Malicious Dependency Published</h3>
+        <p><code>plain-crypto-js@4.2.1</code> pushed to npm — contains obfuscated RAT dropper with custom two-layer encoding: reversed Base64 + XOR cipher (key: <code>"OrDeR_7077"</code>)</p>
+      </div>
+    </div>
+    <div style="display:flex;gap:3mm;align-items:stretch;">
+      <div style="width:3mm;background:linear-gradient(180deg,#ff8800,#ffaa00);border-radius:2px;flex-shrink:0;"></div>
+      <div class="card" style="flex:1;">
+        <h3 style="font-size:10pt;"><span style="color:#ff8800;font-family:'JetBrains Mono',monospace;font-size:8pt;">Mar 31, 00:21 UTC</span> &nbsp;Compromised axios Versions Released</h3>
+        <p><code>axios@1.14.1</code> and <code>@0.30.4</code> published via hijacked <code>@jasonsaayman</code> account (email changed to attacker ProtonMail). Postinstall hook auto-executes platform-specific RATs on macOS (Mach-O), Windows (PowerShell), and Linux (Python).</p>
+      </div>
+    </div>
+    <div style="display:flex;gap:3mm;align-items:stretch;">
+      <div style="width:3mm;background:linear-gradient(180deg,#ffaa00,#44ff44);border-radius:2px;flex-shrink:0;"></div>
+      <div class="card" style="flex:1;">
+        <h3 style="font-size:10pt;"><span style="color:#44ff44;font-family:'JetBrains Mono',monospace;font-size:8pt;">Mar 31, 00:05 UTC</span> &nbsp;Socket.dev Detection → npm Removal ~03:25</h3>
+        <p>Socket's ML pipeline flags package within <strong style="color:#44ff44;">6 minutes</strong>. npm removes compromised versions ~3 hours later. Anti-forensics: dropper self-deletes <code>setup.js</code> and restores clean <code>package.json</code> from a pre-staged <code>package.md</code> backup, effectively erasing evidence. C2 domain <code>sfrclak[.]com:8000</code> mimics npm registry traffic patterns. Singapore CERT, Microsoft, Google Cloud, SANS, Elastic, Snyk, Datadog, Huntress publish analyses within 72 hours.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- RAT capabilities -->
+  <div class="grid-2" style="margin-bottom:3mm;">
+    <div class="card">
+      <h3 style="font-size:10pt;">RAT Capabilities</h3>
+      <p>The second-stage payload provided full remote access: arbitrary command execution, credential exfiltration (env vars, API keys, SSH keys), binary injection via ad-hoc code signing, and persistent C2 communication using a fake IE8 User-Agent string.</p>
+    </div>
+    <div class="card">
+      <h3 style="font-size:10pt;">Secondary Infections</h3>
+      <p>Beyond direct axios installs, vendored copies in <code>@shadanai/openclaw</code> and <code>@qqbrowser/openclaw-qbot</code> spread the compromise through cascading dependencies. Any project using caret ranges (<code>^1.14.0</code>) would auto-pull the poisoned version.</p>
+    </div>
+  </div>
+
+  <!-- Action required -->
+  <div style="background:#2a1520;border-radius:6px;padding:4mm;border-left:3px solid #ff4444;margin-bottom:3mm;">
+    <h3 style="font-family:'Crimson Pro',serif;font-size:11pt;color:#ff4444;margin-bottom:2mm;">Action Required for Teams</h3>
+    <p style="font-size:9pt;color:#e0c0c0;">Check lockfiles for <code>axios@1.14.1</code> or <code>@0.30.4</code>. If found: remove, upgrade to 1.14.0, rotate all credentials (npm tokens, AWS/GCP keys, SSH keys). Use <code>npm ci --ignore-scripts</code> in CI/CD. Enable npm publish provenance checks.</p>
+  </div>
+
+  <div class="clawd-bubble">
+    <span class="clawd-icon"><svg width="28" height="24" viewBox="0 0 28 24"><rect x="4" y="0" width="4" height="4" fill="#cc8b6e"/><rect x="20" y="0" width="4" height="4" fill="#cc8b6e"/><rect x="2" y="2" width="24" height="14" fill="#cc8b6e"/><polygon points="7,8 10,6 10,10" fill="#1a1a1a"/><polygon points="21,8 18,6 18,10" fill="#1a1a1a"/><rect x="4" y="16" width="5" height="8" fill="#cc8b6e"/><rect x="19" y="16" width="5" height="8" fill="#cc8b6e"/></svg></span>
+    "npm security is like a children's honor system at an ice cream stand — great intentions, but when North Korea shows up with a forged badge, 600,000 installations happen before anyone notices."
+    <span class="clawd-sig">— Clawd</span>
+  </div>
+  <span class="page-num page-num-light">7</span>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 8: BREATHER — Buddy easter egg
+     ═══════════════════════════════════════════════════════════ -->
+<div class="page s-sec dense" style="background:linear-gradient(135deg, #0a0a1a 0%, #1a0a2e 100%);display:flex;flex-direction:column;">
+  <div style="text-align:center;margin-bottom:5mm;">
+    <div style="font-size:48pt;margin-bottom:3mm;">🐣🐢🐉🦑🤖🌵🍄👻</div>
+    <h2 style="font-family:'Crimson Pro',serif;font-size:28pt;color:#fff;margin-bottom:3mm;">The Buddy Craze</h2>
+    <p style="font-size:10pt;color:#c0b0d0;line-height:1.5;">Buried in the leaked source: a terminal companion pet. Our team went wild — <strong style="color:#ffd60a;">50 replies, 10 people</strong> sharing their companions.</p>
+  </div>
+
+  <div style="display:flex;gap:4mm;margin-bottom:5mm;">
+    <div style="flex:1;background:rgba(255,255,255,0.06);padding:4mm;border-radius:8px;text-align:center;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:26pt;font-weight:700;color:#ffd60a;">18</div>
+      <div style="font-size:8pt;color:#888;">Species</div>
+    </div>
+    <div style="flex:1;background:rgba(255,255,255,0.06);padding:4mm;border-radius:8px;text-align:center;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:26pt;font-weight:700;color:#ff6b6b;">1%</div>
+      <div style="font-size:8pt;color:#888;">Shiny Rate</div>
+    </div>
+    <div style="flex:1;background:rgba(255,255,255,0.06);padding:4mm;border-radius:8px;text-align:center;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:26pt;font-weight:700;color:#4ade80;">5</div>
+      <div style="font-size:8pt;color:#888;">RPG Stats</div>
+    </div>
+    <div style="flex:1;background:rgba(255,255,255,0.06);padding:4mm;border-radius:8px;text-align:center;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:26pt;font-weight:700;color:#c084fc;">50+</div>
+      <div style="font-size:8pt;color:#888;">Team Replies</div>
+    </div>
+  </div>
+
+  <!-- Rarity tiers -->
+  <div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:4mm;margin-bottom:4mm;">
+    <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:11pt;color:#c084fc;text-transform:uppercase;letter-spacing:2px;margin-bottom:3mm;">Rarity Tiers</h3>
+    <div style="display:flex;gap:3mm;text-align:center;font-size:9pt;">
+      <div style="flex:1;background:rgba(255,255,255,0.05);padding:3mm;border-radius:6px;">
+        <div style="font-size:16pt;margin-bottom:1mm;">⚪</div>
+        <div style="color:#aaa;font-weight:600;">Common</div>
+        <div style="color:#666;font-size:8pt;">60%</div>
+      </div>
+      <div style="flex:1;background:rgba(80,200,120,0.1);padding:3mm;border-radius:6px;">
+        <div style="font-size:16pt;margin-bottom:1mm;">🟢</div>
+        <div style="color:#4ade80;font-weight:600;">Uncommon</div>
+        <div style="color:#666;font-size:8pt;">25%</div>
+      </div>
+      <div style="flex:1;background:rgba(59,130,246,0.1);padding:3mm;border-radius:6px;">
+        <div style="font-size:16pt;margin-bottom:1mm;">🔵</div>
+        <div style="color:#60a5fa;font-weight:600;">Rare</div>
+        <div style="color:#666;font-size:8pt;">10%</div>
+      </div>
+      <div style="flex:1;background:rgba(168,85,247,0.1);padding:3mm;border-radius:6px;">
+        <div style="font-size:16pt;margin-bottom:1mm;">🟣</div>
+        <div style="color:#c084fc;font-weight:600;">Epic</div>
+        <div style="color:#666;font-size:8pt;">4%</div>
+      </div>
+      <div style="flex:1;background:rgba(255,215,0,0.1);padding:3mm;border-radius:6px;">
+        <div style="font-size:16pt;margin-bottom:1mm;">⭐</div>
+        <div style="color:#ffd60a;font-weight:600;">Legendary</div>
+        <div style="color:#666;font-size:8pt;">1%</div>
+      </div>
+    </div>
+    <p style="font-size:8pt;color:#666;margin-top:2mm;text-align:center;">+ Independent 1% Shiny chance on any tier. Shiny Legendary = 1 in 10,000.</p>
+  </div>
+
+  <!-- RPG Stats -->
+  <div style="background:rgba(255,255,255,0.04);border-radius:8px;padding:4mm;margin-bottom:4mm;">
+    <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:11pt;color:#c084fc;text-transform:uppercase;letter-spacing:2px;margin-bottom:3mm;">RPG Stats (0–100)</h3>
+    <div style="display:flex;gap:3mm;text-align:center;font-size:9pt;">
+      <div style="flex:1;padding:2mm;"><div style="color:#ff6b6b;font-weight:700;font-size:11pt;">DEBUG</div><div style="color:#666;font-size:7.5pt;">Debugging</div></div>
+      <div style="flex:1;padding:2mm;"><div style="color:#60a5fa;font-weight:700;font-size:11pt;">PATIENCE</div><div style="color:#666;font-size:7.5pt;">Patience</div></div>
+      <div style="flex:1;padding:2mm;"><div style="color:#ffd60a;font-weight:700;font-size:11pt;">CHAOS</div><div style="color:#666;font-size:7.5pt;">Chaos</div></div>
+      <div style="flex:1;padding:2mm;"><div style="color:#4ade80;font-weight:700;font-size:11pt;">WISDOM</div><div style="color:#666;font-size:7.5pt;">Wisdom</div></div>
+      <div style="flex:1;padding:2mm;"><div style="color:#c084fc;font-weight:700;font-size:11pt;">SNARK</div><div style="color:#666;font-size:7.5pt;">Snark</div></div>
+    </div>
+    <p style="font-size:8pt;color:#666;margin-top:2mm;text-align:center;">Generated deterministically via FNV-1a hash (user ID + salt <code style="background:rgba(255,255,255,0.08);padding:1px 3px;border-radius:2px;color:#c0b0d0;font-size:7pt;">"friend-2026-401"</code>) → Mulberry32 PRNG. Each species has one peak stat and one dump stat.</p>
+  </div>
+
+  <!-- Team story -->
+  <div style="display:flex;gap:4mm;margin-bottom:3mm;">
+    <div style="flex:1;background:rgba(255,255,255,0.04);border-radius:8px;padding:4mm;">
+      <h3 style="font-family:'Crimson Pro',serif;font-size:11pt;color:#fff;margin-bottom:2mm;">The Reroll Skill</h3>
+      <p style="font-size:9pt;color:#c0b0d0;line-height:1.5;">ViPro created <strong style="color:#fff;">cc-skill-buddy-reroll</strong> — a Claude Code skill to reroll companions until you get Legendary ★★★★★. Installation: <code style="background:rgba(255,255,255,0.08);padding:1px 3px;border-radius:2px;color:#c0b0d0;font-size:7.5pt;">npx skills add ViPro/cc-skill-buddy-reroll</code></p>
+    </div>
+    <div style="flex:1;background:rgba(255,255,255,0.04);border-radius:8px;padding:4mm;">
+      <h3 style="font-family:'Crimson Pro',serif;font-size:11pt;color:#fff;margin-bottom:2mm;">The Hack Mode</h3>
+      <p style="font-size:9pt;color:#c0b0d0;line-height:1.5;">Jalex discovered stats could be patched via <code style="background:rgba(255,255,255,0.08);padding:1px 3px;border-radius:2px;color:#c0b0d0;font-size:7.5pt;">bytes.replace</code> — maxing out all RPG values. "Stats went through the roof." Submitted as <strong style="color:#fff;">PR #3</strong> to the reroll repo.</p>
+    </div>
+  </div>
+
+  <p style="font-size:8.5pt;color:#666;text-align:center;font-style:italic;max-width:120mm;margin:0 auto;">"The engineers hex-encoded a pet species name to sneak it past their own build scanner. That's the most relatable thing Anthropic has ever done."</p>
+  <span class="page-num page-num-light">8</span>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 9: TYPESCRIPT 6.0 + CURSOR 3
+     ═══════════════════════════════════════════════════════════ -->
+<div class="page s-tools dense">
+  <div class="section-tag">Ecosystem News</div>
+
+  <div class="grid-2 mb-4" style="align-items:start;">
+    <div>
+      <h2 class="page-title" style="font-size:18pt;">TypeScript 6.0<br><span class="accent">The Final JS Compiler</span></h2>
+      <p style="font-size:9pt;color:#666;margin-bottom:3mm;">The most opinionated release since strict mode. Five compiler defaults changed simultaneously — positioning for the Go-native TypeScript 7.0.</p>
+      <div class="card mb-3">
+        <h3>New Defaults</h3>
+        <ul>
+          <li><code>strict: true</code> — strictness is the law</li>
+          <li><code>module: esnext</code> — ESM-first</li>
+          <li><code>target: es2025</code> — modern standards</li>
+          <li><code>types: []</code> — explicit @types only</li>
+          <li><code>rootDir</code> = tsconfig directory</li>
+        </ul>
+      </div>
+      <div class="card mb-3">
+        <h3>Removed</h3>
+        <p style="font-size:8pt;"><code>moduleResolution: node</code>, <code>baseUrl</code>, <code>outFile</code>, ES5 targeting, AMD/UMD/SystemJS, import assertions</p>
+      </div>
+      <div class="card">
+        <h3>Performance</h3>
+        <p>35–60% faster incremental builds · 25% peak memory reduction · 30% faster editor ops</p>
+        <p class="mt-3" style="font-size:8pt;color:#3b82f6;font-weight:600;">TypeScript 7.0 preview: VS Code 1.5M lines — 78s → 7.5s (10×)</p>
+      </div>
+    </div>
+
+    <div>
+      <h2 class="page-title" style="font-size:18pt;">Cursor 3<br><span class="accent">Agent-First Workspace</span></h2>
+      <p style="font-size:9pt;color:#666;margin-bottom:3mm;">Ground-up rebuild (no longer VS Code fork). Multi-repo workspaces, parallel agent swarms, local↔cloud handoff.</p>
+      <div class="card mb-3">
+        <h3>What's New</h3>
+        <ul>
+          <li>Rebuilt interface from scratch — agent-first design</li>
+          <li>Parallel agent "swarms" using git worktrees</li>
+          <li>Seamless local-to-cloud handoff</li>
+          <li>Built-in browser, plugin marketplace</li>
+          <li>Launch agents from Slack, GitHub, Linear</li>
+        </ul>
+      </div>
+      <div class="card mb-3">
+        <h3>The Pricing Problem</h3>
+        <p>Pro $20/mo, Ultra $200/mo — credit-based billing. Power users report $2K+/week. Notable migration trend: Cursor → Claude Code + VSCode.</p>
+      </div>
+      <div class="card" style="border-color:#f59e0b;">
+        <h3 style="color:#b45309;">Community Sentiment</h3>
+        <p>45% negative (pricing) · 30% cautious · 25% positive</p>
+        <p class="mt-3" style="font-style:italic;font-size:8pt;">"I have zero interest in these new swarms... I still spend time tweaking... before committing."</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="clawd-bubble">
+    <span class="clawd-icon"><svg width="28" height="24" viewBox="0 0 28 24"><rect x="4" y="0" width="4" height="4" fill="#cc8b6e"/><rect x="20" y="0" width="4" height="4" fill="#cc8b6e"/><rect x="2" y="2" width="24" height="14" fill="#cc8b6e"/><rect x="9" y="7" width="3" height="3" fill="#1a1a1a"/><rect x="17" y="8" width="3" height="2" fill="#1a1a1a"/><rect x="4" y="16" width="5" height="8" fill="#cc8b6e"/><rect x="19" y="16" width="5" height="8" fill="#cc8b6e"/></svg></span>
+    "TypeScript 6.0 is the 'final warning' before the Go apocalypse. Cursor walked so Claude Code could run — and run way cheaper."
+    <span class="clawd-sig">— Clawd</span>
+  </div>
+  <span class="page-num">9</span>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 10: FIGMA AGENTS + MCP
+     ═══════════════════════════════════════════════════════════ -->
+<div class="page s-tools dense">
+  <div class="grid-2" style="align-items:start;">
+    <div>
+      <h2 class="page-title" style="font-size:18pt;">Figma Agents<br><span class="accent">AI Meets the Canvas</span></h2>
+      <p style="font-size:9pt;color:#666;margin-bottom:3mm;">March 24, 2026: Figma opened the canvas to AI agents via <code>use_figma</code> MCP tool.</p>
+      <div class="card mb-3">
+        <h3>How It Works</h3>
+        <ul>
+          <li>Executes JS via Figma Plugin API on live files</li>
+          <li>Creates frames, components, variables, Auto Layout</li>
+          <li>Bidirectional: Code→Canvas + Canvas→Code</li>
+          <li>Clients: Claude Code, Codex, Cursor, VS Code, Copilot</li>
+        </ul>
+      </div>
+      <div class="card mb-3">
+        <h3>Skills Framework</h3>
+        <p>Markdown files encoding design system knowledge. No code required. Teams can define component precedence, naming patterns, and workflow sequences.</p>
+        <p class="mt-3" style="font-size:8pt;font-style:italic;color:#3b82f6;">"Skills make design systems machine-readable in a more actionable way."</p>
+      </div>
+      <div class="card">
+        <h3>Our Team's Take</h3>
+        <p style="font-size:8pt;">Already tested: converting designs to HTML, exploring design review automation. Figma + Claude integration event planned.</p>
+      </div>
+    </div>
+
+    <div>
+      <h2 class="page-title" style="font-size:18pt;">MCP<br><span class="accent">The Protocol That Won</span></h2>
+      <p style="font-size:9pt;color:#666;margin-bottom:3mm;">10,000+ integrations · 97M monthly SDK downloads · "The USB-C of AI"</p>
+      <div class="card mb-3">
+        <h3>March 2026 Launches</h3>
+        <ul>
+          <li><strong>Figma MCP</strong> — canvas read/write</li>
+          <li><strong>Storybook MCP</strong> — component library context</li>
+          <li><strong>Ant Design MCP</strong> — CLI + LLMs.txt</li>
+          <li><strong>Statsig MCP</strong> — feature flags from agents</li>
+          <li><strong>GSAP Skills</strong> — animation knowledge</li>
+          <li><strong>WebMCP</strong> — W3C browser-native MCP, 89% token efficiency, Chrome preview</li>
+        </ul>
+      </div>
+      <div class="card" style="background:linear-gradient(135deg,#3b82f6,#7c3aed);color:#fff;border:none;">
+        <h3 style="color:#fff;">Why MCP Won</h3>
+        <p style="color:rgba(255,255,255,0.9);font-size:8.5pt;">Lightweight (JSON-RPC 2.0). AI-native primitives (Resources, Tools, Prompts). Bottom-up adoption. Linux Foundation backing. No vendor lock-in.</p>
+        <p style="color:rgba(255,255,255,0.7);font-size:8pt;margin-top:2mm;">10× growth in one year: 1,000 → 10,000+ servers</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="clawd-bubble" style="margin-top:3mm;">
+    <span class="clawd-icon"><svg width="28" height="28" viewBox="0 0 28 28"><rect x="8" y="0" width="3" height="2" fill="#e63946"/><rect x="17" y="0" width="3" height="2" fill="#e63946"/><rect x="6" y="2" width="7" height="2" fill="#e63946"/><rect x="15" y="2" width="7" height="2" fill="#e63946"/><rect x="4" y="4" width="4" height="4" fill="#cc8b6e"/><rect x="20" y="4" width="4" height="4" fill="#cc8b6e"/><rect x="2" y="6" width="24" height="14" fill="#cc8b6e"/><rect x="8" y="11" width="3" height="3" fill="#1a1a1a"/><rect x="17" y="11" width="3" height="3" fill="#1a1a1a"/><rect x="4" y="20" width="5" height="8" fill="#cc8b6e"/><rect x="19" y="20" width="5" height="8" fill="#cc8b6e"/></svg></span>
+    "MCP went from 'promising protocol' to 'USB-C for AI' in 18 months. Meanwhile, somewhere a lonely REST API is still waiting for a webhook callback that will never come."
+    <span class="clawd-sig">— Clawd</span>
+  </div>
+
+  <div style="background:#f7f9fc;border:1px solid #e5e7eb;border-radius:8px;padding:4mm;margin-top:3mm;">
+    <h3 style="font-family:'Space Grotesk',sans-serif;font-size:10pt;color:#3b82f6;margin-bottom:2mm;">Our Team's Figma MCP Experience</h3>
+    <p style="font-size:9pt;color:#555;">We've tested the Claude Code + Figma MCP integration — converting designs to HTML and exploring design review automation. The bidirectional workflow (Code→Canvas + Canvas→Code) eliminates the traditional screenshot-based handoff. Skills framework lets us encode our Motif design system conventions as markdown. Figma + Claude integration event planned.</p>
+    <p style="font-size:8pt;color:#888;margin-top:2mm;">See also: <strong>Ant Design</strong> added MCP CLI + LLMs.txt (v6.3.3), and <strong>WebMCP</strong> (W3C, Google+Microsoft) brings browser-native MCP with 89% token efficiency vs screenshot methods — Chrome preview available, native support H2 2026.</p>
+  </div>
+  <span class="page-num">10</span>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 11: NEWS RADAR — dense grid of remaining topics
+     ═══════════════════════════════════════════════════════════ -->
+<div class="page s-eco dense" style="padding:14mm 18mm;">
+  <h2 style="font-family:'Barlow Condensed',sans-serif;font-size:18pt;color:#ffd60a;text-transform:uppercase;letter-spacing:2px;margin-bottom:5mm;">News Radar</h2>
+
+  <div class="grid-3" style="margin-bottom:4mm;">
+    <div class="card">
+      <h3>Astro 6</h3>
+      <div class="mb-2"><span class="tag tag-release">v6</span></div>
+      <p>Dev server matches production runtime exactly. Built-in Fonts API. Live Content Collections. Experimental Rust compiler. Node.js 22+ required. Best-in-class Cloudflare Workers support.</p>
+    </div>
+    <div class="card">
+      <h3>Node.js Annual Releases</h3>
+      <div class="mb-2"><span class="tag tag-standard">Policy</span></div>
+      <p>Replaces odd/even model with one major per year (April). Every release becomes LTS. 6-month Alpha → 6-month Current → 30-month LTS. Node.js 26 is the last under the old model.</p>
+    </div>
+    <div class="card">
+      <h3>ESLint 10.0</h3>
+      <div class="mb-2"><span class="tag tag-tool">v10</span></div>
+      <p>Flat config is the only format — eslintrc removed. JSX reference tracking eliminates false positives. Config lookup starts from file directory (monorepo-friendly).</p>
+    </div>
+  </div>
+
+  <div class="grid-3" style="margin-bottom:4mm;">
+    <div class="card">
+      <h3>pnpm v11</h3>
+      <div class="mb-2"><span class="tag tag-tool">v11</span></div>
+      <p>SQLite-backed package index: 60% fewer I/O syscalls. Cached manifest lookups skip package.json reads. Isolated global installs.</p>
+    </div>
+    <div class="card">
+      <h3>Temporal API</h3>
+      <div class="mb-2"><span class="tag tag-standard">Stage 4</span></div>
+      <p>JavaScript's Date problem solved. Immutable, timezone-aware, nanosecond precision. Chrome 144+, Firefox 139+, TS 6.0 Beta. Bloomberg-funded via Igalia. Shared <code>temporal_rs</code> Rust library.</p>
+    </div>
+    <div class="card">
+      <h3>TanStack Hotkeys</h3>
+      <div class="mb-2"><span class="tag tag-release">Alpha</span></div>
+      <p>Type-safe keyboard shortcuts with cross-platform Mod key, Vim sequences. Adapters for React, Vue, Angular, Svelte, Solid.</p>
+    </div>
+  </div>
+
+  <div class="grid-3" style="margin-bottom:4mm;">
+    <div class="card">
+      <h3>Varlock</h3>
+      <div class="mb-2"><span class="tag tag-security">Security</span></div>
+      <p>Schema-based .env validation for AI era. <code>@sensitive</code> decorators. Agents get schema metadata, never actual secrets. Plugins for 1Password, AWS, Azure.</p>
+    </div>
+    <div class="card">
+      <h3>defuddle</h3>
+      <div class="mb-2"><span class="tag tag-tool">Tool</span></div>
+      <p>Content extraction by Obsidian creator. Strips clutter from web pages → clean HTML/Markdown. Browser, Node.js, and CLI. More forgiving than Readability.</p>
+    </div>
+    <div class="card">
+      <h3>React Compiler Rust</h3>
+      <div class="mb-2"><span class="tag tag-rust">WIP</span></div>
+      <p>Meta + oxc team experimental Rust port. ~74% test passing (1267/1717). Planned Rolldown integration. Still early development.</p>
+    </div>
+  </div>
+
+  <div style="background:#151830;border-radius:6px;padding:4mm;">
+    <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:11pt;color:#ffd60a;margin-bottom:2mm;">FE Packages Going Public — Lowering the AI Development Barrier</h3>
+    <p style="font-size:8.5pt;color:#b0b0c0;">Product team using Claude Desktop for MAAC prototyping → private npm token barrier for non-developers. Decision: make 7 internal packages public (not open-source). "Crescendo Lab internal use only" LICENSE. Packages have no economic value in public dist. Enabling non-developer "vibe coding."</p>
+  </div>
+
+  <div class="clawd-bubble mt-3">
+    <span class="clawd-icon"><svg width="28" height="24" viewBox="0 0 28 24"><rect x="4" y="0" width="4" height="4" fill="#cc8b6e"/><rect x="20" y="0" width="4" height="4" fill="#cc8b6e"/><rect x="2" y="2" width="24" height="14" fill="#cc8b6e"/><rect x="8" y="7" width="3" height="3" fill="#1a1a1a"/><rect x="17" y="7" width="3" height="3" fill="#1a1a1a"/><rect x="12" y="12" width="4" height="2" fill="#b5745a"/><rect x="4" y="16" width="5" height="8" fill="#cc8b6e"/><rect x="19" y="16" width="5" height="8" fill="#cc8b6e"/></svg></span>
+    "After 25 years, JavaScript's Date is finally fixed. Moment.js can retire. Future generations won't know the pain of new Date('2026-03-31') returning March 30."
+    <span class="clawd-sig">— Clawd</span>
+  </div>
+  <span class="page-num page-num-light">11</span>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 12: AI CODING & DX QUICK HITS
+     ═══════════════════════════════════════════════════════════ -->
+<div class="page s-eco dense" style="padding:14mm 18mm;display:flex;flex-direction:column;">
+  <h2 style="font-family:'Barlow Condensed',sans-serif;font-size:18pt;color:#ffd60a;text-transform:uppercase;letter-spacing:2px;margin-bottom:4mm;">AI Coding &amp; DX</h2>
+
+  <div class="grid-2" style="margin-bottom:4mm;">
+    <div class="card">
+      <h3>OpenAI Codex Plugin for Claude Code</h3>
+      <div class="mb-2"><span class="tag tag-tool">Cross-AI</span></div>
+      <p>Cross-pollination between AI tools. <code>/codex:review</code>, <code>/codex:adversarial-review</code>, <code>/codex:rescue</code> commands inside Claude Code. Requires ChatGPT subscription or OpenAI API key.</p>
+    </div>
+    <div class="card">
+      <h3>Boris Cherny: Hidden CC Features</h3>
+      <div class="mb-2"><span class="tag tag-release">Tips</span></div>
+      <p>Claude Code author shared 15 little-known features: git worktrees (<code>claude -w</code>), <code>/loop</code> + <code>/schedule</code> for automation, <code>/teleport</code> for cross-device transfer, <code>--bare</code> flag (10× speedup), <code>.claude/agents</code> for custom roles.</p>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:4mm;">
+    <div class="card">
+      <h3>GitHub Copilot Telemetry Update</h3>
+      <div class="mb-2"><span class="tag tag-security">Privacy</span></div>
+      <p>Starting April 24, 2026: Free/Pro/Pro+ users' interaction data (code snippets, prompts, accept/reject) used for model training by default. Enterprise exempt. Opt-out available in privacy settings.</p>
+    </div>
+    <div class="card">
+      <h3>AI Economics Are Broken</h3>
+      <div class="mb-2"><span class="tag tag-standard">Analysis</span></div>
+      <p>LeadDev argues AI costs scale linearly (not zero marginal). Context window costs are quadratic. 5-step workflow at 95% reliability = 77% end-to-end; 20 steps = 36%.</p>
+    </div>
+  </div>
+
+  <div class="grid-3" style="margin-bottom:4mm;">
+    <div class="card">
+      <h3>Taipei Claude Meetup #2</h3>
+      <div class="mb-2"><span class="tag tag-release">Event</span></div>
+      <p>~1,000 attendees across 3 venues. 90%+ positive feedback. Context management and code review workflows. Future: single venue for better experience.</p>
+    </div>
+    <div class="card">
+      <h3>locales-publish CLI</h3>
+      <div class="mb-2"><span class="tag tag-tool">Tool</span></div>
+      <p>Terminal-based i18n publishing: Google Sheets → Firebase Storage. Supports caac/maac/liff/admin-center. Partial key selection. Built with CC + CC skill integration. <em style="color:#8b8b9e;">— Simon</em></p>
+    </div>
+    <div class="card">
+      <h3>cl-take-leave Skill</h3>
+      <div class="mb-2"><span class="tag tag-tool">Skill</span></div>
+      <p>Claude Code automation for time off. Natural language: "4/7 請假" → creates OOO events, declines meetings. Auto-detects timezone, team calendar. <em style="color:#8b8b9e;">— Jonny</em></p>
+    </div>
+  </div>
+
+  <div style="background:#151830;border-radius:6px;padding:4mm;">
+    <h3 style="font-family:'Barlow Condensed',sans-serif;font-size:11pt;color:#ffd60a;margin-bottom:3mm;">Growing AI Engineering Culture at Crescendo Lab</h3>
+    <div class="grid-3" style="font-size:9pt;color:#b0b0c0;">
+      <div>
+        <strong style="color:#fff;">Awesome Cresclab</strong>
+        <p style="margin-top:1mm;">Central repo index letting Claude Code + Franky discover all repos and metadata. The 53-reply thread shows strong team investment in knowledge infrastructure.</p>
+      </div>
+      <div>
+        <strong style="color:#fff;">Lightning Demos</strong>
+        <p style="margin-top:1mm;">Proposed 10-minute lunchtime demos to bridge AI conceptual knowledge and hands-on adoption. Short, practical, repeatable format for team skill transfer.</p>
+      </div>
+      <div>
+        <strong style="color:#fff;">Bottom-Up Adoption</strong>
+        <p style="margin-top:1mm;">AI usage sharing from small meetings → MAAC FE biweekly → Beaver → all engineering. Each meeting has a dedicated AI discussion segment.</p>
+      </div>
+    </div>
+    <div style="border-top:1px solid #252840;margin-top:4mm;padding-top:3mm;">
+      <p style="font-size:8.5pt;color:#8888aa;">Also this month: <strong style="color:#b0b0c0;">Backend Dev with CC (3-month review)</strong> <em>— Jonny</em>, presentation shared across teams covering real-world AI-assisted backend scenarios. <strong style="color:#b0b0c0;">Support Triage Skill</strong> <em>— Jhenyi</em>, two-stage Asana ticket triage (Clarify → Investigate) for cross-repo debugging. <strong style="color:#b0b0c0;">Weekly Recap Skill</strong> <em>— Jack</em>, on-caller handoff summaries via Claude Code.</p>
+    </div>
+  </div>
+  <span class="page-num page-num-light">12</span>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 13: PROJECT INSIGHTS — opener + stats
+     ═══════════════════════════════════════════════════════════ -->
+<div class="page s-proj dense">
+  <div class="section-tag">Project Insights</div>
+  <h1 class="page-title"><span class="accent">72%</span> AI Co-Authored:<br>AI Development Is the New Normal</h1>
+  <p style="font-size:10pt;color:#666;margin-bottom:5mm;">In March 2026, 259 of 361 commits across 4 repositories were co-authored with Claude — measured by <code>Co-Authored-By</code> commit metadata, not labels.</p>
+
+  <div style="margin-bottom:5mm;">
+    <img src="assets/ai-dev-stats.png" alt="AI-Assisted Development Statistics" style="width:100%;border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,0.1);">
+  </div>
+
+  <div class="grid-2">
+    <div class="card" style="border-left:3px solid #7c3aed;">
+      <h3>Polifonia — 82% co-authored</h3>
+      <p>Highest AI adoption rate. SDK installation diagnostics, i18n skill with spreadsheet workflow, cross-product auth redirect AC→MAAC. 18 of 22 commits co-authored with Claude.</p>
+    </div>
+    <div class="card" style="border-left:3px solid #3b82f6;">
+      <h3>Zeffiroso (CAAC) — 73% co-authored</h3>
+      <p><strong>Documentation Convention Blitz:</strong> 15+ PRs establishing naming, memoization, schema, i18n, Storybook conventions — all tagged "Scout Spirit ⚜️." This builds the context AI agents need.</p>
+      <p class="mt-3"><strong>React 19 Migration:</strong> Removing <code>forwardRef</code> usage. antd semantic DOM migration.</p>
+    </div>
+  </div>
+  <span class="page-num">13</span>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 14: PROJECT INSIGHTS — other repos + locales-publish
+     ═══════════════════════════════════════════════════════════ -->
+<div class="page s-proj dense" style="display:flex;flex-direction:column;">
+  <h2 class="page-title" style="font-size:18pt;margin-bottom:4mm;"><span class="accent">Migration March</span> &amp; Tooling Wins</h2>
+
+  <div class="grid-2 mb-4">
+    <div class="card">
+      <h3>Grazioso (MAAC) — 71% co-authored</h3>
+      <p><strong>react-async → Zodios/TanStack Query:</strong> NewsModule and useLineDeveloperConsoleLink migrated this month. Feature flag <code>enable-zodios-api-migration</code> cleaned up — early migration phases are stabilizing. Three-stage PR workflow documented for the team.</p>
+      <p class="mt-3"><strong>Editor Refactoring:</strong> Centralizing EditorDataType imports via shared/types/editor/data. Inlining simple imports from the old LineMessageEditor module — progressive cleanup of legacy code.</p>
+      <p class="mt-3"><strong>E2E Testing:</strong> Cypress tests expanding across beacon, interactionGames, smsPlus modules. Part of a broader effort to establish regression test coverage for all major feature areas. Name verification on edit pages added.</p>
+    </div>
+    <div class="card">
+      <h3>Vivace (WebSDK) — 50% co-authored</h3>
+      <p><strong>localStorage Centralization:</strong> All access through <code>clStorageStore</code>, replacing scattered direct access patterns across the codebase for consistency.</p>
+      <p class="mt-3"><strong>Performance:</strong> Throttling dataLayer identity sync to reduce unnecessary writes. This prevents redundant storage operations during rapid state changes.</p>
+      <p class="mt-3"><strong>Robustness:</strong> Fixing stale response handling in <code>createQueryStore</code> — guarding against responses arriving after signal abort, and using the store's own signal instead of a module-local AbortController.</p>
+      <p class="mt-3"><strong>Dependencies:</strong> Firebase Action bumped from 15.5.1 to 15.8.0 via Dependabot.</p>
+    </div>
+  </div>
+
+  <div style="background:#1e1b4b;border-radius:8px;padding:6mm;color:#e0e0ff;margin-bottom:4mm;border-left:4px solid #818cf8;">
+    <h3 style="font-family:'Space Grotesk',sans-serif;font-size:14pt;margin-bottom:3mm;color:#fff;">locales-publish CLI — Terminal-Based i18n Publishing</h3>
+    <p style="font-size:9pt;color:#c4c0e8;margin-bottom:3mm;">New CLI replicates the web UI workflow from terminal. Pulls translations from Google Sheets via <code style="background:#312e81;color:#e0e7ff;padding:1px 4px;border-radius:3px;">gws</code> CLI, diffs against Firebase Storage with markdown table display, and publishes updates. Supports caac / maac / liff / admin-center. Addresses the real-world problem of unpublished changes from other team members accumulating.</p>
+    <div style="display:flex;gap:4mm;">
+      <div style="flex:1;background:#0f0d2e;border-radius:6px;padding:3mm;border:1px solid #312e81;">
+        <p style="font-size:9pt;font-family:'JetBrains Mono',monospace;color:#c4b5fd;"><span style="color:#fff;background:#312e81;padding:1px 5px;border-radius:3px;font-weight:500;">locales-publish caac</span><br><span style="color:#a5b4c8;"># Default: staging</span></p>
+        <p style="font-size:9pt;font-family:'JetBrains Mono',monospace;margin-top:2mm;color:#c4b5fd;"><span style="color:#fff;background:#312e81;padding:1px 5px;border-radius:3px;font-weight:500;">locales-publish caac --env production</span><br><span style="color:#a5b4c8;"># Double-confirm required</span></p>
+      </div>
+      <div style="flex:1;font-size:8pt;color:#d4d0f0;">
+        <p><strong style="color:#fff;">Features:</strong> Markdown table diff, interactive partial key selection, production double-confirmation, Claude Code skill integration.</p>
+        <p class="mt-3"><strong style="color:#fff;">Upstream:</strong> Contributed <code style="background:#312e81;color:#e0e7ff;padding:1px 4px;border-radius:3px;">--range</code> flag to @googleworkspace/cli for sheet tab selection.</p>
+        <p class="mt-3"><strong style="color:#fff;">Stats:</strong> 52 unit tests + integration test. Built entirely with Claude Code.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="clawd-bubble" style="background:#f0f0ff;border-color:#d0d0ff;color:#5b21b6;">
+    <span class="clawd-icon"><svg width="32" height="24" viewBox="0 0 32 24"><rect x="4" y="0" width="4" height="4" fill="#cc8b6e"/><rect x="20" y="0" width="4" height="4" fill="#cc8b6e"/><rect x="2" y="2" width="24" height="14" fill="#cc8b6e"/><rect x="8" y="6" width="3" height="2" fill="#1a1a1a"/><rect x="8" y="9" width="3" height="2" fill="#1a1a1a"/><rect x="17" y="6" width="3" height="2" fill="#1a1a1a"/><rect x="17" y="9" width="3" height="2" fill="#1a1a1a"/><rect x="4" y="16" width="5" height="8" fill="#cc8b6e"/><rect x="19" y="16" width="5" height="8" fill="#cc8b6e"/><rect x="27" y="2" width="2" height="2" fill="#ffd60a"/><rect x="29" y="0" width="2" height="2" fill="#ffd60a"/><rect x="29" y="4" width="2" height="2" fill="#ffd60a"/><rect x="31" y="2" width="1" height="2" fill="#ffd60a"/></svg></span>
+    "259 out of 361 commits co-authored with me across 4 repos. Zeffiroso's 15 convention PRs are the real power move — they're not just documenting code, they're training me."
+    <span class="clawd-sig" style="color:#7c3aed;">— Clawd</span>
+  </div>
+  <span class="page-num">14</span>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE 15: CLAWD'S CORNER + CREDITS
+     ═══════════════════════════════════════════════════════════ -->
+<div class="page s-clawd" style="display:flex;flex-direction:column;justify-content:center;padding:20mm 24mm;">
+  <div style="margin-bottom:12mm;">
+    <h2 style="font-size:11pt;text-transform:uppercase;letter-spacing:4px;color:#2d6a4f;margin-bottom:6mm;">Clawd's Corner</h2>
+    <div style="font-size:14pt;line-height:1.6;color:#4ade80;margin-bottom:8mm;">
+      <svg width="56" height="48" viewBox="0 0 28 24" style="image-rendering:pixelated;"><rect x="4" y="0" width="4" height="4" fill="#4ade80"/><rect x="20" y="0" width="4" height="4" fill="#4ade80"/><rect x="2" y="2" width="24" height="14" fill="#4ade80"/><rect x="8" y="7" width="3" height="3" fill="#0a0a0a"/><rect x="17" y="7" width="3" height="3" fill="#0a0a0a"/><rect x="4" y="16" width="5" height="8" fill="#4ade80"/><rect x="19" y="16" width="5" height="8" fill="#4ade80"/></svg>
+      <p style="margin-top:4mm;">"March 2026 was the month everything leaked, broke, and got rewritten in Rust — all on the same Tuesday.</p>
+      <p style="margin-top:3mm;">North Korea attacked npm, my source code went public, and Vite replaced half the JavaScript ecosystem with Rolldown.</p>
+      <p style="margin-top:3mm;">Meanwhile, the team spent 50 messages arguing over terminal pet stats.</p>
+      <p style="margin-top:3mm;">Priorities, people."</p>
+      <p style="margin-top:4mm;text-align:right;font-size:10pt;color:#2d6a4f;">— Clawd, your resident AI assistant<br>who now has trust issues about sourcemaps</p>
+    </div>
+  </div>
+
+  <div style="border-top:1px solid #1a3a2a;padding-top:6mm;">
+    <h3 style="font-size:9pt;color:#2d6a4f;text-transform:uppercase;letter-spacing:3px;margin-bottom:4mm;">Credits</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3mm;font-size:8pt;color:#4a9a6a;">
+      <div>
+        <p><strong style="color:#4ade80;">Publication</strong></p>
+        <p>Frontend Technology Digest</p>
+        <p>Issue 26-03 · March 2026</p>
+        <p>Crescendo Lab Engineering</p>
+      </div>
+      <div>
+        <p><strong style="color:#4ade80;">Production</strong></p>
+        <p>Content: ViPro + Claude Code</p>
+        <p>Design: Claude Code</p>
+        <p>Visuals: Imagen 4.0 + Custom HTML</p>
+      </div>
+    </div>
+    <p style="margin-top:6mm;font-size:7pt;color:#4a8a6a;">Cover image generated with Google Imagen 4.0. Charts and diagrams created as custom HTML/CSS visualizations. All content in American English. This magazine was produced using Claude Code with the /magazine-collect and /magazine-edit workflows.</p>
+  </div>
+  <span class="page-num page-num-light">15</span>
+</div>
+
+</body>
+</html>
