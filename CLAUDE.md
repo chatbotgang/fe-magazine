@@ -75,13 +75,22 @@ Use `/magazine` to run both in sequence within one session.
 - **Avoid product feature descriptions** — this is a tech digest, not a product changelog
 - **No filler content** — if there's no insight, don't write it
 - **Skip statistics** — no PR counts, contributor counts unless meaningful
+- **Never fabricate names** — all person names must be verified from Slack profiles (`mcp__slack__slack_get_user_profile`) or GitHub. If unknown, ask the user. Never guess.
+- **AI-assisted development stats** — use `Co-Authored-By` commit metadata as the primary metric, not labels (labels are repo-specific and inconsistent)
 
 ### Quality Standards
 
 - All content in **American English**
-- Print-friendly layout (check for blank pages from page breaks)
+- **PDF is the source of truth** — always verify layout in exported PDF, not browser preview (browser has margins/gaps that don't appear in print)
+- **WCAG AA contrast minimum** — all text must meet 4.5:1 contrast ratio (normal text) or 3:1 (large text ≥18pt). Calculate and verify, don't eyeball.
+- **No native emoji** — use image-based emoji (Twemoji CDN or local assets) for cross-platform consistency
 - Accessible HTML structure
 - Distinctive typography (avoid generic fonts)
+- **Claw'd mascot** — use inline SVG pixel art (salmon #cc8b6e body, black eyes, blocky legs). Each appearance should have a different expression to reduce repetitiveness.
+
+### After Publishing
+
+After merging a new issue, always suggest: "Want to announce this issue? Run `/magazine-announce`"
 
 ## Language
 
