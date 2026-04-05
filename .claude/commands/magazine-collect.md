@@ -91,7 +91,17 @@ For default channels and any user-provided Slack links:
 4. **Invoke `/agent-browser` skill** to browse links found within Slack messages (public URLs and Slack threads alike)
 5. If neither Slack MCP nor `/agent-browser` can access content, ask user to copy-paste the message text directly
 
-### 2.4 Initial Processing
+### 2.4 Slack Data Preprocessing
+
+Slack MCP returns large JSON payloads (100K-280K chars) that exceed subagent context limits. **Always preprocess with jq before dispatching to subagents**:
+
+```bash
+cat {slack-output-file} | jq -r '.[0].text' | jq -r '.messages[] | select(.ts | tonumber >= {start_ts}) | "[\(.ts)] \(.user // "bot"): \(.text | split("\n")[0] | .[0:150])\n  URLs: \([.text | scan("https?://[^>|\\s]+")] | join(" "))"'
+```
+
+This extracts timestamp, user, first line (topic sentence), and all URLs — structured enough for subagents to identify topics without reading full JSON. URLs are the most important signal in sharing channels.
+
+### 2.5 Initial Processing
 For each source, extract:
 - What it is (release, tool, article, discussion)
 - Core claim or announcement
@@ -135,7 +145,15 @@ gh issue list --repo chatbotgang/{repo} --state all --limit 30 --json title,numb
 
 # Recent commits
 gh api repos/chatbotgang/{repo}/commits --jq '.[0:30] | .[] | {sha: .sha[0:7], message: .commit.message, author: .commit.author.name, date: .commit.author.date}'
+
+# AI-assisted development rate (Co-Authored-By, NOT labels)
+gh api "repos/chatbotgang/{repo}/commits?per_page=100&since={start}&until={end}" \
+  --jq '. as $all | ($all | length) as $total | ($all | map(select(.commit.message | test("Co-[Aa]uthored-[Bb]y.*[Cc]laude"))) | length) as $cc | "\($cc)/\($total) co-authored (\(if $total > 0 then ($cc * 100 / $total) else 0 end)%)"'
 ```
+
+**IMPORTANT**: Use `Co-Authored-By` commit metadata as the primary AI-assisted development metric, not `claude-code` labels. Labels are repo-specific and many repos don't use them. Paginate with `page=2` if the first page returns exactly 100 results.
+
+**IMPORTANT**: All person names (skill authors, contributors) must be verified from Slack profiles (`mcp__slack__slack_get_user_profile`) or GitHub. Never guess or fabricate names.
 
 ### 3.2 Insight Filtering
 
