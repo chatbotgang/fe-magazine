@@ -61,11 +61,11 @@ The magazine workflow is split into two commands:
 5. Save structured content to `content.md`
 
 **`/magazine-edit`** handles:
-1. Explore design trends and assign per-section visual themes
-2. Create pacing plan (opener → dense → breather rhythm)
-3. Generate visual assets: AI images (`/cl-nanobanana`), screenshots, custom HTML visuals
-4. Produce HTML with `/frontend-design` (each section has distinct visual identity)
-5. Review quality with `/web-design-guidelines`, `/pr-review-toolkit`, and `/agent-browser`
+1. Define editorial vision and narrative arc for the issue
+2. Per-topic visual exploration — research design trends, create mockups, get user feedback
+3. Plan pacing (opener → dense → breather rhythm) after visual directions are confirmed
+4. Generate visual assets: AI images (`/cl-nanobanana`), screenshots, custom HTML visuals
+5. Produce HTML with `/frontend-design`, review with `/web-design-guidelines` and `/agent-browser`
 
 Use `/magazine` to run both in sequence within one session.
 
@@ -83,10 +83,9 @@ Use `/magazine` to run both in sequence within one session.
 - All content in **American English**
 - **PDF is the source of truth** — always verify layout in exported PDF, not browser preview (browser has margins/gaps that don't appear in print)
 - **WCAG AA contrast minimum** — all text must meet 4.5:1 contrast ratio (normal text) or 3:1 (large text ≥18pt). Calculate and verify, don't eyeball.
-- **No native emoji** — use image-based emoji (Twemoji CDN or local assets) for cross-platform consistency
 - Accessible HTML structure
 - Distinctive typography (avoid generic fonts)
-- **Claw'd mascot** — use inline SVG pixel art (salmon #cc8b6e body, black eyes, blocky legs). Each appearance should have a different expression to reduce repetitiveness.
+- **Claw'd mascot** — a pixel-art crustacean. Recognizable by: salmon/seafood color tone, blocky style, black square eyes. Everything else is freestyle — adapt to each topic's visual theme, reinvent every appearance. This is a magazine, not a brand guideline.
 
 ### After Publishing
 
