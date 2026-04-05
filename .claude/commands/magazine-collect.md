@@ -69,9 +69,11 @@ Issue identifier: $ARGUMENTS (if not provided, derive from current date — the 
 
 | Channel | Slack ID | Focus |
 |---------|----------|-------|
-| [#wg-ai-coding](https://chatbotgang.slack.com/archives/C08RN012FUN) | `C08RN012FUN` | AI-assisted development, coding agents, LLM tooling |
 | [#team-eng-frontend-sharing](https://chatbotgang.slack.com/archives/C03V87ZTJBF) | `C03V87ZTJBF` | Frontend ecosystem news, framework updates, DX tips |
+| [#team-eng-frontend](https://chatbotgang.slack.com/archives/C01KM289YDB) | `C01KM289YDB` | Frontend team discussions, internal decisions, project updates |
+| [#wg-ai-coding](https://chatbotgang.slack.com/archives/C08RN012FUN) | `C08RN012FUN` | AI-assisted development, coding agents, LLM tooling |
 | [#ref-design-system-sharing](https://chatbotgang.slack.com/archives/C01Q5QJCQTT) | `C01Q5QJCQTT` | Design system references, component patterns, UI/UX |
+| [#wg-design-system](https://chatbotgang.slack.com/archives/C069AKSL67N) | `C069AKSL67N` | Design system working group, implementation discussions |
 
 ### 2.2 Additional User Sources
 Ask the user for additional news sources beyond the defaults:
@@ -108,6 +110,7 @@ For each source, extract:
 - **MAAC**: `chatbotgang/Grazioso`
 - **CAAC**: `chatbotgang/Zeffiroso`
 - **WebSDK**: `chatbotgang/Vivace`
+- **Polifonia**: `chatbotgang/Polifonia`
 
 **IMPORTANT GUIDELINES**:
 - **EXCLUDE product feature development** — Do NOT report on new features, UI changes, or business logic

@@ -4,10 +4,11 @@
 
 ## Issues
 
-| Issue | Date Range | Highlights | PDF |
-|-------|------------|------------|-----|
-| 26-02 | Jan–Feb 2026 | TypeScript 6.0 / tsgo, Oxfmt Beta, The Frontend Tooling Revolution | [Download](26-02/26-02.pdf) |
-| 26-01 | Dec 2025–Jan 2026 | — | [Download](26-01/26-01.pdf) |
+| Issue | Date Range        | Highlights                                                                                                                                 | PDF                         |
+| ----- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------- |
+| 26-03 | March 2026        | VoidZero Launch Week (Vite 8 + Vite+), March 31 Security Events (CC Leak + axios Attack), MCP Protocol, TypeScript 6.0, 72% AI Co-Authored | [Download](26-03/26-03.pdf) |
+| 26-02 | Jan–Feb 2026      | TypeScript 6.0 / tsgo, Oxfmt Beta, The Frontend Tooling Revolution                                                                         | [Download](26-02/26-02.pdf) |
+| 26-01 | Dec 2025–Jan 2026 | —                                                                                                                                          | [Download](26-01/26-01.pdf) |
 
 ## About
 
