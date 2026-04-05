@@ -35,34 +35,6 @@ print(f'{fg} on {bg}: {r}:1 {"PASS" if r>=4.5 else "FAIL (need 4.5:1)"}')
 - `#2ea043` on `#f6f8fa` → 3.17:1 (large text only)
 - `#7c3aed` on `#0d1b2a` → 3.05:1 (large text only)
 
-## Emoji: Use Twemoji Images, Not Native Emoji
-
-Native emoji render differently across platforms. Use Twemoji SVG images instead.
-
-### CDN URL Pattern (pinned to last stable release)
-
-```
-https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/{CODEPOINT}.svg
-```
-
-### HTML Usage
-
-```html
-<img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f680.svg"
-     alt="rocket" style="width:1.2em;height:1.2em;vertical-align:-0.15em;display:inline-block;">
-```
-
-### Codepoint Examples
-
-| Emoji | Codepoint | Filename |
-|-------|-----------|----------|
-| 🚀 | U+1F680 | `1f680.svg` |
-| ⚡ | U+26A1 | `26a1.svg` |
-| 🔥 | U+1F525 | `1f525.svg` |
-| ⭐ | U+2B50 | `2b50.svg` |
-
-Use manual `<img>` tags (not `twemoji.parse()`) for PDF reliability.
-
 ## Whitespace Management
 
 ### Dense Pages — Bottom Whitespace
@@ -105,37 +77,6 @@ if (window.matchMedia('not print').matches) {
 }
 ```
 
-## Card Design System
-
-### Tag/Badge Placement: Eyebrow (Above Title)
-
-Tags go ABOVE the title (eyebrow position), not inline or below:
-
-```html
-<div class="card">
-  <div class="card-eyebrow">
-    <span class="tag tag-release">v6</span>
-  </div>
-  <h3>Astro 6</h3>
-  <p>Dev server matches production...</p>
-</div>
-```
-
-### Section-Scoped Card Styles
-
-| Feature | Dark sections (eco/sec) | Light sections (tools/proj) |
-|---------|------------------------|----------------------------|
-| Card bg | Slightly lighter than page (#1a1d2e vs #0f1119) | White with shadow |
-| Border | Left 3px accent color | Full border thin gray |
-| Code bg | Dark (#252840) | Light (#f0f4f8) |
-
-### Visual Monotony Prevention
-
-1. No 3+ consecutive dense pages without a breather
-2. Each dense page should have at least 1 hero card (spanning full width)
-3. Adjacent pages should use different grid structures (2-col → asymmetric → 3-col)
-4. Alternate accent border direction between pages (left → top)
-
 ## CSS Selector Gotchas
 
 ### Same-Element vs Descendant Selectors
@@ -158,7 +99,7 @@ Always verify CSS selectors match the actual HTML class structure.
 2. **WCAG contrast**: run Python script on all text-on-dark-background color pairs
 3. **Overflow**: check no content is clipped at page bottom edges
 4. **Whitespace**: no page has > 35mm unused bottom space
-5. **Selector audit**: grep for `.s-{section} .{class}` patterns — should be `.s-{section}.{class}` for same-element
+5. **Selector audit**: grep for descendant selectors that should be compound (e.g., `.topic .dense` → `.topic.dense`)
 6. **Font loading**: verify custom fonts render (not fallback to system fonts)
-7. **Cross-page consistency**: all cards within same section use identical styles
+7. **Within-topic consistency**: pages belonging to the same topic use a coherent visual language
 8. **Names**: all person names verified from Slack/GitHub, never fabricated
