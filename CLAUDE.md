@@ -11,6 +11,9 @@ fe-magazine/
 │       ├── magazine.md           # Full workflow (orchestrator)
 │       ├── magazine-collect.md   # Content collection (journalist)
 │       └── magazine-edit.md      # Editorial design (art director)
+├── .agents/
+│   └── skills/
+│       └── magazine-image-production/  # Repo-local direct image magazine workflow
 ├── {YY-MM}/              # Issue folder
 │   ├── {YY-MM}.pdf       # PDF (primary output)
 │   ├── index.html        # HTML source
@@ -68,6 +71,10 @@ The magazine workflow is split into two commands:
 5. Produce HTML with `/frontend-design`, review with `/web-design-guidelines` and `/agent-browser`
 
 Use `/magazine` to run both in sequence within one session.
+
+### Repo-Local Skills
+
+Use `.agents/skills/magazine-image-production` when the user asks to produce the issue directly as finished magazine page images and a PDF instead of the legacy HTML assembly workflow. That skill overrides the default `{YY-MM}/index.html` expectation for that direct-image issue only.
 
 ### Content Guidelines
 
