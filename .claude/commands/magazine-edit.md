@@ -46,7 +46,7 @@ This is a **magazine**, not a software project. Approach it like a real art dire
 
 **Goal**: Read the collected content and define the issue's narrative arc.
 
-### 1.1 Read Content File
+### 1.1 Read Content Files
 
 **FIRST ACTION**: Read `{YY-MM}/content.md` (produced by `/magazine-collect`).
 
@@ -58,12 +58,16 @@ No content file found at {YY-MM}/content.md.
 Run /magazine-collect {YY-MM} first to gather content.
 ```
 
-Extract from the content file:
-- Issue metadata (ID, date range)
-- All sections and their content
-- Approved outline and headlines
-- **Suggested Image Concept** and **Visual Opportunities** per topic (guides Phase 4 asset production)
-- Clawd's Corner content (if present)
+**Multi-file content structure** (newer issues): if `content.md` is small and contains a "Content Index" table pointing to per-section files under `{YY-MM}/content/`, treat `content.md` as the index/outline-only file and read every file it lists (typically `content/ecosystem-news.md`, `content/feature-stories.md`, `content/project-insights.md`, `content/looking-ahead-events.md`, etc.). The split exists because the full content exceeds the editor's read-window — read the parts in sequence rather than re-merging them.
+
+**Single-file content structure** (older issues, e.g., 25-12 through 26-03): `content.md` contains everything inline; read just that file.
+
+Extract from all content files:
+- Issue metadata (ID, date range) — from `content.md` Meta section
+- Approved outline and headlines — from `content.md` Approved Outline section
+- All section content (Ecosystem News, Feature Stories, Project Insights, Looking Ahead, Events, Clawd's Corner) — from `content/*.md` if split, otherwise from `content.md`
+- **Suggested Image Concept** and **Visual Opportunities** / image briefs per topic (guides Phase 4 asset production)
+- **Editorial decisions in Meta / Research Assets** (e.g., per-issue overrides like "use `codex` CLI for image generation instead of `/cl-nanobanana`") — these override default Required Skills
 
 ### 1.2 Editorial Direction
 
@@ -224,7 +228,7 @@ By this phase, the creative direction is already confirmed through mockups. This
 ### 5.1 HTML Generation
 
 **Invoke `/frontend-design` skill** with:
-- The content from `{YY-MM}/content.md`
+- The content from `{YY-MM}/content.md` **plus all `{YY-MM}/content/*.md` files if the issue uses the split structure** (see Phase 1.1)
 - The confirmed visual direction per topic from Phase 2
 - The pacing plan from Phase 3
 - All generated visual assets from Phase 4

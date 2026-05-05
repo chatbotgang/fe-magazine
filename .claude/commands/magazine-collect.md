@@ -74,6 +74,12 @@ Issue identifier: $ARGUMENTS (if not provided, derive from current date — the 
 | [#wg-ai-coding](https://chatbotgang.slack.com/archives/C08RN012FUN) | `C08RN012FUN` | AI-assisted development, coding agents, LLM tooling |
 | [#ref-design-system-sharing](https://chatbotgang.slack.com/archives/C01Q5QJCQTT) | `C01Q5QJCQTT` | Design system references, component patterns, UI/UX |
 | [#wg-design-system](https://chatbotgang.slack.com/archives/C069AKSL67N) | `C069AKSL67N` | Design system working group, implementation discussions |
+| [#proj-ai-lab](https://chatbotgang.slack.com/archives/C0A3WC5K9HR) | `C0A3WC5K9HR` | AI lab experiments — extract technical patterns, model usage, and tooling insights only |
+| [#prod-pillar-ai-solution](https://chatbotgang.slack.com/archives/C04QWM5BV7F) | `C04QWM5BV7F` | AI solution product pillar — extract technical/architectural discussions only, skip product feature updates |
+| [#proj-ai-the-aibility-team](https://chatbotgang.slack.com/archives/C08BG036EKD) | `C08BG036EKD` | AI-bility project — extract engineering practices and AI-assisted development patterns, skip product features |
+| [#team-eng-caac-frontend](https://chatbotgang.slack.com/archives/C04EHG9K0JK) | `C04EHG9K0JK` | CAAC frontend team — engineering discussions, internal decisions, technical project updates |
+
+**Filtering reminder for product/project channels** (`#proj-*`, `#prod-pillar-*`): these channels mix technical and product content. Apply the same filter as Phase 3 — keep tooling, architecture, DX, AI-assisted development patterns; skip product features, UI changes, business logic, release notes for end users.
 
 ### 2.2 Additional User Sources
 Ask the user for additional news sources beyond the defaults:
