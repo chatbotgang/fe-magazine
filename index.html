@@ -18,6 +18,9 @@
       --accent: #8b4513;
       --border: #d4cfc7;
       --hover-bg: #edeae4;
+      --warning-bg: #fff8e6;
+      --warning-border: #d29922;
+      --warning-text: #5d3b00;
     }
 
     @media (prefers-color-scheme: dark) {
@@ -29,6 +32,9 @@
         --accent: #d4a574;
         --border: #333;
         --hover-bg: #2a2a2a;
+        --warning-bg: #2f2408;
+        --warning-border: #d29922;
+        --warning-text: #f0c36a;
       }
     }
 
@@ -75,25 +81,26 @@
       letter-spacing: 0.15em;
     }
 
-    .archive-notice {
+    .warning-callout {
       margin-top: 1.5rem;
       padding: 1rem;
-      border: 1px solid var(--border);
-      background: var(--bg-subtle);
+      border: 1px solid var(--warning-border);
+      border-left-width: 4px;
+      background: var(--warning-bg);
       text-align: left;
     }
 
-    .archive-notice strong {
+    .warning-callout strong {
       display: block;
       margin-bottom: 0.25rem;
       font-size: 0.8rem;
-      color: var(--accent);
+      color: var(--warning-text);
       text-transform: uppercase;
       letter-spacing: 0.12em;
     }
 
-    .archive-notice p {
-      color: var(--text-muted);
+    .warning-callout p {
+      color: var(--warning-text);
       font-size: 0.95rem;
     }
 
@@ -155,8 +162,8 @@
     <header>
       <h1>Frontend Technology Digest</h1>
       <p class="subtitle">Crescendo Lab's internal tech magazine</p>
-      <div class="archive-notice">
-        <strong>Archived</strong>
+      <div class="warning-callout">
+        <strong>Warning: archived</strong>
         <p>Frontend is dead. This repository is archived and no longer publishes new issues. Existing PDF issues remain available for historical reference.</p>
       </div>
     </header>

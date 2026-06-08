@@ -2,9 +2,8 @@
 
 > A technical magazine for Crescendo Lab's frontend engineering team.
 
-## Archived
-
-Frontend is dead. This repository is archived and no longer publishes new issues. Existing PDF issues remain available for historical reference.
+> [!WARNING]
+> Frontend is dead. This repository is archived and no longer publishes new issues. Existing PDF issues remain available for historical reference.
 
 ## Issues
 
