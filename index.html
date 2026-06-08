@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="robots" content="noindex, nofollow">
-  <meta name="description" content="Crescendo Lab's internal frontend engineering magazine. Download PDF issues.">
+  <meta name="description" content="Archived internal frontend engineering magazine. Existing PDF issues remain available for historical reference.">
   <title>Frontend Technology Digest</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -75,6 +75,28 @@
       letter-spacing: 0.15em;
     }
 
+    .archive-notice {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      border: 1px solid var(--border);
+      background: var(--bg-subtle);
+      text-align: left;
+    }
+
+    .archive-notice strong {
+      display: block;
+      margin-bottom: 0.25rem;
+      font-size: 0.8rem;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .archive-notice p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
     /* Issues List */
     .issues {
       list-style: none;
@@ -133,6 +155,10 @@
     <header>
       <h1>Frontend Technology Digest</h1>
       <p class="subtitle">Crescendo Lab's internal tech magazine</p>
+      <div class="archive-notice">
+        <strong>Archived</strong>
+        <p>Frontend is dead. This repository is archived and no longer publishes new issues. Existing PDF issues remain available for historical reference.</p>
+      </div>
     </header>
 
     <main>
